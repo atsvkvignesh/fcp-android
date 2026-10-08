@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Fibro Coir</string>
+    <string name="channel_id">alerts</string>
+    <string name="channel_name">Alerts</string>
+    <string name="offline_title">No internet connection</string>
+    <string name="offline_body">Check your mobile data or Wi-Fi, then try again.</string>
+    <string name="retry">Try again</string>
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "763602141191",
+    "project_id": "fibro-coir",
+    "storage_bucket": "fibro-coir.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763602141191:android:0ef8b96b02db4d467feaa2",
+        "android_client_info": {
+          "package_name": "com.fibrocoir.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUsyabNmV6-nWETeZfJ-p5t20vlsR_jjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
