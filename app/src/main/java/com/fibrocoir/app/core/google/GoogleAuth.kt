@@ -124,4 +124,4 @@ class GoogleAuth(private val context: Context, private val http: OkHttpClient) {
 open class SheetsException(message: String, val code: Int) : Exception(message)
 
 /** No internet connection (or Google unreachable). */
-class OfflineException : SheetsException("No internet connection.", 0)
+class OfflineException(message: String = "No internet connection.") : SheetsException(message, 0)
