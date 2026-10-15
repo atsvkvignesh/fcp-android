@@ -77,6 +77,35 @@ URL into `FCP_NOTIFY_URL`, then call e.g. `notify('admin', 'Payment received', '
 *Google Cloud Platform (GCP) Project* → **Change project** → enter project number **763602141191**
 (the Firebase project), then run `testPush` again.
 
+## Bundled pages (fast, app-like screens)
+
+Some tools ship their page **inside the APK** instead of loading it from Apps Script each time.
+They open instantly, show the last data they had straight away, and refresh it in the background.
+Apps Script only sends data (JSON).
+
+```
+app/src/main/assets/
+  lib/fcp.js      data client: saved copy first, fresh data after (see top of file)
+  lib/app.css     app-screen behaviour: no tap flash, no text selection, no zoom
+  <name>/index.html   one folder per tool, e.g. ec-viewer/
+```
+
+- The hub opens one with `FCPApp.openLocal('ec-viewer')` (check `FCPApp.hasLocal('ec-viewer')` first;
+  in a normal browser keep opening the `/exec` link). It slides in over the hub; Back slides it out
+  without reloading the hub. A page can catch Back itself with `window.onAppBack = () => true`.
+- Data requests go through the app (`/proxy`, Apps Script addresses only), so they work regardless
+  of browser CORS rules.
+- On the Apps Script side, add `apps-script/json-api/Api.gs` to the tool's project (steps at the top
+  of that file). The normal `/exec` page keeps working in a browser.
+
+| You change… | What to do |
+|---|---|
+| A bundled page's look or behaviour | Edit it here and push — needs a new APK |
+| What data the script returns | Redeploy the script as usual — no new APK |
+
+Test builds: push to any branch other than `main`. GitHub builds a **pre-release** (Releases page,
+marked TEST) without changing the "latest" link workers install from.
+
 ## Build locally (optional)
 
 Needs JDK 17 + Android SDK: `gradle :app:assembleRelease` → `app/build/outputs/apk/release/app-release.apk`
