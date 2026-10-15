@@ -29,7 +29,7 @@ class EcViewTest {
     private fun <K> packAll(m: Map<K, Stats>) = JsonObject(m.entries.associate { it.key.toString() to pack(it.value) })
     private fun lim(l: Limits) = buildJsonObject { put("Belt", l.belt); put("Block", l.block); put("Yard", l.yard) }
     private fun rec(v: EcView, r: Reading?): JsonElement = r?.let {
-        buildJsonObject { put("key", it.key); put("date", it.date); put("hhmm", it.hhmm); put("point", it.point); put("spot", it.spot)
+        buildJsonObject { put("key", it.key); put("date", it.date); put("hhmm", it.hhmm); put("ts", Ec.fmt("dd-MM-yyyy HH:mm", it.tsMs)); put("point", it.point); put("spot", it.spot)
             put("ec", it.ec); put("op", it.op); put("over", v.over(it)) }
     } ?: JsonNull
 
