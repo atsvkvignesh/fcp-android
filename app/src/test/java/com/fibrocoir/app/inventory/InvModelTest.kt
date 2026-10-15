@@ -52,10 +52,10 @@ class InvModelTest {
             val r0 = o["row"]!!.jsonPrimitive.content.toInt() - 1; val c0 = o["col"]!!.jsonPrimitive.content.toInt() - 1
             val values = o["values"]?.jsonArray ?: return@forEach   // formulas don't change what is read back here
             values.forEachIndexed { i, row ->
-                while (tab.size <= r0 + i) tab += mutableListOf()
+                while (tab.size <= r0 + i) tab.add(mutableListOf())
                 val target = tab[r0 + i]
                 row.jsonArray.forEachIndexed { j, v ->
-                    while (target.size <= c0 + j) target += ""
+                    while (target.size <= c0 + j) target.add("")
                     target[c0 + j] = plain(v).let { if (it == "DATE") 46310.5 else it }
                 }
             }
@@ -184,8 +184,9 @@ class InvModelTest {
                     val adj = r["adjusted"]
                     if (adj == null || adj is JsonNull) assertEquals(null, plan.adjust)
                     else {
-                        Golden.same(adj, buildJsonObject { put("from", plan.adjust!!.first); put("to", plan.adjust.second); put("diff", plan.adjust.third) }, "adjusted")
-                        same(cellsOf(writes, "Movements", 7).single()["values"]!!.jsonArray[0], Inv.adjustRest(plan.person.id, plan.adjust.first, plan.adjust.second), "adjust rest")
+                        val a3 = plan.adjust!!
+                        Golden.same(adj, buildJsonObject { put("from", a3.first); put("to", a3.second); put("diff", a3.third) }, "adjusted")
+                        same(cellsOf(writes, "Movements", 7).single()["values"]!!.jsonArray[0], Inv.adjustRest(plan.person.id, a3.first, a3.second), "adjust rest")
                     }
                 }
                 "person" -> check {
