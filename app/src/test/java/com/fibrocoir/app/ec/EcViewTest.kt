@@ -66,7 +66,8 @@ class EcViewTest {
             Golden.same(want["lastBy"], buildJsonObject {
                 put("Hall", rec(v, v.last(list.filter { it.hall }))); put("Yard", rec(v, v.last(list.filter { it.point == "Yard" })))
             }, "$what lastBy")
-            val days = list.groupBy { it.date }.toSortedMap()
+            // every day that has a tab counts, even if the filter leaves it empty
+            val days = tabs.map { it.date }.distinct().sorted().associateWith { d -> list.filter { it.date == d } }
             Golden.same(want["series"], JsonArray(days.map { (d, rs) ->
                 fun p(point: String) = v.stats(rs.filter { it.point == point }).let { s ->
                     buildJsonObject { put("n", s.n); put("avg", s.avg?.let { JsonPrimitive(it) } ?: JsonNull); put("max", s.max?.let { JsonPrimitive(it) } ?: JsonNull); put("over", s.over) } }
