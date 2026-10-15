@@ -36,11 +36,13 @@ object Fcp {
     )
 }
 
+@OptIn(androidx.compose.ui.text.ExperimentalTextApi::class)
 private fun fraunces(w: Int) = Font(
     R.font.fraunces, FontWeight(w),
     variationSettings = FontVariation.Settings(FontVariation.weight(w), FontVariation.Setting("opsz", 72f))
 )
 
+@OptIn(androidx.compose.ui.text.ExperimentalTextApi::class)
 private fun archivo(w: Int) = Font(
     R.font.archivo, FontWeight(w),
     variationSettings = FontVariation.Settings(FontVariation.weight(w))
