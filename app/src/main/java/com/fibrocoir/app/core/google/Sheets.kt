@@ -76,6 +76,16 @@ class Sheets(private val auth: GoogleAuth, private val http: OkHttpClient) {
         )
     }
 
+    /** The ids of the charts on one tab. */
+    suspend fun chartIds(id: String, sheetId: Int): List<Int> {
+        val url = "$base/$id".toHttpUrl().newBuilder()
+            .addQueryParameter("fields", "sheets(properties(sheetId),charts(chartId))").build().toString()
+        val sheet = call("GET", url, null).jsonObject["sheets"]?.jsonArray.orEmpty()
+            .map { it.jsonObject }
+            .firstOrNull { it["properties"]?.jsonObject?.get("sheetId")?.jsonPrimitive?.intOrNull == sheetId }
+        return sheet?.get("charts")?.jsonArray.orEmpty().mapNotNull { it.jsonObject["chartId"]?.jsonPrimitive?.intOrNull }
+    }
+
     /** Several ranges in one request. Result has one list of rows per range, in order. */
     suspend fun read(id: String, ranges: List<String>, formatted: Boolean = false): List<List<Row>> {
         if (ranges.isEmpty()) return emptyList()
