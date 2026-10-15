@@ -261,15 +261,17 @@ private fun SettingsDialog(vm: HubViewModel, close: () -> Unit) {
 fun ManageScreen(vm: HubViewModel, onBack: () -> Unit) {
     val load by vm.hub.state.collectAsState()
     val busy by vm.busy.collectAsState()
-    val say = LocalSay.current
+    // the message bar belongs to FcpScreen below, so it is picked up inside it
+    val sayRef = remember { arrayOfNulls<com.fibrocoir.app.ui.Say>(1) }
     var editApp by remember { mutableStateOf<HubApp?>(null) }
     var addUser by remember { mutableStateOf(false) }
     var confirm by remember { mutableStateOf<Pair<String, () -> Unit>?>(null) }
     var drafts by remember { mutableStateOf(mapOf<String, List<String>?>()) }
 
-    fun run(ok: String, what: suspend HubRepo.(HubData) -> Unit) = vm.change(what) { e -> say(e ?: ok) }
+    fun run(ok: String, what: suspend HubRepo.(HubData) -> Unit) = vm.change(what) { e -> sayRef[0]?.invoke(e ?: ok) }
 
     FcpScreen("Manage", "Apps and people", onBack = onBack, load = load, onRefresh = vm::refresh) {
+        sayRef[0] = LocalSay.current
         LoadBox(load, vm::refresh) { data ->
             LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 item { SectionTitle("Apps on the hub") { TextButton(onClick = { editApp = HubApp("", "") }) { Text("+ Add", color = Fcp.fibre) } } }

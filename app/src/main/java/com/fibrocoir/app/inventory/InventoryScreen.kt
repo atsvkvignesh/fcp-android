@@ -249,7 +249,7 @@ private fun ItemPage(vm: InventoryViewModel, d: InvData) {
         if (it.tamil.isNotEmpty()) Text(it.tamil, style = MaterialTheme.typography.titleMedium, color = Fcp.muted)
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
-                Text(Inv.qtyText(it.onHand), style = MaterialTheme.typography.displayMedium, color = stockColour(it.status))
+                Text(Inv.qtyText(it.onHand), style = MaterialTheme.typography.displaySmall.copy(fontSize = 56.sp, lineHeight = 60.sp), color = stockColour(it.status))
                 Text(it.unit + when (it.status) { "out" -> " · out of stock"; "low" -> " · low"; else -> "" }, style = MaterialTheme.typography.labelLarge, color = Fcp.muted)
             }
             RegionBadge(it.region, d, 64)
