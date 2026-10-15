@@ -20,6 +20,8 @@ import android.provider.MediaStore
 import android.util.Base64
 import android.view.Gravity
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.webkit.CookieManager
@@ -33,6 +35,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebChromeClient.FileChooserParams
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
@@ -50,6 +53,7 @@ import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.webkit.WebViewAssetLoader
 import org.json.JSONArray
 import java.io.File
 import java.net.URISyntaxException
@@ -63,10 +67,22 @@ class MainActivity : AppCompatActivity() {
 
         /** Added to the browser user-agent so the web page can tell it is running inside the app. */
         private const val UA_SUFFIX = " FibroCoirApp"
+
+        /**
+         * Pages bundled in the APK (app/src/main/assets/<name>/index.html) are served from this
+         * address, so they open instantly and only fetch their data from Apps Script.
+         */
+        const val LOCAL_HOST = "appassets.androidplatform.net"
+        const val LOCAL_BASE = "https://$LOCAL_HOST/assets/"
+        private val LOCAL_NAME = Regex("[a-z0-9][a-z0-9-]*")
     }
 
     private lateinit var root: FrameLayout
     private lateinit var webView: WebView
+    private lateinit var assetLoader: WebViewAssetLoader
+
+    /** Bundled pages open as screens stacked over the hub, so going back never reloads the hub. */
+    private val screens = ArrayList<WebView>()
     private lateinit var progress: ProgressBar
     private lateinit var offlineView: View
     private var mainFrameFailed = false
@@ -118,12 +134,10 @@ class MainActivity : AppCompatActivity() {
         cleanOldCameraFiles()
         askNotificationPermission()
 
-        val start = intent?.getStringExtra(Notifications.EXTRA_URL)
-            ?.let { Uri.parse(it) }
-            ?.takeIf { isInternal(it) }
-            ?.toString()
-            ?: HOME_URL
+        val link = intent?.getStringExtra(Notifications.EXTRA_URL)?.let { Uri.parse(it) }
+        val start = link?.takeIf { isInternal(it) && !isLocal(it) }?.toString() ?: HOME_URL
         webView.loadUrl(start)
+        if (link != null && isLocal(link)) openScreen(link.toString(), animate = false)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -132,23 +146,31 @@ class MainActivity : AppCompatActivity() {
         // Tapped a notification that carries a link
         val url = intent.getStringExtra(Notifications.EXTRA_URL) ?: return
         val uri = Uri.parse(url)
-        if (isInternal(uri)) webView.loadUrl(url) else openExternal(uri)
+        when {
+            isLocal(uri) -> openScreen(url)
+            isInternal(uri) -> { closeAllScreens(); webView.loadUrl(url) }
+            else -> openExternal(uri)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         webView.onResume()
+        screens.forEach { it.onResume() }
     }
 
     override fun onPause() {
         CookieManager.getInstance().flush() // keep logins saved
         webView.onPause()
+        screens.forEach { it.onPause() }
         super.onPause()
     }
 
     override fun onDestroy() {
         filePathCallback?.onReceiveValue(null)
         filePathCallback = null
+        screens.forEach { it.destroy() }
+        screens.clear()
         webView.destroy()
         super.onDestroy()
     }
@@ -234,9 +256,22 @@ class MainActivity : AppCompatActivity() {
 
     // ---------------------------------------------------------------- web view
 
-    @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
-        with(webView.settings) {
+        assetLoader = WebViewAssetLoader.Builder()
+            .setDomain(LOCAL_HOST)
+            .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
+            .build()
+        CookieManager.getInstance().setAcceptCookie(true)
+        configureWebView(webView, main = true)
+    }
+
+    /**
+     * Same setup for the hub (main = true) and for bundled screens (main = false).
+     * Only the hub drives the progress bar and the no-internet screen.
+     */
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun configureWebView(view: WebView, main: Boolean) {
+        with(view.settings) {
             javaScriptEnabled = true
             domStorageEnabled = true
             @Suppress("DEPRECATION")
@@ -247,7 +282,7 @@ class MainActivity : AppCompatActivity() {
             setSupportMultipleWindows(true)
             loadWithOverviewMode = true
             useWideViewPort = true
-            builtInZoomControls = true
+            builtInZoomControls = main // bundled screens behave like app screens: no pinch zoom
             displayZoomControls = false
             allowFileAccess = false
             allowContentAccess = true
@@ -256,31 +291,44 @@ class MainActivity : AppCompatActivity() {
 
         // Apps Script pages run inside a Google sandbox frame on another domain,
         // so third-party cookies must be allowed for logins to stick.
-        CookieManager.getInstance().apply {
-            setAcceptCookie(true)
-            setAcceptThirdPartyCookies(webView, true)
-        }
+        CookieManager.getInstance().setAcceptThirdPartyCookies(view, true)
 
-        webView.addJavascriptInterface(AppBridge(), "FCPApp")
+        view.addJavascriptInterface(AppBridge(), "FCPApp")
 
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+        view.webViewClient = object : WebViewClient() {
+            // Serves https://appassets.androidplatform.net/assets/... from the APK, and /proxy for data.
+            // Runs on a background thread, so the proxy may block while it fetches.
+            override fun shouldInterceptRequest(v: WebView, request: WebResourceRequest): WebResourceResponse? {
+                val url = request.url
+                if (url.host == LOCAL_HOST && url.path == "/proxy") return DataProxy.handle(request)
+                return assetLoader.shouldInterceptRequest(url)
+            }
+
+            override fun shouldOverrideUrlLoading(v: WebView, request: WebResourceRequest): Boolean {
                 if (!request.isForMainFrame) return false
-                return handleUrl(request.url)
+                return if (main) handleUrl(request.url) else handleScreenUrl(request.url)
             }
 
-            override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
-                mainFrameFailed = false
+            override fun onPageStarted(v: WebView, url: String?, favicon: Bitmap?) {
+                if (main) mainFrameFailed = false
             }
 
-            override fun onPageFinished(view: WebView, url: String?) {
-                progress.visibility = View.GONE
-                if (!mainFrameFailed) offlineView.visibility = View.GONE
+            override fun onPageCommitVisible(v: WebView, url: String?) {
+                if (!main) showScreen(v)
+            }
+
+            override fun onPageFinished(v: WebView, url: String?) {
+                if (main) {
+                    progress.visibility = View.GONE
+                    if (!mainFrameFailed) offlineView.visibility = View.GONE
+                } else {
+                    showScreen(v)
+                }
                 CookieManager.getInstance().flush()
             }
 
-            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
-                if (request.isForMainFrame) {
+            override fun onReceivedError(v: WebView, request: WebResourceRequest, error: WebResourceError) {
+                if (main && request.isForMainFrame) {
                     mainFrameFailed = true
                     lastFailedUrl = request.url.toString()
                     offlineView.visibility = View.VISIBLE
@@ -288,32 +336,33 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
+        view.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(v: WebView, newProgress: Int) {
+                if (!main) return
                 progress.progress = newProgress
                 progress.visibility = if (newProgress < 100) View.VISIBLE else View.GONE
             }
 
             // target="_blank" and window.open(): open inside the app if it's our page, else outside
             override fun onCreateWindow(
-                view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message
+                v: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message
             ): Boolean {
                 val popup = WebView(this@MainActivity)
                 var handled = false
-                fun take(uri: Uri?, v: WebView) {
+                fun take(uri: Uri?, w: WebView) {
                     if (handled || uri == null || uri.toString() == "about:blank") return
                     handled = true
                     openFromPopup(uri)
-                    v.post { v.destroy() }
+                    w.post { w.destroy() }
                 }
                 popup.webViewClient = object : WebViewClient() {
-                    override fun shouldOverrideUrlLoading(v: WebView, r: WebResourceRequest): Boolean {
-                        take(r.url, v); return true
+                    override fun shouldOverrideUrlLoading(w: WebView, r: WebResourceRequest): Boolean {
+                        take(r.url, w); return true
                     }
 
-                    override fun onPageStarted(v: WebView, url: String?, favicon: Bitmap?) {
+                    override fun onPageStarted(w: WebView, url: String?, favicon: Bitmap?) {
                         if (url != null && url != "about:blank") {
-                            v.stopLoading(); take(Uri.parse(url), v)
+                            w.stopLoading(); take(Uri.parse(url), w)
                         }
                     }
                 }
@@ -324,7 +373,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onShowFileChooser(
-                view: WebView, callback: ValueCallback<Array<Uri>>, params: FileChooserParams
+                v: WebView, callback: ValueCallback<Array<Uri>>, params: FileChooserParams
             ): Boolean {
                 filePathCallback?.onReceiveValue(null)
                 filePathCallback = callback
@@ -362,7 +411,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
+        view.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
             when {
                 url.startsWith("data:") -> saveDataUrl(url, contentDisposition, mimeType)
                 url.startsWith("blob:") -> toast("This file can't be downloaded inside the app yet")
@@ -370,6 +419,62 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    // ---------------------------------------------------------------- bundled screens
+
+    /** "ec-viewer" or "ec-viewer?range=week" -> its bundled URL, or null if the APK has no such page. */
+    private fun localUrl(target: String): String? {
+        val cut = target.indexOfAny(charArrayOf('?', '#'))
+        val name = if (cut >= 0) target.substring(0, cut) else target
+        val rest = if (cut >= 0) target.substring(cut) else ""
+        if (!LOCAL_NAME.matches(name)) return null
+        return try {
+            assets.open("$name/index.html").close()
+            "$LOCAL_BASE$name/index.html$rest"
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    /** Opens a bundled page as a new screen that slides in over the current one. */
+    private fun openScreen(url: String, animate: Boolean = true) {
+        val view = WebView(this).apply {
+            setBackgroundColor(Color.WHITE)
+            overScrollMode = View.OVER_SCROLL_NEVER // no stretch/glow at the ends, like a native list
+        }
+        configureWebView(view, main = false)
+        val shown = !animate
+        view.tag = shown
+        view.translationX = if (shown) 0f else screenWidth()
+        root.addView(view, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
+        screens.add(view)
+        view.loadUrl(url)
+        // Slide in once the page has painted (normally ~100 ms); never wait longer than this
+        if (!shown) view.postDelayed({ showScreen(view) }, 400)
+    }
+
+    private fun showScreen(view: WebView) {
+        if (view.tag == true || !screens.contains(view)) return
+        view.tag = true
+        view.animate().translationX(0f).setDuration(220).setInterpolator(DecelerateInterpolator(1.6f)).start()
+    }
+
+    private fun closeTopScreen() {
+        if (screens.isEmpty()) return
+        val view = screens.removeAt(screens.size - 1)
+        view.animate().translationX(screenWidth()).setDuration(180)
+            .setInterpolator(AccelerateInterpolator())
+            .withEndAction { root.removeView(view); view.destroy() }
+            .start()
+    }
+
+    private fun closeAllScreens() {
+        screens.forEach { root.removeView(it); it.destroy() }
+        screens.clear()
+    }
+
+    private fun screenWidth(): Float =
+        (if (root.width > 0) root.width else resources.displayMetrics.widthPixels).toFloat()
 
     private fun retry() {
         offlineView.visibility = View.GONE
@@ -385,24 +490,51 @@ class MainActivity : AppCompatActivity() {
         val host = uri.host?.lowercase() ?: return false
         return host == "script.google.com" ||
             host.endsWith(".googleusercontent.com") ||
-            host == "accounts.google.com"
+            host == "accounts.google.com" ||
+            host == LOCAL_HOST
     }
 
-    /** Returns true if the link was handled outside the web view. */
+    /** A page bundled in the APK. */
+    private fun isLocal(uri: Uri): Boolean =
+        uri.scheme?.lowercase() == "https" && uri.host?.lowercase() == LOCAL_HOST
+
+    /** Links in the hub. Returns true if the link was handled outside the hub's web view. */
     private fun handleUrl(uri: Uri): Boolean {
         return when (uri.scheme?.lowercase()) {
             null -> true
-            "http", "https" -> if (isInternal(uri)) false else { openExternal(uri); true }
+            "http", "https" -> when {
+                isLocal(uri) -> { openScreen(uri.toString()); true }
+                isInternal(uri) -> false
+                else -> { openExternal(uri); true }
+            }
             "about", "javascript", "data", "blob" -> false
             "intent" -> { openIntentUri(uri.toString()); true }
             else -> { openExternal(uri); true } // tel:, mailto:, whatsapp:, upi:, sms:, geo: ...
         }
     }
 
+    /** Links in a bundled screen: other bundled pages stay in it, Apps Script pages go back to the hub. */
+    private fun handleScreenUrl(uri: Uri): Boolean {
+        val scheme = uri.scheme?.lowercase()
+        if (scheme == "http" || scheme == "https") {
+            if (isLocal(uri)) return false
+            if (isInternal(uri)) {
+                closeAllScreens()
+                webView.loadUrl(uri.toString())
+                return true
+            }
+        }
+        return handleUrl(uri)
+    }
+
     private fun openFromPopup(uri: Uri) {
         val scheme = uri.scheme?.lowercase()
         if (scheme == "http" || scheme == "https") {
-            if (isInternal(uri)) webView.loadUrl(uri.toString()) else openExternal(uri)
+            when {
+                isLocal(uri) -> openScreen(uri.toString())
+                isInternal(uri) -> { closeAllScreens(); webView.loadUrl(uri.toString()) }
+                else -> openExternal(uri)
+            }
         } else {
             handleUrl(uri)
         }
@@ -591,6 +723,17 @@ class MainActivity : AppCompatActivity() {
     private fun setupBackButton() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                val top = screens.lastOrNull()
+                if (top != null) {
+                    // Let the page close its own dialog first (window.onAppBack returns true if it did)
+                    top.evaluateJavascript(
+                        "(function(){try{return !!(window.onAppBack&&window.onAppBack())}catch(e){return false}})()"
+                    ) { handled ->
+                        if (handled == "true" || !screens.contains(top)) return@evaluateJavascript
+                        if (top.canGoBack()) top.goBack() else closeTopScreen()
+                    }
+                    return
+                }
                 if (offlineView.visibility == View.VISIBLE) { showMenu(); return }
                 val list = webView.copyBackForwardList()
                 val i = list.currentIndex
@@ -608,7 +751,7 @@ class MainActivity : AppCompatActivity() {
             .setItems(arrayOf("Reload page", "Go to home page", "Notification groups", "Exit app")) { _, which ->
                 when (which) {
                     0 -> retry()
-                    1 -> { offlineView.visibility = View.GONE; webView.loadUrl(HOME_URL) }
+                    1 -> { closeAllScreens(); offlineView.visibility = View.GONE; webView.loadUrl(HOME_URL) }
                     2 -> showTopicsDialog()
                     3 -> finish()
                 }
@@ -665,8 +808,26 @@ class MainActivity : AppCompatActivity() {
      *   FCPApp.unsubscribe("tanker")  -> true/false
      *   FCPApp.getTopics()            -> '["all","tanker"]'
      *   FCPApp.version()              -> "1.0.12"
+     *   FCPApp.hasLocal("ec-viewer")  -> true if this APK has that page bundled
+     *   FCPApp.openLocal("ec-viewer") -> opens it as a screen over the current one (true/false)
+     *   FCPApp.close()                -> closes the top bundled screen
      */
     inner class AppBridge {
+        @JavascriptInterface
+        fun hasLocal(name: String): Boolean = localUrl(name) != null
+
+        @JavascriptInterface
+        fun openLocal(name: String): Boolean {
+            val url = localUrl(name) ?: return false
+            runOnUiThread { openScreen(url) }
+            return true
+        }
+
+        @JavascriptInterface
+        fun close() {
+            runOnUiThread { closeTopScreen() }
+        }
+
         @JavascriptInterface
         fun subscribe(topic: String): Boolean = Topics.set(applicationContext, topic, true)
 
