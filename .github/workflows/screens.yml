@@ -51,12 +51,11 @@ jobs:
           mkdir -p shots; cp instrument.log shots/ 2>/dev/null || true
           ls -la shots
           git config user.name ci; git config user.email ci@users.noreply.github.com
-          git fetch origin ci-log || true
-          git checkout -B ci-log origin/ci-log 2>/dev/null || git checkout --orphan ci-log
-          git rm -rf --cached . >/dev/null 2>&1 || true
-          rm -rf ci-shots && mkdir ci-shots && cp -r shots/* ci-shots/ 2>/dev/null || true
-          git add -f ci-shots
-          git commit -m "screens ${{ github.run_number }}" >/dev/null && git push -f origin ci-log || true
+          git checkout -q --orphan ci-shots-tmp
+          git rm -rqf --cached . > /dev/null
+          git add -f shots
+          git commit -qm "screens ${{ github.run_number }}"
+          git push -qf origin HEAD:refs/heads/ci-shots
       - name: Fail on a crash
         run: |
           grep -q "FAILURES\|Process crashed\|INSTRUMENTATION_RESULT: shortMsg" instrument.log && { grep -A30 "FAILURES\|crashed\|shortMsg" instrument.log | head -60 | while IFS= read -r l; do echo "::error::$l"; done; exit 1; } || true
