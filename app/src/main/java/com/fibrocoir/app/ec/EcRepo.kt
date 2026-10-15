@@ -233,7 +233,7 @@ class EcRepo(private val sheets: Sheets, private val store: Store) {
         val head = values.firstOrNull().orEmpty()
         val yard = if (point == "Yard") yardCol(head, spot) else null
         val reqs = ArrayList<JsonObject>()
-        reqs.add(Req.updateCells(sheetId, row - 1, 1, listOf(textCell(p.sno.trim()))))
+        reqs.add(Req.updateCells(sheetId, row - 1, 1, listOf(listOf(textCell(p.sno.trim())))))
         reqs.add(Req.updateCells(sheetId, row - 1, 3, listOf(
             listOf(Cell.Text(point), Cell.Text(spot), Cell.Num(p.ec, "0.00", "NUMBER"), Cell.Text(cond)) +
                 helpers(row, point, yard?.first, p.ec, p.sno)
