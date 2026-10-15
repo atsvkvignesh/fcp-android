@@ -19,6 +19,9 @@ android {
         targetSdk = 35
         versionCode = buildNumber
         versionName = "2.0.$buildNumber"
+        // the small Apps Script that stores photos and bills in Drive (apps-script/uploads)
+        buildConfigField("String", "UPLOAD_URL", "\"${System.getenv("FCP_UPLOAD_URL") ?: ""}\"")
+        buildConfigField("String", "UPLOAD_TOKEN", "\"${System.getenv("FCP_UPLOAD_TOKEN") ?: ""}\"")
     }
 
     // Fixed signing key: keep app/release.keystore safe. Every future APK must be signed
@@ -78,6 +81,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-messaging")
 

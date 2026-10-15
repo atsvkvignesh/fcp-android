@@ -32,6 +32,9 @@ jobs:
           if [ -n "$SA" ]; then printf '%s' "$SA" > app/src/main/assets/service-account.json; echo "key added"; else echo "::warning::FCP_SA_JSON secret not set: the app will not reach the sheets"; fi
 
       - name: Test and build signed APK
+        env:
+          FCP_UPLOAD_URL: ${{ secrets.FCP_UPLOAD_URL }}
+          FCP_UPLOAD_TOKEN: ${{ secrets.FCP_UPLOAD_TOKEN }}
         run: |
           set -o pipefail
           gradle :app:testReleaseUnitTest :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log

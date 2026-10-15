@@ -2,6 +2,7 @@ package com.fibrocoir.app
 
 import android.app.Application
 import com.fibrocoir.app.core.Store
+import com.fibrocoir.app.core.Uploads
 import com.fibrocoir.app.core.google.GoogleAuth
 import com.fibrocoir.app.core.google.Sheets
 import okhttp3.ConnectionPool
@@ -16,6 +17,7 @@ class FcpApplication : Application() {
     lateinit var auth: GoogleAuth private set
     lateinit var sheets: Sheets private set
     lateinit var store: Store private set
+    lateinit var uploads: Uploads private set
 
     override fun onCreate() {
         super.onCreate()
@@ -29,6 +31,7 @@ class FcpApplication : Application() {
         auth = GoogleAuth(this, http)
         sheets = Sheets(auth, http)
         store = Store(File(filesDir, "saved"))
+        uploads = Uploads(http)
         Notifications.ensureChannel(this)
     }
 
