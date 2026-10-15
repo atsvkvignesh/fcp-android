@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -192,9 +193,15 @@ fun BarChart(
     highlightLast: Boolean = false,
     format: (Double) -> String = { count(it) },
     modifier: Modifier = Modifier,
+    selected: Int? = null,
+    onTap: ((Int) -> Unit)? = null,
 ) {
     val tm = rememberTextMeasurer()
-    Canvas(modifier.fillMaxWidth().height(height)) {
+    val cb by rememberUpdatedState(onTap)
+    val tap = if (onTap == null) Modifier else Modifier.pointerInput(values.size) {
+        detectTapGestures { o -> if (values.isNotEmpty()) cb?.invoke((o.x / (size.width.toFloat() / values.size)).toInt().coerceIn(0, values.size - 1)) }
+    }
+    Canvas(modifier.fillMaxWidth().height(height).then(tap)) {
         val n = values.size
         if (n == 0) return@Canvas
         val hi = max(1.0, values.maxOrNull() ?: 1.0)
@@ -204,7 +211,11 @@ fun BarChart(
         values.forEachIndexed { i, v ->
             val h = ((v / hi) * (bottom - top)).toFloat()
             val cx = slot * i + slot / 2
-            val c = if (highlightLast && i == n - 1) Fcp.fibreHi else color.copy(alpha = if (highlightLast) 0.7f else 1f)
+            val c = when {
+                selected != null -> if (i == selected) Fcp.fibreHi else color.copy(alpha = 0.55f)
+                highlightLast && i == n - 1 -> Fcp.fibreHi
+                else -> color.copy(alpha = if (highlightLast) 0.7f else 1f)
+            }
             drawRoundRect(c, Offset(cx - w / 2, bottom - h), Size(w, h), CornerRadius(5.dp.toPx()))
             if (v > 0) {
                 val lay = tm.measure(format(v), TextStyle(color = Fcp.cream, fontSize = 10.sp))

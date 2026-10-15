@@ -1,0 +1,3360 @@
+{
+ "tz": "Asia/Kolkata",
+ "events": [
+  {
+   "t": 1790816480220,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790818512806,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790818849151,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790818935102,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790819243004,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790819838138,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790819948592,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790820707214,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790820908223,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790821351231,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790823316513,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790823369746,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790823955724,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790824561635,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790825302342,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790825433307,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790827139316,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790827241659,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790828682093,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790829202683,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790829817286,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790830359985,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790830716111,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790834564635,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790835174753,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790836059625,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790836169437,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790837494889,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790840144545,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790841761696,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790842719210,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790843579981,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790855491568,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790857123779,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790858055979,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790890246076,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790891445554,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790891475554,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790891987722,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790893841482,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790894467162,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790903563645,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790903988085,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790904209187,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790905443844,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790905858145,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790905903145,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790906393259,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790907517482,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790908248722,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790908654978,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790909453157,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790909738792,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790910106191,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790910519637,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790910765676,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790910925462,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790911603506,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790913536037,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790913954926,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790914464036,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790915392124,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790916415731,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790916467544,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790919957344,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790920238374,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790923639217,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790923654675,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790925170305,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790926273178,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790929449095,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790929726547,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790932472182,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790933237501,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790989512760,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790990180567,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790990210567,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790990746970,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790991517767,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790991530307,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790991959617,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790991989617,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790993203497,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790993245118,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790994507749,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790994528092,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790994629973,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790994843244,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790996531660,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790996541865,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790996684268,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790997953654,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790998576380,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1790998849184,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1790998894184,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791000461128,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791000957095,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791001221236,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791001323709,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791001588226,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791002319535,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791005014838,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791005035410,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791006025571,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791006284868,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791006567065,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791007859416,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791008769089,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791009814185,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791013746757,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791014550669,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791074767318,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791075823122,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791076097509,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791077227735,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791077272735,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791078256738,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791078511495,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791078798386,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791079943394,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791080038682,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791081727058,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791082364646,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791082952087,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791083518430,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791083872981,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791083879734,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791085612546,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791087620460,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791088668414,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791089370858,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791090412035,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791090456158,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791090501158,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791092073132,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791092123744,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791093528349,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791094418965,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791095760079,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791096178423,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791097553546,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791098071288,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791098990686,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791099677328,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791101064163,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791101713555,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791102521612,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791105998904,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791106916405,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791108015114,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791110000343,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791162381017,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791163261368,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791163501466,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791164160075,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791164370095,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791165259887,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791167668006,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791167944684,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791167966480,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791168687727,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791169210567,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791169586121,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791169840431,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791170176900,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791170847106,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791171041771,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791172024345,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791174661184,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791176034805,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791176556688,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791177388852,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791179897562,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791180534338,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791181242937,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791182227728,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791183932781,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791185768610,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791189352248,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791190230267,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791194714782,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791195126357,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791197973438,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791199856641,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791200545807,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791202210669,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791202999749,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791205802106,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791206988212,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791247772530,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791248067527,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791248552736,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791249262829,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791250306336,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791250612277,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791251338656,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791251595649,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791252066337,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791252109518,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791254161367,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791255181798,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791256355106,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791256514179,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791256552231,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791257207637,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791258065287,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791259700312,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791260626962,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791261047047,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791262647161,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791263297555,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791263759964,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791268069981,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791268948976,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791272216862,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791273761519,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791273987783,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791277302727,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791277334086,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791278440800,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791278670258,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791279110999,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791279913420,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791282306753,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791282309175,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791283023940,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791284586292,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791333779155,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791334737440,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791335472379,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791336392996,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791338231321,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791338314656,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791338555743,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791339136066,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791339445818,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791339763092,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791342324673,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791343605316,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791343870692,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791344176148,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791344481489,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791344569437,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791345436652,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791345465220,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791346721269,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791346871804,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791347693732,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791348723101,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791349460808,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791349490808,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791350664456,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791351549643,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791351888305,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791352938669,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791354865061,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791354955892,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791356762390,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791356813091,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791357751764,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791357962723,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791358771394,
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791361880495,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791361930352,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791365645249,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "IN"
+  },
+  {
+   "t": 1791367275051,
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "place": "FCP",
+   "ev": "OUT"
+  },
+  {
+   "t": 1791423000000,
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "place": "FCP",
+   "ev": "IN"
+  }
+ ],
+ "trips": [
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790816480220,
+   "tout": 1790818512806,
+   "mins": 33.87643333333333,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790818849151,
+   "tout": 1790819243004,
+   "mins": 6.564216666666667,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790819948592,
+   "tout": 1790820707214,
+   "mins": 12.6437,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 11.7598
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790818935102,
+   "tout": 1790820908223,
+   "mins": 32.88535,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790819838138,
+   "tout": 1790821351231,
+   "mins": 25.218216666666667,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 22.088866666666668
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790823369746,
+   "tout": 1790823955724,
+   "mins": 9.7663,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 33.64191666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790823316513,
+   "tout": 1790824561635,
+   "mins": 20.752033333333333,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 40.13816666666666
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790825302342,
+   "tout": 1790827139316,
+   "mins": 30.616233333333334,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 76.58546666666666
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790825433307,
+   "tout": 1790827241659,
+   "mins": 30.1392,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 24.626383333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790828682093,
+   "tout": 1790830359985,
+   "mins": 27.964866666666666,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 25.71295
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790829817286,
+   "tout": 1790830716111,
+   "mins": 14.980416666666667,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 42.92711666666667
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790834564635,
+   "tout": 1790836059625,
+   "mins": 24.9165,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 70.0775
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790835174753,
+   "tout": 1790836169437,
+   "mins": 16.57806666666667,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 74.3107
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790840144545,
+   "tout": 1790841761696,
+   "mins": 26.952516666666668,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 68.082
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790842719210,
+   "tout": 1790843579981,
+   "mins": 14.346183333333334,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": false,
+   "back": 15.958566666666666
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790829202683,
+   "tout": 1790855491568,
+   "mins": 438.1480833333333,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": true,
+   "back": 77.3508
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790837494889,
+   "tout": 1790857123779,
+   "mins": 327.14816666666667,
+   "day": "2026-10-01",
+   "test": false,
+   "parked": true,
+   "back": 22.090866666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790858055979,
+   "tout": 1790890246076,
+   "mins": 536.5016166666667,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": true,
+   "back": 42.740183333333334
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790891475554,
+   "tout": 1790891987722,
+   "mins": 8.536133333333334,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 20.4913
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790893841482,
+   "tout": 1790894467162,
+   "mins": 10.428,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 30.896
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790903563645,
+   "tout": 1790904209187,
+   "mins": 10.759033333333333,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790903988085,
+   "tout": 1790905858145,
+   "mins": 31.167666666666666,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790905443844,
+   "tout": 1790906393259,
+   "mins": 15.823583333333334,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 182.9447
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790907517482,
+   "tout": 1790908654978,
+   "mins": 18.958266666666667,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 27.655616666666667
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790908248722,
+   "tout": 1790909453157,
+   "mins": 20.073916666666666,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 67.32558333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790909738792,
+   "tout": 1790910765676,
+   "mins": 17.114733333333334,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 18.063566666666667
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790910519637,
+   "tout": 1790910925462,
+   "mins": 6.76375,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 17.77466666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790910106191,
+   "tout": 1790911603506,
+   "mins": 24.95525,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 61.8822
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790913536037,
+   "tout": 1790913954926,
+   "mins": 6.981483333333333,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 32.20885
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790914464036,
+   "tout": 1790915392124,
+   "mins": 15.468133333333334,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 58.97623333333333
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790916415731,
+   "tout": 1790916467544,
+   "mins": 0.86355,
+   "day": "2026-10-02",
+   "test": true,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790919957344,
+   "tout": 1790920238374,
+   "mins": 4.683833333333333,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 76.087
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790923639217,
+   "tout": 1790923654675,
+   "mins": 0.2576333333333333,
+   "day": "2026-10-02",
+   "test": true,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790925170305,
+   "tout": 1790926273178,
+   "mins": 18.381216666666667,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 82.19885
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790929449095,
+   "tout": 1790929726547,
+   "mins": 4.6242,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 52.93195
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790932472182,
+   "tout": 1790933237501,
+   "mins": 12.755316666666667,
+   "day": "2026-10-02",
+   "test": false,
+   "parked": false,
+   "back": 45.76058333333334
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790989512760,
+   "tout": 1790990746970,
+   "mins": 20.570166666666665,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790990210567,
+   "tout": 1790991517767,
+   "mins": 21.786666666666665,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790991530307,
+   "tout": 1790993203497,
+   "mins": 27.8865,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 13.055616666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790991989617,
+   "tout": 1790993245118,
+   "mins": 20.925016666666668,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790994507749,
+   "tout": 1790994528092,
+   "mins": 0.33905,
+   "day": "2026-10-03",
+   "test": true,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1790994843244,
+   "tout": 1790996531660,
+   "mins": 28.140266666666665,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 55.424616666666665
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1790994629973,
+   "tout": 1790996541865,
+   "mins": 31.864866666666668,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 23.7746
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790996684268,
+   "tout": 1790997953654,
+   "mins": 21.156433333333332,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 57.31916666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1790998576380,
+   "tout": 1790998849184,
+   "mins": 4.546733333333333,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 10.378766666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791000957095,
+   "tout": 1791001323709,
+   "mins": 6.110233333333333,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 35.13185
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791000461128,
+   "tout": 1791001588226,
+   "mins": 18.784966666666666,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 65.49113333333334
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791001221236,
+   "tout": 1791002319535,
+   "mins": 18.304983333333332,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 77.98951666666666
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791005014838,
+   "tout": 1791006284868,
+   "mins": 21.167166666666667,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 57.1102
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791005035410,
+   "tout": 1791006567065,
+   "mins": 25.527583333333332,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 45.264583333333334
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791006025571,
+   "tout": 1791007859416,
+   "mins": 30.564083333333333,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 78.36436666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791008769089,
+   "tout": 1791009814185,
+   "mins": 17.418266666666668,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 15.161216666666666
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791013746757,
+   "tout": 1791014550669,
+   "mins": 13.398533333333333,
+   "day": "2026-10-03",
+   "test": false,
+   "parked": false,
+   "back": 65.54286666666667
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791074767318,
+   "tout": 1791075823122,
+   "mins": 17.596733333333333,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791076097509,
+   "tout": 1791077227735,
+   "mins": 18.8371,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791078511495,
+   "tout": 1791078798386,
+   "mins": 4.781516666666667,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791078256738,
+   "tout": 1791079943394,
+   "mins": 28.11093333333333,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 17.15005
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791080038682,
+   "tout": 1791081727058,
+   "mins": 28.1396,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 70.25933333333333
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791082952087,
+   "tout": 1791083518430,
+   "mins": 9.43905,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 69.22835
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791082364646,
+   "tout": 1791083879734,
+   "mins": 25.251466666666666,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 10.626466666666667
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791083872981,
+   "tout": 1791085612546,
+   "mins": 28.99275,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 65.49311666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791087620460,
+   "tout": 1791089370858,
+   "mins": 29.1733,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 68.36716666666666
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791088668414,
+   "tout": 1791090456158,
+   "mins": 29.795733333333335,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 79.81133333333334
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791090412035,
+   "tout": 1791092073132,
+   "mins": 27.68495,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 17.35295
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791092123744,
+   "tout": 1791093528349,
+   "mins": 23.410083333333333,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 27.7931
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791094418965,
+   "tout": 1791095760079,
+   "mins": 22.3519,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 39.09721666666667
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791096178423,
+   "tout": 1791098071288,
+   "mins": 31.54775,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 44.1679
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791097553546,
+   "tout": 1791098990686,
+   "mins": 23.952333333333332,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 29.891116666666665
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791099677328,
+   "tout": 1791101713555,
+   "mins": 33.93711666666667,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 11.444033333333334
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791101064163,
+   "tout": 1791102521612,
+   "mins": 24.290816666666668,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 49.88125
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791105998904,
+   "tout": 1791106916405,
+   "mins": 15.291683333333333,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 57.95486666666667
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791108015114,
+   "tout": 1791110000343,
+   "mins": 33.08715,
+   "day": "2026-10-04",
+   "test": false,
+   "parked": false,
+   "back": 18.311816666666665
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791162381017,
+   "tout": 1791163261368,
+   "mins": 14.672516666666667,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791163501466,
+   "tout": 1791164370095,
+   "mins": 14.47715,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791164160075,
+   "tout": 1791165259887,
+   "mins": 18.3302,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791167668006,
+   "tout": 1791167966480,
+   "mins": 4.974566666666667,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 73.44396666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791167944684,
+   "tout": 1791168687727,
+   "mins": 12.38405,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 59.576483333333336
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791169586121,
+   "tout": 1791169840431,
+   "mins": 4.2385,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 72.1039
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791169210567,
+   "tout": 1791170176900,
+   "mins": 16.10555,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 20.734783333333333
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791171041771,
+   "tout": 1791172024345,
+   "mins": 16.37623333333333,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 39.23406666666666
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791174661184,
+   "tout": 1791176034805,
+   "mins": 22.893683333333332,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 74.73806666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791176556688,
+   "tout": 1791177388852,
+   "mins": 13.8694,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 75.53905
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791179897562,
+   "tout": 1791180534338,
+   "mins": 10.612933333333334,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 64.37928333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791181242937,
+   "tout": 1791182227728,
+   "mins": 16.413183333333333,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 11.809983333333333
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791170847106,
+   "tout": 1791185768610,
+   "mins": 248.69173333333333,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": true,
+   "back": 16.777916666666666
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791189352248,
+   "tout": 1791190230267,
+   "mins": 14.63365,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 59.7273
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791194714782,
+   "tout": 1791195126357,
+   "mins": 6.859583333333333,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 74.74191666666667
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791183932781,
+   "tout": 1791197973438,
+   "mins": 234.01095,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": true,
+   "back": 28.41755
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791199856641,
+   "tout": 1791200545807,
+   "mins": 11.4861,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 78.83806666666666
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791202210669,
+   "tout": 1791202999749,
+   "mins": 13.151333333333334,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 27.7477
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791205802106,
+   "tout": 1791206988212,
+   "mins": 19.768433333333334,
+   "day": "2026-10-05",
+   "test": false,
+   "parked": false,
+   "back": 46.70595
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791247772530,
+   "tout": 1791248067527,
+   "mins": 4.916616666666667,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791248552736,
+   "tout": 1791249262829,
+   "mins": 11.834883333333334,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791251338656,
+   "tout": 1791251595649,
+   "mins": 4.283216666666666,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791250306336,
+   "tout": 1791252066337,
+   "mins": 29.33335,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 17.391783333333333
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791250612277,
+   "tout": 1791252109518,
+   "mins": 24.954016666666668,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 42.4125
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791254161367,
+   "tout": 1791255181798,
+   "mins": 17.007183333333334,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 34.19748333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791256514179,
+   "tout": 1791256552231,
+   "mins": 0.6342,
+   "day": "2026-10-06",
+   "test": true,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791256355106,
+   "tout": 1791258065287,
+   "mins": 28.503016666666667,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 79.32428333333333
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791259700312,
+   "tout": 1791261047047,
+   "mins": 22.44558333333333,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 75.30856666666666
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791260626962,
+   "tout": 1791262647161,
+   "mins": 33.669983333333334,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 42.694583333333334
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791263297555,
+   "tout": 1791263759964,
+   "mins": 7.706816666666667,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 10.8399
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791268069981,
+   "tout": 1791268948976,
+   "mins": 14.649916666666666,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 71.83361666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791272216862,
+   "tout": 1791273761519,
+   "mins": 25.744283333333332,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 54.46476666666667
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791257207637,
+   "tout": 1791273987783,
+   "mins": 279.6691,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": true,
+   "back": 85.68833333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791277334086,
+   "tout": 1791278440800,
+   "mins": 18.445233333333334,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 55.77171666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791277302727,
+   "tout": 1791278670258,
+   "mins": 22.792183333333334,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 59.020133333333334
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791279110999,
+   "tout": 1791279913420,
+   "mins": 13.373683333333334,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 11.169983333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791282306753,
+   "tout": 1791282309175,
+   "mins": 0.04036666666666667,
+   "day": "2026-10-06",
+   "test": true,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791283023940,
+   "tout": 1791284586292,
+   "mins": 26.0392,
+   "day": "2026-10-06",
+   "test": false,
+   "parked": false,
+   "back": 72.56136666666667
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791333779155,
+   "tout": 1791334737440,
+   "mins": 15.971416666666666,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791335472379,
+   "tout": 1791336392996,
+   "mins": 15.343616666666666,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 12.248983333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791338555743,
+   "tout": 1791339136066,
+   "mins": 9.67205,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791338314656,
+   "tout": 1791339445818,
+   "mins": 18.8527,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791338231321,
+   "tout": 1791339763092,
+   "mins": 25.529516666666666,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 30.63875
+  },
+  {
+   "uid": "11CE2D07",
+   "name": "Tuck Tanker",
+   "tin": 1791342324673,
+   "tout": 1791344176148,
+   "mins": 30.857916666666668,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 42.693016666666665
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791343605316,
+   "tout": 1791344481489,
+   "mins": 14.602883333333333,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 74.4875
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791343870692,
+   "tout": 1791344569437,
+   "mins": 11.64575,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 73.7479
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791345436652,
+   "tout": 1791346721269,
+   "mins": 21.410283333333332,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 14.453583333333333
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791345465220,
+   "tout": 1791346871804,
+   "mins": 23.443066666666667,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 16.395516666666666
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791347693732,
+   "tout": 1791348723101,
+   "mins": 17.15615,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 16.207716666666666
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791349490808,
+   "tout": 1791350664456,
+   "mins": 19.5608,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 43.65006666666667
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791351549643,
+   "tout": 1791351888305,
+   "mins": 5.6443666666666665,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 47.109033333333336
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791352938669,
+   "tout": 1791354865061,
+   "mins": 32.10653333333333,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 17.506066666666666
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791354955892,
+   "tout": 1791356762390,
+   "mins": 30.1083,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 71.52393333333333
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791356813091,
+   "tout": 1791357751764,
+   "mins": 15.64455,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 32.467166666666664
+  },
+  {
+   "uid": "A1B2C3D4",
+   "name": "Big Blue",
+   "tin": 1791357962723,
+   "tout": 1791358771394,
+   "mins": 13.47785,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 20.00555
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791361880495,
+   "tout": 1791361930352,
+   "mins": 0.83095,
+   "day": "2026-10-07",
+   "test": true,
+   "parked": false,
+   "back": null
+  },
+  {
+   "uid": "FFEE0011",
+   "name": "FFEE0011",
+   "tin": 1791365645249,
+   "tout": 1791367275051,
+   "mins": 27.16336666666667,
+   "day": "2026-10-07",
+   "test": false,
+   "parked": false,
+   "back": 131.55808333333334
+  }
+ ],
+ "summary": {
+  "2026-10-01": {
+   "loads": 17,
+   "tests": 0,
+   "avgFill": 21.880015555555552,
+   "avgBack": 43.23936428571428,
+   "fastest": 6.564216666666667,
+   "slowest": 33.87643333333333,
+   "quickestBack": 11.7598
+  },
+  "2026-10-02": {
+   "loads": 17,
+   "tests": 2,
+   "avgFill": 14.217157291666664,
+   "avgBack": 54.52915222222222,
+   "fastest": 4.6242,
+   "slowest": 31.167666666666666,
+   "quickestBack": 17.77466666666667
+  },
+  "2026-10-03": {
+   "loads": 16,
+   "tests": 1,
+   "avgFill": 20.509529166666663,
+   "avgBack": 46.15449999999999,
+   "fastest": 4.546733333333333,
+   "slowest": 31.864866666666668,
+   "quickestBack": 10.378766666666667
+  },
+  "2026-10-04": {
+   "loads": 19,
+   "tests": 0,
+   "avgFill": 23.9827350877193,
+   "avgBack": 42.30187916666667,
+   "fastest": 4.781516666666667,
+   "slowest": 33.93711666666667,
+   "quickestBack": 10.626466666666667
+  },
+  "2026-10-05": {
+   "loads": 19,
+   "tests": 0,
+   "avgFill": 13.602768627450981,
+   "avgBack": 51.53224895833334,
+   "fastest": 4.2385,
+   "slowest": 22.893683333333332,
+   "quickestBack": 11.809983333333333
+  },
+  "2026-10-06": {
+   "loads": 17,
+   "tests": 2,
+   "avgFill": 19.106197916666666,
+   "avgBack": 50.90564404761904,
+   "fastest": 4.283216666666666,
+   "slowest": 33.669983333333334,
+   "quickestBack": 10.8399
+  },
+  "2026-10-07": {
+   "loads": 18,
+   "tests": 1,
+   "avgFill": 19.34395092592592,
+   "avgBack": 42.97952444444444,
+   "fastest": 5.6443666666666665,
+   "slowest": 32.10653333333333,
+   "quickestBack": 12.248983333333333
+  }
+ }
+}
