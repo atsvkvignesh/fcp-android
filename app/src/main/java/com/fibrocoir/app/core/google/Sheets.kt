@@ -32,7 +32,7 @@ typealias Row = List<JsonElement>
 /** A tab of a spreadsheet. */
 data class Tab(val id: Int, val title: String, val index: Int, val rows: Int, val cols: Int, val hidden: Boolean)
 
-data class SheetInfo(val title: String, val timeZone: TimeZone, val tabs: List<Tab>) {
+data class SheetInfo(val title: String, val timeZone: TimeZone, val tabs: List<Tab>, val locale: String = "en_US") {
     fun tab(title: String): Tab? = tabs.firstOrNull { it.title == title }
 }
 
@@ -53,7 +53,7 @@ class Sheets(private val auth: GoogleAuth, private val http: OkHttpClient) {
         val url = "$base/$id".toHttpUrl().newBuilder()
             .addQueryParameter(
                 "fields",
-                "properties(title,timeZone),sheets(properties(sheetId,title,index,hidden,gridProperties(rowCount,columnCount)))"
+                "properties(title,timeZone,locale),sheets(properties(sheetId,title,index,hidden,gridProperties(rowCount,columnCount)))"
             ).build().toString()
         val o = call("GET", url, null).jsonObject
         val props = o["properties"]?.jsonObject
@@ -73,6 +73,7 @@ class Sheets(private val auth: GoogleAuth, private val http: OkHttpClient) {
             title = props?.get("title")?.jsonPrimitive?.contentOrNull.orEmpty(),
             timeZone = TimeZone.getTimeZone(props?.get("timeZone")?.jsonPrimitive?.contentOrNull ?: "Asia/Kolkata"),
             tabs = tabs,
+            locale = props?.get("locale")?.jsonPrimitive?.contentOrNull ?: "en_US",
         )
     }
 
@@ -274,6 +275,17 @@ object Cells {
 
     fun millisToSerial(millis: Long, tz: TimeZone): Double =
         (millis + tz.getOffset(millis)) / 86_400_000.0 + 25569.0
+
+    /** A row as plain values: numbers (dates are day numbers) as Double, booleans, the rest as text. */
+    fun plain(r: Row): List<Any?> = r.map { c ->
+        val p = c as? JsonPrimitive
+        when {
+            p == null || p is kotlinx.serialization.json.JsonNull -> null
+            p.isString -> p.content
+            p.booleanOrNull != null -> p.booleanOrNull
+            else -> p.doubleOrNull ?: p.content
+        }
+    }
 
     val JsonElement.int: Int? get() = (this as? JsonPrimitive)?.let { if (it.isString) it.content.toIntOrNull() else it.intOrNull }
 }

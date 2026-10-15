@@ -38,7 +38,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -68,6 +70,15 @@ class Say(private val host: SnackbarHostState, private val scope: CoroutineScope
         scope.launch {
             host.currentSnackbarData?.dismiss()
             host.showSnackbar(message)
+        }
+    }
+
+    /** A message with a button (Undo, Open sheet...). */
+    fun action(message: String, label: String, onAction: () -> Unit) {
+        scope.launch {
+            host.currentSnackbarData?.dismiss()
+            val r = host.showSnackbar(message, actionLabel = label, withDismissAction = true, duration = SnackbarDuration.Long)
+            if (r == SnackbarResult.ActionPerformed) onAction()
         }
     }
 }
