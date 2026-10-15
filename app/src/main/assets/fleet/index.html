@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fleet Manager</title>
+<link rel="stylesheet" href="../lib/fonts.css">
+<link rel="stylesheet" href="../lib/app.css">
+<script>window.FCP_PAGE = { app: 'fleet' };</script>
+<script src="../lib/config.js"></script>
+<script src="../lib/fcp.js"></script>
+<script src="../lib/gas-shim.js"></script>
+<style>
+:root{
+  --blue:#007AFF; --blue-press:#0062CC;
+  --red:#FF3B30; --orange:#FF9500; --green:#34C759; --yellow:#FFCC00; --purple:#AF52DE;
+  --bg:#F2F2F7; --card:#FFFFFF; --card-press:#E5E5EA;
+  --label:#000000; --label2:rgba(60,60,67,.60); --label3:rgba(60,60,67,.30);
+  --sep:rgba(60,60,67,.20); --fill:rgba(118,118,128,.12);
+  --navbar:rgba(249,249,249,.82);
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --blue:#0A84FF; --blue-press:#409CFF;
+    --red:#FF453A; --orange:#FF9F0A; --green:#30D158; --yellow:#FFD60A; --purple:#BF5AF2;
+    --bg:#000000; --card:#1C1C1E; --card-press:#2C2C2E;
+    --label:#FFFFFF; --label2:rgba(235,235,245,.60); --label3:rgba(235,235,245,.30);
+    --sep:rgba(84,84,88,.65); --fill:rgba(118,118,128,.24);
+    --navbar:rgba(30,30,32,.82);
+  }
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Segoe UI',sans-serif;
+  background:var(--bg); color:var(--label); font-size:17px; line-height:1.4;
+  -webkit-font-smoothing:antialiased; letter-spacing:-.01em;
+  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+}
+button{font-family:inherit;font-size:inherit;cursor:pointer;color:inherit}
+a{color:var(--blue);text-decoration:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+
+/* ---------- nav bar ---------- */
+.navbar{
+  position:sticky;top:0;z-index:40;background:var(--navbar);
+  backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:.5px solid var(--sep);
+  display:flex;align-items:center;gap:8px;padding:10px 16px;min-height:48px;
+}
+.navbar h1{margin:0;font-size:17px;font-weight:600;flex:1;text-align:center;letter-spacing:-.02em}
+.navbtn{background:none;border:0;color:var(--blue);font-size:17px;padding:4px 6px;min-width:44px}
+.navbtn.right{text-align:right}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 28px}
+.view{display:none} .view.on{display:block}
+.large{font-size:34px;font-weight:700;letter-spacing:-.028em;margin:14px 0 4px;line-height:1.1}
+.lead{color:var(--label2);font-size:15px;margin:0 0 18px}
+.grouphead{font-size:13px;color:var(--label2);margin:26px 0 7px;padding:0 4px;letter-spacing:-.005em}
+.grouphead:first-child{margin-top:14px}
+
+/* ---------- inset grouped list ---------- */
+.group{background:var(--card);border-radius:var(--radius);overflow:hidden}
+.group + .group{margin-top:18px}
+.rowitem{display:flex;align-items:center;gap:12px;padding:12px 16px;position:relative;background:var(--card);width:100%;border:0;text-align:left}
+.rowitem + .rowitem::before{content:'';position:absolute;left:16px;right:0;top:0;height:.5px;background:var(--sep)}
+.rowitem:active{background:var(--card-press)}
+.rowitem .grow{flex:1;min-width:0}
+.rowitem .val{color:var(--label2);font-size:16px;white-space:nowrap}
+.chev{color:var(--label3);font-size:20px;line-height:1}
+
+/* ---------- fields ---------- */
+.frow{display:flex;align-items:center;gap:12px;padding:11px 16px;position:relative;background:var(--card)}
+.frow + .frow::before{content:'';position:absolute;left:16px;right:0;top:0;height:.5px;background:var(--sep)}
+.frow label{flex:0 0 42%;font-size:17px;color:var(--label)}
+.frow input,.frow select,.frow textarea{
+  flex:1;min-width:0;border:0;background:transparent;color:var(--label);
+  font-family:inherit;font-size:17px;padding:2px 0;text-align:right;
+}
+.frow select{direction:rtl}
+.frow select option{direction:ltr}
+.frow input::placeholder{color:var(--label3)}
+.fstack{display:block;padding:11px 16px;position:relative;background:var(--card)}
+.fstack + .frow::before,.fstack + .fstack::before,.frow + .fstack::before,.fstack + .filerow::before{content:'';position:absolute;left:16px;right:0;top:0;height:.5px;background:var(--sep)}
+.fstack label{display:block;font-size:13px;color:var(--label2);margin-bottom:3px}
+.fstack input,.fstack textarea,.fstack select{
+  width:100%;border:0;background:transparent;color:var(--label);
+  font-family:inherit;font-size:17px;padding:2px 0;
+}
+.fstack textarea{min-height:60px;resize:vertical;line-height:1.4}
+.fstack input::placeholder,.fstack textarea::placeholder{color:var(--label3)}
+.note{font-size:13px;color:var(--label2);padding:7px 6px 0;line-height:1.45}
+
+/* ---------- vehicle picker ---------- */
+.picker{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}
+.picker::-webkit-scrollbar{display:none}
+.pick{
+  flex:0 0 auto;background:var(--card);border:0;padding:8px 15px;border-radius:100px;
+  font-size:15px;font-weight:500;white-space:nowrap;color:var(--label);
+}
+.pick.on{background:var(--blue);color:#fff}
+.pick small{display:block;font-size:11px;opacity:.65;font-weight:400}
+
+/* ---------- segmented control ---------- */
+.seg{display:flex;background:var(--fill);border-radius:9px;padding:2px;margin:2px 0 18px}
+.seg button{flex:1;border:0;background:transparent;padding:7px 4px;border-radius:7px;font-size:14px;font-weight:500}
+.seg button.on{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:block;width:100%;background:var(--blue);color:#fff;border:0;
+  padding:15px;border-radius:var(--radius);font-size:17px;font-weight:600;margin-top:18px;
+}
+.btn:active{background:var(--blue-press)}
+.btn:disabled{opacity:.45}
+.btn.tinted{background:var(--fill);color:var(--blue)}
+.btn.plain{background:var(--card);color:var(--blue)}
+.btnrow{display:flex;gap:10px;margin-top:18px}
+.btnrow .btn{margin-top:0}
+
+/* ---------- board ---------- */
+.vcard{background:var(--card);border-radius:var(--radius);padding:14px 16px 12px;margin-bottom:12px}
+.vtop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.vreg{font-size:20px;font-weight:700;letter-spacing:-.02em;flex:1;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vodo{font-size:13px;color:var(--label2);text-align:right;white-space:nowrap;line-height:1.35}
+.vname{font-size:13px;color:var(--label2);font-weight:400}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{
+  border:0;border-radius:10px;padding:8px 11px;text-align:left;background:var(--fill);
+  flex:1 1 calc(50% - 4px);min-width:0;
+}
+.badge b{display:block;font-size:12px;font-weight:500;opacity:.75;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge i{display:block;font-style:normal;font-size:15px;font-weight:600;margin-top:1px}
+.badge.ok{background:rgba(52,199,89,.14);color:#22824A}
+.badge.due{background:rgba(255,204,0,.20);color:#8A6D00}
+.badge.critical{background:rgba(255,149,0,.18);color:#B36400}
+.badge.expired{background:var(--red);color:#fff}
+.badge.missing{background:var(--fill);color:var(--label2)}
+@media (prefers-color-scheme: dark){
+  .badge.ok{color:var(--green)} .badge.due{color:var(--yellow)} .badge.critical{color:var(--orange)}
+}
+
+/* ---------- entries ---------- */
+.entry{background:var(--card);border-radius:var(--radius);padding:13px 16px;margin-bottom:10px}
+.etop{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.ereg{font-size:17px;font-weight:600;min-width:0}
+.edate{font-size:14px;color:var(--label2);white-space:nowrap}
+.ebody{font-size:15px;color:var(--label);margin-top:3px;line-height:1.42}
+.ebody em{font-style:normal;color:var(--label2)}
+.eacts{display:flex;gap:18px;margin-top:9px}
+.linkbtn{background:none;border:0;padding:0;font-size:15px;color:var(--blue)}
+.linkbtn.del{color:var(--red)}
+.dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.dot.overdue{background:var(--red)} .dot.critical{background:var(--orange)}
+.dot.due{background:var(--yellow)} .dot.ok{background:var(--green)}
+
+.empty{background:var(--card);border-radius:var(--radius);padding:34px 20px;text-align:center;color:var(--label2);font-size:15px}
+.empty b{display:block;color:var(--label);font-size:17px;font-weight:600;margin-bottom:4px}
+
+/* ---------- stats ---------- */
+.stats{display:flex;gap:10px;margin:6px 0 4px}
+.stat{flex:1;background:var(--card);border-radius:var(--radius);padding:12px 14px;min-width:0}
+.stat b{display:block;font-size:22px;font-weight:700;letter-spacing:-.02em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stat span{font-size:12px;color:var(--label2);display:block;margin-top:1px}
+
+/* ---------- parts ---------- */
+.part{display:flex;gap:8px;align-items:center;padding:9px 16px;position:relative;background:var(--card)}
+.part::before{content:'';position:absolute;left:16px;right:0;top:0;height:.5px;background:var(--sep)}
+.part input{border:0;background:transparent;color:var(--label);font-family:inherit;font-size:15px;min-width:0;padding:2px 0}
+.part input::placeholder{color:var(--label3)}
+.part .p-name{flex:2} .part .p-num{flex:2} .part .p-qty{flex:.7} .part .p-cost{flex:1}
+.part button{background:none;border:0;color:var(--red);font-size:20px;padding:0 2px;flex:0 0 auto;line-height:1}
+
+/* ---------- file ---------- */
+.filerow{padding:11px 16px;background:var(--card);position:relative}
+.filerow::before{content:'';position:absolute;left:16px;right:0;top:0;height:.5px;background:var(--sep)}
+.filerow label{display:block;font-size:13px;color:var(--label2);margin-bottom:5px}
+.filerow input{font-size:14px;color:var(--label2);max-width:100%}
+
+/* ---------- tab bar ---------- */
+nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:repeat(5,1fr);
+  background:var(--navbar);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-top:.5px solid var(--sep);padding-bottom:env(safe-area-inset-bottom);
+}
+nav button{background:none;border:0;color:var(--label2);padding:7px 2px 6px;font-size:10px;font-weight:500}
+nav button.on{color:var(--blue)}
+nav svg{display:block;margin:0 auto 2px;width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- modal sheet ---------- */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:60;display:none}
+.scrim.on{display:block}
+.sheet{
+  position:fixed;left:8px;right:8px;bottom:8px;z-index:61;max-height:86vh;overflow:auto;
+  background:var(--bg);border-radius:14px;display:none;padding:0 0 12px;
+}
+.sheet.on{display:block;animation:rise .28s cubic-bezier(.32,.72,0,1)}
+@keyframes rise{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
+.sheet-nav{position:sticky;top:0;background:var(--navbar);backdrop-filter:blur(20px);
+  display:flex;align-items:center;padding:12px 16px;border-bottom:.5px solid var(--sep);border-radius:14px 14px 0 0}
+.sheet-nav h3{flex:1;margin:0;font-size:17px;font-weight:600;text-align:center}
+.sheet-body{padding:14px 16px}
+
+/* ---------- toast ---------- */
+#toast{
+  position:fixed;left:50%;transform:translateX(-50%) translateY(8px);bottom:84px;z-index:90;
+  background:rgba(30,30,32,.95);color:#fff;padding:12px 18px;border-radius:14px;font-size:15px;
+  max-width:88%;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+  backdrop-filter:blur(20px);
+}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.bad{background:rgba(255,59,48,.96)}
+#confetti{position:fixed;inset:0;z-index:95;pointer-events:none;display:none}
+#loading{padding:70px 20px;text-align:center;color:var(--label2)}
+
+@media (min-width:760px){
+  body{padding-bottom:0;display:grid;grid-template-columns:210px 1fr;grid-template-rows:auto 1fr}
+  .navbar{grid-column:1/-1}
+  .navbar h1{text-align:left;margin-left:4px}
+  nav{position:sticky;top:0;align-self:start;height:calc(100vh - 49px);grid-template-columns:1fr;
+      grid-auto-rows:max-content;border-top:0;border-right:.5px solid var(--sep);padding:10px 8px}
+  nav button{display:flex;align-items:center;gap:11px;text-align:left;padding:10px 12px;
+             font-size:15px;border-radius:9px}
+  nav button.on{background:var(--fill)}
+  nav svg{margin:0;width:21px;height:21px}
+  .wrap{padding:0 28px 40px;width:100%}
+  .sheet{left:auto;right:20px;bottom:20px;width:460px}
+  .badge{flex:1 1 calc(25% - 6px)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <button class="navbtn" onclick="refresh()" aria-label="Reload">&#8635;</button>
+  <h1 id="navTitle">Fleet</h1>
+  <button class="navbtn right" onclick="openMenu()" aria-label="More">&#8943;</button>
+</div>
+
+<nav id="nav"></nav>
+
+<div class="wrap">
+<div id="loading">Loading&hellip;</div>
+
+<!-- ============ BOARD ============ -->
+<section class="view" id="v-board">
+  <h2 class="large">Fleet</h2>
+  <p class="lead" id="boardLead"></p>
+  <div class="stats" id="stats"></div>
+  <div id="boardAlerts"></div>
+  <div class="grouphead">Vehicles and papers</div>
+  <div id="board"></div>
+</section>
+
+<!-- ============ LOG ============ -->
+<section class="view" id="v-log">
+  <h2 class="large">Log</h2>
+  <div class="seg">
+    <button id="seg-odo" class="on" onclick="setLogTab('odo')">Odometer</button>
+    <button id="seg-fuel" onclick="setLogTab('fuel')">Refuelling</button>
+  </div>
+
+  <div id="tab-odo">
+    <div class="picker" id="odo-pick"></div>
+    <div class="group">
+      <div class="frow"><label for="odo-date">Date</label><input type="date" id="odo-date"></div>
+      <div class="frow"><label for="odo-read">Reading</label>
+        <input type="number" id="odo-read" inputmode="numeric" placeholder="km"></div>
+      <div class="fstack"><label for="odo-note">Note</label>
+        <input id="odo-note" placeholder="Trip, driver, anything worth keeping"></div>
+      <div class="frow"><label for="odo-lower">Allow a lower reading</label>
+        <input type="checkbox" id="odo-lower" style="flex:0 0 auto;width:20px;height:20px;accent-color:var(--blue)"></div>
+    </div>
+    <p class="note" id="odo-last"></p>
+    <button class="btn" onclick="submitOdo()" id="odo-btn">Save reading</button>
+    <div class="grouphead">Recent readings</div>
+    <div id="odo-list"></div>
+  </div>
+
+  <div id="tab-fuel" style="display:none">
+    <div class="picker" id="fuel-pick"></div>
+    <div class="group">
+      <div class="frow"><label for="fuel-date">Date</label><input type="date" id="fuel-date"></div>
+      <div class="frow"><label for="fuel-odo">Odometer</label><input type="number" id="fuel-odo" inputmode="numeric" placeholder="km"></div>
+      <div class="frow"><label for="fuel-type">Fuel</label>
+        <select id="fuel-type"><option>Diesel</option><option>Petrol</option><option>CNG</option><option>LPG</option><option>Electric</option></select></div>
+      <div class="frow"><label for="fuel-lit">Litres</label><input type="number" step="0.01" id="fuel-lit" inputmode="decimal" oninput="calcFuel()" placeholder="0"></div>
+      <div class="frow"><label for="fuel-rate">Rate per litre</label><input type="number" step="0.01" id="fuel-rate" inputmode="decimal" oninput="calcFuel()" placeholder="0"></div>
+      <div class="frow"><label for="fuel-total">Total paid</label><input type="number" step="0.01" id="fuel-total" inputmode="decimal" placeholder="0"></div>
+      <div class="frow"><label for="fuel-station">Filling station</label><input id="fuel-station" placeholder="Optional"></div>
+      <div class="filerow"><label>Bill photo or PDF</label><input type="file" id="fuel-file" accept="image/*,application/pdf"></div>
+      <div class="fstack"><label for="fuel-note">Note</label><input id="fuel-note" placeholder="Optional"></div>
+    </div>
+    <p class="note">Enter the odometer here and the app works out km per litre against your last fill.</p>
+    <button class="btn" onclick="submitFuel()" id="fuel-btn">Save refuelling</button>
+    <div class="grouphead">Recent fills</div>
+    <div id="fuel-list"></div>
+  </div>
+</section>
+
+<!-- ============ SERVICE ============ -->
+<section class="view" id="v-service">
+  <h2 class="large">Service</h2>
+  <div class="seg">
+    <button id="seg-svc" class="on" onclick="setSvcTab('svc')">Work done</button>
+    <button id="seg-rem" onclick="setSvcTab('rem')">Reminders</button>
+  </div>
+
+  <div id="tab-svc">
+    <div class="picker" id="svc-pick"></div>
+    <div class="group">
+      <div class="frow"><label for="svc-date">Date</label><input type="date" id="svc-date"></div>
+      <div class="frow"><label for="svc-odo">Odometer</label><input type="number" id="svc-odo" inputmode="numeric" placeholder="km"></div>
+      <div class="frow"><label for="svc-cat">Type of work</label>
+        <select id="svc-cat">
+          <option>Routine service</option><option>Breakdown repair</option><option>Tyres</option>
+          <option>Body work</option><option>Electrical</option><option>Engine</option>
+          <option>Brakes and suspension</option><option>Accessory fitting</option><option>Other</option>
+        </select></div>
+      <div class="frow"><label for="svc-cost">Total cost</label><input type="number" step="0.01" id="svc-cost" inputmode="decimal" placeholder="0"></div>
+      <div class="fstack"><label for="svc-sum">What was done</label>
+        <textarea id="svc-sum" placeholder="Oil and filter changed, front brake pads replaced, wheel alignment done."></textarea></div>
+    </div>
+
+    <div class="grouphead">Parts replaced</div>
+    <div class="group"><div id="parts"></div>
+      <button class="rowitem" onclick="addPart()" style="color:var(--blue)">
+        <span class="grow">Add a part</span><span class="chev">&plus;</span></button>
+    </div>
+    <p class="note">Part numbers are saved to their own tab, so you can search one across the whole fleet later.</p>
+
+    <div class="grouphead">Details</div>
+    <div class="group">
+      <div class="frow"><label for="svc-vendor">Workshop</label><input id="svc-vendor" placeholder="Optional"></div>
+      <div class="frow"><label for="svc-next">Next due on</label><input type="date" id="svc-next"></div>
+      <div class="frow"><label for="svc-nextodo">Next due at</label><input type="number" id="svc-nextodo" inputmode="numeric" placeholder="km"></div>
+      <div class="filerow"><label>Bill photo or PDF</label><input type="file" id="svc-file" accept="image/*,application/pdf"></div>
+      <div class="fstack"><label for="svc-note">Note</label><input id="svc-note" placeholder="Optional"></div>
+    </div>
+    <button class="btn" onclick="submitService()" id="svc-btn">Save service record</button>
+    <div class="grouphead">Recent work</div>
+    <div id="svc-list"></div>
+  </div>
+
+  <div id="tab-rem" style="display:none">
+    <div id="remOpen"></div>
+    <div class="grouphead">New reminder</div>
+    <div class="picker" id="rem-pick"></div>
+    <div class="group">
+      <div class="fstack"><label for="rem-name">What needs doing</label>
+        <input id="rem-name" list="remNames" placeholder="Call it whatever you call it">
+        <datalist id="remNames"></datalist></div>
+      <div class="frow"><label for="rem-date">Due on</label><input type="date" id="rem-date"></div>
+      <div class="frow"><label for="rem-odo">Due at</label><input type="number" id="rem-odo" inputmode="numeric" placeholder="km"></div>
+      <div class="frow"><label for="rem-rdays">Repeat every</label><input type="number" id="rem-rdays" inputmode="numeric" placeholder="days"></div>
+      <div class="frow"><label for="rem-rkm">Repeat every</label><input type="number" id="rem-rkm" inputmode="numeric" placeholder="km"></div>
+      <div class="fstack"><label for="rem-note">Note</label><input id="rem-note" placeholder="Optional"></div>
+    </div>
+    <p class="note">A date, an odometer figure, or both &mdash; whichever arrives first is what you get warned about. Fill in a repeat and marking it done schedules the next one for you.</p>
+    <button class="btn" onclick="submitReminder()" id="rem-btn">Add reminder</button>
+    <div class="grouphead">Completed</div>
+    <div id="remDone"></div>
+  </div>
+</section>
+
+<!-- ============ PAPERS ============ -->
+<section class="view" id="v-docs">
+  <h2 class="large">Papers</h2>
+  <p class="lead">FC, insurance, tax and pollution are watched for every vehicle. Add anything else you need to keep an eye on.</p>
+  <div class="picker" id="doc-pick"></div>
+  <div class="group">
+    <div class="frow"><label for="doc-type">Document</label>
+      <select id="doc-type" onchange="onDocType()"></select></div>
+    <div class="fstack" id="doc-custom-wrap" style="display:none">
+      <label for="doc-custom">Name of this document</label>
+      <input id="doc-custom" placeholder="Permit, green card, RC book, fitness bond&hellip;">
+    </div>
+    <div class="frow"><label for="doc-num">Number</label><input id="doc-num" placeholder="Certificate or policy no."></div>
+    <div class="frow"><label for="doc-issue">Issued on</label><input type="date" id="doc-issue"></div>
+    <div class="frow"><label for="doc-exp">Valid until</label><input type="date" id="doc-exp"></div>
+    <div class="frow"><label for="doc-prov">Issued by</label><input id="doc-prov" placeholder="RTO, insurer&hellip;"></div>
+    <div class="frow"><label for="doc-cost">Amount paid</label><input type="number" step="0.01" id="doc-cost" inputmode="decimal" placeholder="0"></div>
+    <div class="filerow"><label>Certificate scan or photo</label><input type="file" id="doc-file" accept="image/*,application/pdf"></div>
+    <div class="fstack"><label for="doc-note">Note</label><input id="doc-note" placeholder="Optional"></div>
+  </div>
+  <p class="note">The valid-until date is what drives every reminder, so get that one right.</p>
+  <button class="btn" onclick="submitDoc()" id="doc-btn">Save document</button>
+  <div class="grouphead">On file</div>
+  <div id="doc-list"></div>
+</section>
+
+<!-- ============ VEHICLES ============ -->
+<section class="view" id="v-vehicles">
+  <h2 class="large" id="veh-title">Add a vehicle</h2>
+  <input type="hidden" id="veh-id">
+  <div class="group">
+    <div class="frow"><label for="veh-reg">Registration</label>
+      <input id="veh-reg" placeholder="TN 41 AB 1234" style="text-transform:uppercase"></div>
+    <div class="frow"><label for="veh-name">Known as</label><input id="veh-name" placeholder="Coco peat lorry"></div>
+    <div class="frow"><label for="veh-type">Type</label>
+      <select id="veh-type">
+        <option>Lorry</option><option>Truck</option><option>Tractor</option><option>Trailer</option>
+        <option>Loader</option><option>Van</option><option>Car</option><option>Two wheeler</option>
+        <option>Forklift</option><option>Other</option>
+      </select></div>
+    <div class="frow"><label for="veh-fuel">Fuel</label>
+      <select id="veh-fuel"><option>Diesel</option><option>Petrol</option><option>CNG</option><option>LPG</option><option>Electric</option></select></div>
+    <div class="frow"><label for="veh-tank">Tank size</label><input type="number" id="veh-tank" placeholder="litres"></div>
+    <div class="frow"><label for="veh-driver">Regular driver</label><input id="veh-driver" placeholder="Optional"></div>
+    <div class="frow"><label for="veh-odo">Opening odometer</label><input type="number" id="veh-odo" placeholder="km"></div>
+    <div class="frow"><label for="veh-status">Status</label>
+      <select id="veh-status"><option>Active</option><option>In workshop</option><option>Idle</option><option>Retired</option></select></div>
+    <div class="fstack"><label for="veh-note">Note</label><input id="veh-note" placeholder="Optional"></div>
+  </div>
+  <div class="btnrow">
+    <button class="btn" onclick="submitVehicle()" id="veh-btn">Save vehicle</button>
+    <button class="btn plain" onclick="resetVehicle()" style="flex:0 0 96px">Clear</button>
+  </div>
+  <div class="grouphead">Your fleet</div>
+  <div id="veh-list"></div>
+</section>
+
+<!-- ============ SETTINGS ============ -->
+<section class="view" id="v-settings">
+  <h2 class="large">Reminders</h2>
+  <div class="grouphead">Who gets them</div>
+  <div class="group">
+    <div class="fstack"><label for="s-rec">Email addresses, comma separated</label>
+      <textarea id="s-rec" style="min-height:52px"></textarea></div>
+  </div>
+  <p class="note">Sent from the Google account that owns the sheet.</p>
+  <div class="grouphead">Timing</div>
+  <div class="group">
+    <div class="frow"><label for="s-days">Warn days ahead</label><input id="s-days" placeholder="60,30,15,7,3,1,0"></div>
+    <div class="frow"><label for="s-km">Warn km ahead</label><input id="s-km" placeholder="1000,500,200,0"></div>
+    <div class="frow"><label for="s-hour">Check at</label><input type="number" id="s-hour" min="0" max="23" placeholder="7"></div>
+    <div class="frow"><label for="s-exp">Chase overdue</label>
+      <select id="s-exp"><option>DAILY</option><option>WEEKLY</option><option>OFF</option></select></div>
+    <div class="frow"><label for="s-nudge">Chase missing readings</label>
+      <select id="s-nudge"><option>DAILY</option><option>WEEKLY</option><option>OFF</option></select></div>
+    <div class="frow"><label for="s-stale">Reading stale after</label><input type="number" id="s-stale" placeholder="days"></div>
+  </div>
+  <button class="btn" onclick="submitSettings()" id="s-btn">Save settings</button>
+  <button class="btn tinted" onclick="sendTest()" id="s-test">Send a test email</button>
+  <button class="btn plain" onclick="runCheck()" id="s-run">Run the check now</button>
+</section>
+</div>
+
+<div class="scrim" id="scrim" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-nav"><h3 id="sheet-title">More</h3>
+    <button class="navbtn right" onclick="closeSheet()">Done</button></div>
+  <div class="sheet-body" id="sheet-body"></div>
+</div>
+
+<canvas id="confetti"></canvas>
+<div id="toast" role="status"></div>
+
+<script>
+/* ================= plumbing ================= */
+var S = { boot:null, view:'board', sel:{}, editing:{}, logTab:'odo', svcTab:'svc' };
+
+function run(name){
+  var args = [].slice.call(arguments, 1);
+  return new Promise(function(res, rej){
+    google.script.run.withSuccessHandler(res).withFailureHandler(rej)[name].apply(null, args);
+  }).then(function(r){
+    if(/^(save|delete|complete)/.test(name)) FCP.forget();   // saved copies are out of date now
+    return r;
+  });
+}
+function $(id){ return document.getElementById(id); }
+function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g, function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function money(n){ if(n==null||n==='') return '\u2014';
+  return (S.boot?S.boot.currency:'Rs.') + ' ' + Number(n).toLocaleString('en-IN'); }
+function km(n){ return Number(n).toLocaleString('en-IN'); }
+function toast(msg, bad){
+  var t = $('toast'); t.textContent = msg; t.className = 'on' + (bad?' bad':'');
+  clearTimeout(t._t); t._t = setTimeout(function(){ t.className = bad?'bad':''; }, bad?6000:3000);
+}
+function err(e){ toast((e && e.message) ? e.message : String(e), true); }
+function todayStr(){ return S.boot ? S.boot.today : new Date().toISOString().slice(0,10); }
+function human(d){
+  if(!d) return '';
+  var p = String(d).slice(0,10).split('-'); if(p.length!==3) return String(d);
+  var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return p[2] + ' ' + m[+p[1]-1] + ' ' + p[0];
+}
+function fileToPayload(input){
+  return new Promise(function(res, rej){
+    var f = input && input.files && input.files[0];
+    if(!f) return res(null);
+    if(f.size > 10*1024*1024) return rej(new Error('That file is ' + Math.round(f.size/1048576) + ' MB. Keep it under 10 MB.'));
+    var r = new FileReader();
+    r.onload = function(){ res({ name:f.name, mimeType:f.type||'application/octet-stream', data:r.result.split(',')[1] }); };
+    r.onerror = function(){ rej(new Error('Could not read that file. Try again.')); };
+    r.readAsDataURL(f);
+  });
+}
+function busy(id, on, label){
+  var b = $(id); if(!b) return;
+  b.disabled = on;
+  if(on){ b._lab = b.textContent; b.textContent = label || 'Saving\u2026'; }
+  else if(b._lab){ b.textContent = b._lab; }
+}
+
+/* ================= confetti ================= */
+function partyPop(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cv = $('confetti'), ctx = cv.getContext('2d');
+  var dpr = window.devicePixelRatio || 1, W = window.innerWidth, H = window.innerHeight;
+  cv.width = W*dpr; cv.height = H*dpr; cv.style.width = W+'px'; cv.style.height = H+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  cv.style.display = 'block';
+
+  var colors = ['#FF3B30','#FF9500','#FFCC00','#34C759','#007AFF','#AF52DE','#FF2D55','#5AC8FA'];
+  var cx = W/2, cy = H*0.42, bits = [];
+  for(var i=0;i<140;i++){
+    var a = Math.random()*Math.PI*2, sp = 5 + Math.random()*12;
+    bits.push({
+      x:cx, y:cy, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp - 5,
+      w:5+Math.random()*7, h:8+Math.random()*8,
+      rot:Math.random()*Math.PI, vr:(Math.random()-.5)*.34,
+      c:colors[(Math.random()*colors.length)|0], life:0,
+      max:80+Math.random()*50, flip:Math.random()*Math.PI
+    });
+  }
+  (function frame(){
+    ctx.clearRect(0,0,W,H);
+    var alive = 0;
+    for(var i=0;i<bits.length;i++){
+      var p = bits[i];
+      if(p.life > p.max) continue;
+      alive++; p.life++;
+      p.vy += 0.32; p.vx *= 0.988; p.vy *= 0.988;
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.flip += 0.16;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, 1 - (p.life/p.max));
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(1, Math.abs(Math.cos(p.flip)));
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    }
+    if(alive) requestAnimationFrame(frame);
+    else { cv.style.display='none'; ctx.clearRect(0,0,W,H); }
+  })();
+}
+
+/* ================= tab bar ================= */
+var NAV = [
+  ['board','Fleet','M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z'],
+  ['log','Log','M12 14.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4M3.5 18.5a9.5 9.5 0 1 1 17 0M13.6 10.4 17.5 6.5'],
+  ['service','Service','M14.8 6.2a4.2 4.2 0 0 1-5.6 5.6L4 17v3h3l5.2-5.2a4.2 4.2 0 0 1 5.6-5.6l-2.7 2.7-2.6-.4-.4-2.6z'],
+  ['docs','Papers','M14 3H7.5A1.5 1.5 0 0 0 6 4.5v15A1.5 1.5 0 0 0 7.5 21h9a1.5 1.5 0 0 0 1.5-1.5V7zM14 3v4.5H18M9.5 13h5M9.5 16.5h3.5'],
+  ['vehicles','Garage','M5 17h14M6.5 17v1.5M17.5 17v1.5M4.5 13.5 6 9.2A2 2 0 0 1 7.9 8h8.2a2 2 0 0 1 1.9 1.2l1.5 4.3M4.5 13.5V17h15v-3.5zM7.5 15.2h.01M16.5 15.2h.01']
+];
+function buildNav(){
+  $('nav').innerHTML = NAV.map(function(n){
+    return '<button data-v="'+n[0]+'" onclick="go(\''+n[0]+'\')">' +
+      '<svg viewBox="0 0 24 24"><path d="'+n[2]+'"/></svg>' + n[1] + '</button>';
+  }).join('');
+}
+var TITLES = { board:'Fleet', log:'Log', service:'Service', docs:'Papers', vehicles:'Garage', settings:'Reminders' };
+function go(v){
+  S.view = v;
+  var views = document.querySelectorAll('.view');
+  for(var i=0;i<views.length;i++) views[i].classList.remove('on');
+  var el = $('v-'+v); if(el) el.classList.add('on');
+  var tabs = document.querySelectorAll('#nav button');
+  for(var j=0;j<tabs.length;j++) tabs[j].classList.toggle('on', tabs[j].dataset.v === v);
+  $('navTitle').textContent = TITLES[v] || 'Fleet';
+  window.scrollTo(0,0); closeSheet();
+  if(v==='log') loadList(S.logTab);
+  if(v==='service'){ if(S.svcTab==='svc') loadList('service'); else renderReminders(); }
+  if(v==='docs') loadList('docs');
+  if(v==='vehicles') renderVehicles();
+}
+function setLogTab(t){
+  S.logTab = t;
+  $('seg-odo').classList.toggle('on', t==='odo'); $('seg-fuel').classList.toggle('on', t==='fuel');
+  $('tab-odo').style.display = t==='odo'?'':'none'; $('tab-fuel').style.display = t==='fuel'?'':'none';
+  loadList(t);
+}
+function setSvcTab(t){
+  S.svcTab = t;
+  $('seg-svc').classList.toggle('on', t==='svc'); $('seg-rem').classList.toggle('on', t==='rem');
+  $('tab-svc').style.display = t==='svc'?'':'none'; $('tab-rem').style.display = t==='rem'?'':'none';
+  if(t==='svc') loadList('service'); else renderReminders();
+}
+
+/* ================= boot ================= */
+function refresh(){
+  var shown = false;
+  return FCP.cached('getBootstrap', [], function(b){
+    S.boot = b;
+    $('loading').style.display = 'none';
+    renderStats(); renderBoard(); renderPickers(); renderDocTypes(); fillSettings();
+    if(!document.querySelector('.view.on')) go(b.vehicles.length ? 'board' : 'vehicles');
+    if(!shown && !b.vehicles.length) toast('Add your first vehicle to get started.');
+    shown = true;
+  }).catch(function(e){
+    if(!shown) $('loading').innerHTML = 'Could not load the sheet.<br><br>' + esc(e && e.message || e);
+  });
+}
+
+function renderStats(){
+  var s = S.boot.stats;
+  $('stats').innerHTML =
+    '<div class="stat"><b>'+money(s.fuelCost)+'</b><span>Fuel this month</span></div>' +
+    '<div class="stat"><b>'+money(s.serviceCost)+'</b><span>Service this month</span></div>';
+
+  var over = 0, soon = 0;
+  S.boot.compliance.forEach(function(v){
+    v.types.forEach(function(t){
+      var d = v.docs[t];
+      if(d.state==='expired') over++; else if(d.state==='critical') soon++;
+    });
+  });
+  S.boot.serviceReminders.forEach(function(r){
+    if(r.state==='overdue') over++; else if(r.state==='critical') soon++;
+  });
+  $('boardLead').textContent = over
+    ? over + (over===1?' thing needs':' things need') + ' attention right now.'
+    : (soon ? soon + (soon===1?' item is':' items are') + ' coming up shortly.' : 'Everything is in order.');
+}
+
+function renderBoard(){
+  var rems = S.boot.serviceReminders.filter(function(r){ return r.state!=='ok'; });
+  $('boardAlerts').innerHTML = rems.length
+    ? '<div class="grouphead">Service due</div><div class="group">' + rems.map(function(r){
+        return '<button class="rowitem" onclick="go(\'service\');setSvcTab(\'rem\')">' +
+          '<span class="dot '+r.state+'"></span>' +
+          '<span class="grow"><span style="font-weight:600">'+esc(r.regNo)+'</span><br>' +
+          '<span style="font-size:14px;color:var(--label2)">'+esc(r.name)+'</span></span>' +
+          '<span class="val">'+remWhen(r)+'</span><span class="chev">&rsaquo;</span></button>';
+      }).join('') + '</div>'
+    : '';
+
+  var c = S.boot.compliance;
+  if(!c.length){
+    $('board').innerHTML = '<div class="empty"><b>No vehicles yet</b>Add one from the Garage tab and its papers appear here.</div>';
+    return;
+  }
+  $('board').innerHTML = c.map(function(v){
+    var vv = S.boot.vehicles.filter(function(x){ return x.id===v.vehicleId; })[0] || {};
+    var badges = v.types.map(function(k){
+      var d = v.docs[k];
+      var val = d.missing ? 'Not set' : (d.days < 0 ? km(Math.abs(d.days))+'d over' : km(d.days)+' days');
+      return '<button class="badge '+d.state+'" onclick="openDoc(\''+v.vehicleId+'\',this.dataset.t)" data-t="'+esc(k)+'">' +
+        '<b>'+esc(k)+'</b><i>'+val+'</i></button>';
+    }).join('');
+    return '<div class="vcard"><div class="vtop"><span class="vreg">'+esc(v.regNo)+
+      (v.name?' <span class="vname">'+esc(v.name)+'</span>':'')+'</span>' +
+      '<span class="vodo">'+(vv.odo? km(vv.odo)+' km<br>'+human(vv.lastOdoDate) : 'No reading')+'</span></div>' +
+      '<div class="badges">'+badges+'</div></div>';
+  }).join('');
+}
+
+function renderPickers(){
+  ['odo','fuel','svc','doc','rem'].forEach(function(p){
+    var el = $(p+'-pick'); if(!el) return;
+    var vs = S.boot.vehicles.filter(function(v){ return v.status !== 'Retired'; });
+    if(!vs.length){ el.innerHTML = '<span class="note">Add a vehicle first.</span>'; return; }
+    if(!S.sel[p] || !vs.some(function(v){ return v.id===S.sel[p]; })) S.sel[p] = vs[0].id;
+    el.innerHTML = vs.map(function(v){
+      return '<button class="pick '+(S.sel[p]===v.id?'on':'')+'" onclick="pickVeh(\''+p+'\',\''+v.id+'\')">' +
+        esc(v.regNo) + (v.name?'<small>'+esc(v.name)+'</small>':'') + '</button>';
+    }).join('');
+  });
+  onPick();
+  ['odo-date','fuel-date','svc-date'].forEach(function(id){ if(!$(id).value) $(id).value = todayStr(); });
+}
+function pickVeh(p, id){ S.sel[p] = id; renderPickers(); }
+function onPick(){
+  var v = veh(S.sel.odo);
+  $('odo-last').textContent = v && v.odo
+    ? 'Last recorded ' + km(v.odo) + ' km on ' + human(v.lastOdoDate) + '.'
+    : 'No reading recorded for this vehicle yet.';
+  var f = veh(S.sel.fuel);
+  if(f && f.fuelType) $('fuel-type').value = f.fuelType;
+}
+function veh(id){ return S.boot.vehicles.filter(function(v){ return v.id===id; })[0] || null; }
+
+/* ================= document types ================= */
+var DOC_LABELS = { FC:'FC (fitness certificate)', Insurance:'Insurance', Tax:'Road tax', Pollution:'Pollution (PUC)' };
+function renderDocTypes(){
+  var sel = $('doc-type'), cur = sel.value;
+  sel.innerHTML = S.boot.docTypes.map(function(t){
+    return '<option value="'+esc(t)+'">'+esc(DOC_LABELS[t] || t)+'</option>';
+  }).join('') + '<option value="Other">Something else\u2026</option>';
+  if(cur){
+    var has = false;
+    for(var i=0;i<sel.options.length;i++) if(sel.options[i].value===cur) has = true;
+    if(has) sel.value = cur;
+  }
+  onDocType();
+}
+function onDocType(){
+  var other = $('doc-type').value === 'Other';
+  $('doc-custom-wrap').style.display = other ? '' : 'none';
+  if(other) setTimeout(function(){ $('doc-custom').focus(); }, 60);
+}
+
+/* ================= odometer ================= */
+function submitOdo(){
+  if(!S.sel.odo) return toast('Pick a vehicle first.', true);
+  if(!$('odo-read').value) return toast('Enter the reading in km.', true);
+  busy('odo-btn', true);
+  run('saveOdometer', {
+    id: S.editing.odo || '', vehicleId: S.sel.odo, date: $('odo-date').value,
+    reading: $('odo-read').value, notes: $('odo-note').value, allowLower: $('odo-lower').checked
+  }).then(function(){
+    toast(S.editing.odo ? 'Reading updated.' : 'Reading saved.');
+    S.editing.odo = null; $('odo-read').value=''; $('odo-note').value=''; $('odo-lower').checked=false;
+    $('odo-btn').textContent = 'Save reading';
+    busy('odo-btn', false); refresh(); loadList('odo');
+  }).catch(function(e){ busy('odo-btn', false); err(e); });
+}
+
+/* ================= fuel ================= */
+function calcFuel(){
+  var l = parseFloat($('fuel-lit').value), r = parseFloat($('fuel-rate').value);
+  if(l && r) $('fuel-total').value = Math.round(l*r*100)/100;
+}
+function submitFuel(){
+  if(!S.sel.fuel) return toast('Pick a vehicle first.', true);
+  if(!$('fuel-lit').value) return toast('Enter how many litres went in.', true);
+  busy('fuel-btn', true, 'Uploading\u2026');
+  fileToPayload($('fuel-file')).then(function(file){
+    return run('saveFuel', {
+      id: S.editing.fuel || '', vehicleId: S.sel.fuel, date: $('fuel-date').value,
+      odometer: $('fuel-odo').value, fuelType: $('fuel-type').value, litres: $('fuel-lit').value,
+      rate: $('fuel-rate').value, total: $('fuel-total').value, station: $('fuel-station').value,
+      notes: $('fuel-note').value, file: file
+    });
+  }).then(function(){
+    toast(S.editing.fuel ? 'Refuelling updated.' : 'Refuelling saved.');
+    S.editing.fuel = null; $('fuel-btn').textContent = 'Save refuelling';
+    ['fuel-odo','fuel-lit','fuel-rate','fuel-total','fuel-note'].forEach(function(i){ $(i).value=''; });
+    $('fuel-file').value='';
+    busy('fuel-btn', false); refresh(); loadList('fuel');
+  }).catch(function(e){ busy('fuel-btn', false); err(e); });
+}
+
+/* ================= service ================= */
+function addPart(p){
+  p = p || {};
+  var d = document.createElement('div');
+  d.className = 'part';
+  d.innerHTML = '<input class="p-name" placeholder="Part" value="'+esc(p.name||'')+'">' +
+    '<input class="p-num" placeholder="Part number" value="'+esc(p.number||'')+'">' +
+    '<input class="p-qty" type="number" placeholder="Qty" value="'+esc(p.qty||'')+'">' +
+    '<input class="p-cost" type="number" placeholder="Cost" value="'+esc(p.cost||'')+'">' +
+    '<button onclick="this.parentNode.remove()" aria-label="Remove">&times;</button>';
+  $('parts').appendChild(d);
+}
+function readParts(){
+  return [].slice.call(document.querySelectorAll('#parts .part')).map(function(row){
+    var v = row.querySelectorAll('input');
+    return { name:v[0].value, number:v[1].value, qty:v[2].value, cost:v[3].value };
+  }).filter(function(p){ return p.name || p.number; });
+}
+function submitService(){
+  if(!S.sel.svc) return toast('Pick a vehicle first.', true);
+  if(!$('svc-sum').value.trim()) return toast('Write a line on what was done.', true);
+  busy('svc-btn', true, 'Uploading\u2026');
+  fileToPayload($('svc-file')).then(function(file){
+    return run('saveService', {
+      id: S.editing.service || '', vehicleId: S.sel.svc, date: $('svc-date').value,
+      odometer: $('svc-odo').value, category: $('svc-cat').value, summary: $('svc-sum').value,
+      cost: $('svc-cost').value, vendor: $('svc-vendor').value, nextDate: $('svc-next').value,
+      nextOdo: $('svc-nextodo').value, notes: $('svc-note').value, parts: readParts(), file: file
+    });
+  }).then(function(){
+    toast(S.editing.service ? 'Service record updated.' : 'Service record saved.');
+    S.editing.service = null; $('svc-btn').textContent = 'Save service record';
+    ['svc-odo','svc-sum','svc-cost','svc-vendor','svc-next','svc-nextodo','svc-note'].forEach(function(i){ $(i).value=''; });
+    $('svc-file').value=''; $('parts').innerHTML='';
+    busy('svc-btn', false); refresh(); loadList('service');
+  }).catch(function(e){ busy('svc-btn', false); err(e); });
+}
+
+/* ================= service reminders ================= */
+function remWhen(r){
+  var bits = [];
+  if(r.days !== null && r.days !== undefined) bits.push(r.days < 0 ? km(Math.abs(r.days))+'d late' : 'in '+km(r.days)+'d');
+  if(r.km !== null && r.km !== undefined) bits.push(r.km < 0 ? km(Math.abs(r.km))+' km past' : 'in '+km(r.km)+' km');
+  return bits.join(' \u00b7 ') || '\u2014';
+}
+function renderReminders(){
+  var open = S.boot.serviceReminders;
+  var names = {};
+  open.forEach(function(r){ if(r.name) names[r.name] = true; });
+  $('remNames').innerHTML = Object.keys(names).map(function(n){ return '<option value="'+esc(n)+'">'; }).join('');
+
+  $('remOpen').innerHTML = open.length
+    ? '<div class="grouphead">Open</div>' + open.map(function(r){
+        var repeat = [r.repeatDays ? km(r.repeatDays)+' days' : '', r.repeatKm ? km(r.repeatKm)+' km' : '']
+          .filter(Boolean).join(' or ');
+        return '<div class="entry"><div class="etop">' +
+          '<span class="ereg"><span class="dot '+r.state+'" style="display:inline-block;margin-right:7px"></span>'+esc(r.name)+'</span>' +
+          '<span class="edate">'+esc(r.regNo)+'</span></div>' +
+          '<div class="ebody"><em>'+remWhen(r) +
+            (r.dueDate?' \u00b7 due '+human(r.dueDate):'') + (r.dueOdo?' \u00b7 at '+km(r.dueOdo)+' km':'') +
+            (repeat?'<br>Repeats every '+repeat:'') +
+            (r.notes?'<br>'+esc(r.notes):'') + '</em></div>' +
+          '<div class="eacts">' +
+            '<button class="linkbtn" onclick="doneReminder(\''+r.id+'\')">Mark done</button>' +
+            '<button class="linkbtn" onclick="editReminder(\''+r.id+'\')">Edit</button>' +
+            '<button class="linkbtn del" onclick="delReminder(\''+r.id+'\')">Delete</button>' +
+          '</div></div>';
+      }).join('')
+    : '<div class="empty"><b>Nothing scheduled</b>Add a reminder below and name it whatever you call it.</div>';
+
+  run('getServiceReminderHistory').then(function(rows){
+    $('remDone').innerHTML = rows.length
+      ? rows.map(function(r){
+          return '<div class="entry"><div class="etop"><span class="ereg">'+esc(r.name)+'</span>' +
+            '<span class="edate">'+human(r.completedDate)+'</span></div>' +
+            '<div class="ebody"><em>'+esc(r.regNo)+'</em></div></div>';
+        }).join('')
+      : '<div class="empty">Nothing completed yet.</div>';
+  }).catch(function(){});
+}
+function submitReminder(){
+  if(!S.sel.rem) return toast('Pick a vehicle first.', true);
+  if(!$('rem-name').value.trim()) return toast('Give it a name so you know what it is.', true);
+  if(!$('rem-date').value && !$('rem-odo').value) return toast('Set a date, an odometer figure, or both.', true);
+  busy('rem-btn', true);
+  run('saveServiceReminder', {
+    id: S.editing.rem || '', vehicleId: S.sel.rem, name: $('rem-name').value,
+    dueDate: $('rem-date').value, dueOdo: $('rem-odo').value,
+    repeatDays: $('rem-rdays').value, repeatKm: $('rem-rkm').value, notes: $('rem-note').value
+  }).then(function(){
+    toast(S.editing.rem ? 'Reminder updated.' : 'Reminder added.');
+    S.editing.rem = null; $('rem-btn').textContent = 'Add reminder';
+    ['rem-name','rem-date','rem-odo','rem-rdays','rem-rkm','rem-note'].forEach(function(i){ $(i).value=''; });
+    busy('rem-btn', false); refresh().then(renderReminders);
+  }).catch(function(e){ busy('rem-btn', false); err(e); });
+}
+function doneReminder(id){
+  run('completeServiceReminder', id).then(function(r){
+    toast(r.repeated ? 'Done. The next one is scheduled.' : 'Marked done.');
+    refresh().then(renderReminders);
+  }).catch(err);
+}
+function editReminder(id){
+  var r = S.boot.serviceReminders.filter(function(x){ return x.id===id; })[0];
+  if(!r) return;
+  S.editing.rem = id; S.sel.rem = r.vehicleId; renderPickers();
+  $('rem-name').value = r.name; $('rem-date').value = r.dueDate || '';
+  $('rem-odo').value = r.dueOdo || ''; $('rem-rdays').value = r.repeatDays || '';
+  $('rem-rkm').value = r.repeatKm || ''; $('rem-note').value = r.notes || '';
+  $('rem-btn').textContent = 'Update reminder';
+  $('rem-name').scrollIntoView({ behavior:'smooth', block:'center' });
+  toast('Editing this reminder.');
+}
+function delReminder(id){
+  if(!confirm('Delete this reminder?')) return;
+  run('deleteServiceReminder', id).then(function(){
+    toast('Deleted.'); refresh().then(renderReminders);
+  }).catch(err);
+}
+
+/* ================= documents ================= */
+function submitDoc(){
+  if(!S.sel.doc) return toast('Pick a vehicle first.', true);
+  if($('doc-type').value === 'Other' && !$('doc-custom').value.trim())
+    return toast('Type a name for this document.', true);
+  if(!$('doc-exp').value) return toast('The valid-until date is what triggers reminders. Add it.', true);
+  busy('doc-btn', true, 'Uploading\u2026');
+  fileToPayload($('doc-file')).then(function(file){
+    return run('saveDocument', {
+      id: S.editing.docs || '', vehicleId: S.sel.doc, docType: $('doc-type').value,
+      customType: $('doc-custom').value, docNumber: $('doc-num').value,
+      issueDate: $('doc-issue').value, expiryDate: $('doc-exp').value,
+      provider: $('doc-prov').value, cost: $('doc-cost').value, notes: $('doc-note').value, file: file
+    });
+  }).then(function(){
+    toast(S.editing.docs ? 'Document updated.' : 'Saved. Reminders are set.');
+    S.editing.docs = null; $('doc-btn').textContent = 'Save document';
+    ['doc-num','doc-issue','doc-exp','doc-prov','doc-cost','doc-note','doc-custom'].forEach(function(i){ $(i).value=''; });
+    $('doc-file').value='';
+    busy('doc-btn', false);
+    refresh().then(function(){ loadList('docs'); });
+  }).catch(function(e){ busy('doc-btn', false); err(e); });
+}
+function setDocType(type){
+  var sel = $('doc-type'), has = false;
+  for(var i=0;i<sel.options.length;i++) if(sel.options[i].value===type) has = true;
+  if(has){ sel.value = type; $('doc-custom').value = ''; }
+  else { sel.value = 'Other'; $('doc-custom').value = type; }
+  onDocType();
+}
+function openDoc(vehicleId, type){
+  go('docs');
+  S.sel.doc = vehicleId; renderPickers();
+  setDocType(type);
+  var row = S.boot.compliance.filter(function(c){ return c.vehicleId===vehicleId; })[0];
+  var d = row && row.docs[type];
+  if(d && !d.missing){
+    $('doc-num').value = d.docNumber || '';
+    $('doc-issue').value = ''; $('doc-exp').value = '';
+    toast('Enter the new dates to renew. Current expiry ' + human(d.expiryDate) + '.');
+  }
+  window.scrollTo(0,0);
+}
+
+/* ================= lists ================= */
+function loadList(kind){
+  var box = $({ odo:'odo-list', fuel:'fuel-list', service:'svc-list', docs:'doc-list' }[kind]);
+  if(!box) return;
+  box.innerHTML = '<div class="empty">Loading\u2026</div>';
+  var shown = false;
+  FCP.cached('getLogs', [kind, '', 60], function(rows){
+    shown = true;
+    box.innerHTML = rows.length
+      ? rows.map(function(r){ return entryHtml(kind, r); }).join('')
+      : '<div class="empty"><b>Nothing here yet</b>The first entry you save shows up in this list.</div>';
+  }, { slot: 'list-' + kind }).catch(function(e){ if(!shown && !e.stale) err(e); });
+}
+function entryHtml(kind, r){
+  var id, date, body;
+  if(kind==='odo'){
+    id = r.LogID; date = r.Date;
+    body = '<b>' + km(r.Reading) + ' km</b>' +
+      (r.KmSinceLast ? ' <em>\u00b7 ' + km(r.KmSinceLast) + ' km since last</em>' : '') +
+      (r.Notes ? '<br><em>' + esc(r.Notes) + '</em>' : '');
+  } else if(kind==='fuel'){
+    id = r.LogID; date = r.Date;
+    body = '<b>' + r.Litres + ' L ' + esc(r.FuelType||'') + '</b> \u00b7 ' + money(r.TotalCost) +
+      (r.RatePerLitre ? ' <em>at ' + money(r.RatePerLitre) + '/L</em>' : '') +
+      (r.Mileage ? '<br><em>' + r.Mileage + ' km/L over that tank</em>' : '') +
+      (r.Station ? '<br><em>' + esc(r.Station) + '</em>' : '') +
+      (r.BillURL ? ' <a href="'+r.BillURL+'" target="_blank">Bill</a>' : '');
+  } else if(kind==='service'){
+    id = r.ServiceID; date = r.Date;
+    body = '<b>' + esc(r.Category) + '</b> \u00b7 ' + money(r.Cost) + '<br>' + esc(r.Summary) +
+      (r.PartsSummary ? '<br><em>Parts: ' + esc(r.PartsSummary) + '</em>' : '') +
+      (r.Vendor ? '<br><em>' + esc(r.Vendor) + '</em>' : '') +
+      (r.NextServiceDate ? '<br><em>Next due ' + human(r.NextServiceDate) + '</em>' : '') +
+      (r.BillURL ? ' <a href="'+r.BillURL+'" target="_blank">Bill</a>' : '');
+  } else {
+    id = r.DocID; date = r.ExpiryDate;
+    body = '<b>' + esc(r.DocType) + '</b>' + (r.DocNumber ? ' \u00b7 ' + esc(r.DocNumber) : '') +
+      '<br><em>Valid until ' + human(r.ExpiryDate) + (r.Provider ? ' \u00b7 ' + esc(r.Provider) : '') + '</em>' +
+      (r.FileURL ? ' <a href="'+r.FileURL+'" target="_blank">Certificate</a>' : '');
+  }
+  return '<div class="entry"><div class="etop"><span class="ereg">' + esc(r.RegNo) + '</span>' +
+    '<span class="edate">' + human(date) + '</span></div>' +
+    '<div class="ebody">' + body + '</div><div class="eacts">' +
+    '<button class="linkbtn" onclick="editEntry(\''+kind+'\',\''+id+'\')">Edit</button>' +
+    '<button class="linkbtn del" onclick="removeEntry(\''+kind+'\',\''+id+'\')">Delete</button></div></div>';
+}
+function editEntry(kind, id){
+  run('getLogs', kind, '', 400).then(function(rows){
+    var key = { odo:'LogID', fuel:'LogID', service:'ServiceID', docs:'DocID' }[kind];
+    var r = rows.filter(function(x){ return x[key]===id; })[0];
+    if(!r) return toast('That record is gone. Reload the page.', true);
+    S.editing[kind] = id;
+    if(kind==='odo'){
+      go('log'); setLogTab('odo');
+      S.sel.odo = r.VehicleID; renderPickers();
+      $('odo-date').value = r.Date; $('odo-read').value = r.Reading;
+      $('odo-note').value = r.Notes || ''; $('odo-lower').checked = true;
+      $('odo-btn').textContent = 'Update reading';
+    } else if(kind==='fuel'){
+      go('log'); setLogTab('fuel');
+      S.sel.fuel = r.VehicleID; renderPickers();
+      $('fuel-date').value = r.Date; $('fuel-odo').value = r.Odometer;
+      $('fuel-type').value = r.FuelType || 'Diesel'; $('fuel-lit').value = r.Litres;
+      $('fuel-rate').value = r.RatePerLitre; $('fuel-total').value = r.TotalCost;
+      $('fuel-station').value = r.Station || ''; $('fuel-note').value = r.Notes || '';
+      $('fuel-btn').textContent = 'Update refuelling';
+    } else if(kind==='service'){
+      go('service'); setSvcTab('svc');
+      S.sel.svc = r.VehicleID; renderPickers();
+      $('svc-date').value = r.Date; $('svc-odo').value = r.Odometer;
+      $('svc-cat').value = r.Category || 'Other'; $('svc-sum').value = r.Summary || '';
+      $('svc-cost').value = r.Cost; $('svc-vendor').value = r.Vendor || '';
+      $('svc-next').value = r.NextServiceDate || ''; $('svc-nextodo').value = r.NextServiceOdo || '';
+      $('svc-note').value = r.Notes || '';
+      $('parts').innerHTML=''; (r.parts||[]).forEach(function(p){ addPart(p); });
+      $('svc-btn').textContent = 'Update service record';
+    } else {
+      go('docs');
+      S.sel.doc = r.VehicleID; renderPickers();
+      setDocType(r.DocType);
+      $('doc-num').value = r.DocNumber || ''; $('doc-issue').value = r.IssueDate || '';
+      $('doc-exp').value = r.ExpiryDate || ''; $('doc-prov').value = r.Provider || '';
+      $('doc-cost').value = r.Cost || ''; $('doc-note').value = r.Notes || '';
+      $('doc-btn').textContent = 'Update document';
+    }
+    window.scrollTo(0,0);
+    toast('Editing this entry. Save to overwrite it.');
+  }).catch(err);
+}
+function removeEntry(kind, id){
+  if(!confirm('Delete this record? It is removed from the sheet for good.')) return;
+  run('deleteLog', kind, id).then(function(){
+    toast('Deleted.'); refresh(); loadList(kind);
+  }).catch(err);
+}
+
+/* ================= vehicles ================= */
+function renderVehicles(){
+  var box = $('veh-list');
+  box.innerHTML = S.boot.vehicles.length
+    ? S.boot.vehicles.map(function(v){
+        return '<div class="entry"><div class="etop"><span class="ereg">'+esc(v.regNo)+'</span>' +
+          '<span class="edate">'+esc(v.status)+'</span></div><div class="ebody">' +
+          esc(v.name||'') + (v.type?' \u00b7 '+esc(v.type):'') + (v.fuelType?' \u00b7 '+esc(v.fuelType):'') +
+          (v.driver?'<br><em>Driver: '+esc(v.driver)+'</em>':'') +
+          (v.odo?'<br><em>'+km(v.odo)+' km as of '+human(v.lastOdoDate)+'</em>':'') +
+          '</div><div class="eacts">' +
+          '<button class="linkbtn" onclick="editVehicle(\''+v.id+'\')">Edit</button>' +
+          '<button class="linkbtn del" onclick="removeVehicle(\''+v.id+'\')">Delete</button></div></div>';
+      }).join('')
+    : '<div class="empty"><b>No vehicles yet</b>Fill in the form above to add your first one.</div>';
+}
+function editVehicle(id){
+  var v = veh(id); if(!v) return;
+  $('veh-id').value = v.id; $('veh-reg').value = v.regNo; $('veh-name').value = v.name||'';
+  $('veh-type').value = v.type||'Lorry'; $('veh-fuel').value = v.fuelType||'Diesel';
+  $('veh-tank').value = v.tank||''; $('veh-driver').value = v.driver||'';
+  $('veh-odo').value = v.odo||''; $('veh-status').value = v.status||'Active';
+  $('veh-note').value = v.notes||'';
+  $('veh-title').textContent = v.regNo; $('veh-btn').textContent = 'Update vehicle';
+  $('veh-odo').disabled = true;
+  window.scrollTo(0,0);
+}
+function resetVehicle(){
+  ['veh-id','veh-reg','veh-name','veh-tank','veh-driver','veh-odo','veh-note'].forEach(function(i){ $(i).value=''; });
+  $('veh-status').value='Active'; $('veh-odo').disabled=false;
+  $('veh-title').textContent='Add a vehicle'; $('veh-btn').textContent='Save vehicle';
+}
+function submitVehicle(){
+  if(!$('veh-reg').value.trim()) return toast('The registration number is required.', true);
+  var isNew = !$('veh-id').value;
+  var reg = $('veh-reg').value.trim().toUpperCase();
+  busy('veh-btn', true);
+  run('saveVehicle', {
+    id: $('veh-id').value, regNo: reg, name: $('veh-name').value,
+    type: $('veh-type').value, fuelType: $('veh-fuel').value, tank: $('veh-tank').value,
+    driver: $('veh-driver').value, odo: $('veh-odo').value, status: $('veh-status').value,
+    notes: $('veh-note').value
+  }).then(function(){
+    busy('veh-btn', false); resetVehicle();
+    if(isNew){ partyPop(); toast(reg + ' is on the fleet.'); }
+    else toast('Vehicle updated.');
+    refresh().then(renderVehicles);
+  }).catch(function(e){ busy('veh-btn', false); err(e); });
+}
+function removeVehicle(id){
+  if(!confirm('Remove this vehicle? Its past logs stay in the sheet.')) return;
+  run('deleteVehicle', id).then(function(){
+    toast('Vehicle removed.'); refresh().then(renderVehicles);
+  }).catch(err);
+}
+
+/* ================= settings ================= */
+function fillSettings(){
+  var s = S.boot.settings;
+  $('s-rec').value = s.recipients; $('s-days').value = s.reminderDays;
+  $('s-km').value = s.serviceKmWarn || ''; $('s-hour').value = s.reminderHour;
+  $('s-exp').value = s.expiredRepeat; $('s-nudge').value = s.odoNudge; $('s-stale').value = s.odoStaleDays;
+}
+function submitSettings(){
+  busy('s-btn', true);
+  run('saveSettings', {
+    recipients: $('s-rec').value, reminderDays: $('s-days').value, serviceKmWarn: $('s-km').value,
+    reminderHour: $('s-hour').value, expiredRepeat: $('s-exp').value,
+    odoNudge: $('s-nudge').value, odoStaleDays: $('s-stale').value
+  }).then(function(){ toast('Settings saved.'); busy('s-btn', false); refresh(); })
+   .catch(function(e){ busy('s-btn', false); err(e); });
+}
+function sendTest(){
+  busy('s-test', true, 'Sending\u2026');
+  run('sendTestReminder').then(function(m){ toast(m); busy('s-test', false); })
+   .catch(function(e){ busy('s-test', false); err(e); });
+}
+function runCheck(){
+  busy('s-run', true, 'Checking\u2026');
+  run('dailyReminderCheck').then(function(m){ toast(m); busy('s-run', false); })
+   .catch(function(e){ busy('s-run', false); err(e); });
+}
+
+/* ================= menu ================= */
+function openMenu(){
+  $('sheet-body').innerHTML = '<div class="group">' +
+    '<button class="rowitem" onclick="go(\'vehicles\')"><span class="grow">Garage</span><span class="chev">&rsaquo;</span></button>' +
+    '<button class="rowitem" onclick="go(\'settings\')"><span class="grow">Reminder settings</span><span class="chev">&rsaquo;</span></button>' +
+    '<button class="rowitem" onclick="runCheck();closeSheet()"><span class="grow">Run the check now</span><span class="chev">&rsaquo;</span></button>' +
+    '</div>';
+  $('scrim').classList.add('on'); $('sheet').classList.add('on');
+}
+function closeSheet(){ $('scrim').classList.remove('on'); $('sheet').classList.remove('on'); }
+
+window.onAppBack = function(){
+  if($('sheet') && $('sheet').classList.contains('on')){ closeSheet(); return true; }
+  if(S.view && S.view !== 'board' && S.boot && S.boot.vehicles.length){ go('board'); return true; }
+  return false;
+};
+buildNav();
+refresh();
+</script>
+</body>
+</html>

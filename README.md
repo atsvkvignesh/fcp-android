@@ -1,8 +1,9 @@
 # Fibro Coir — Android app
 
-A full-screen Android app for the Fibro Coir Apps Script web app, with push notifications.
+The Fibro Coir works app: the hub and its tools as built-in screens, with push notifications.
 
-- Opens: `https://script.google.com/macros/s/AKfycbwds8w…/exec` (set in `MainActivity.kt` → `HOME_URL`)
+- Home: the built-in hub (`assets/hub`); its script is `https://script.google.com/macros/s/AKfycbwds8w…/exec`
+  (`assets/lib/config.js` → `hubUrl`; `MainActivity.kt` → `HOME_URL` is the fallback)
 - Package: `com.fibrocoir.app` · Firebase project: `fibro-coir`
 
 ## Download / install
@@ -17,7 +18,8 @@ browser when Android asks → Install. New versions install over the old one; lo
 
 | You change… | What to do |
 |---|---|
-| Anything in the Apps Script web app | Nothing. Redeploy the script as usual; the app shows it next time it opens. |
+| A script's data or logic | Nothing. Redeploy the script as usual. |
+| A built-in screen's page | See "Built-in screens" below — needs a new APK. |
 | App name, icon, notification code, permissions | Edit this repo and push to `main`. GitHub builds a new APK (~5 min) under Releases. |
 
 The build also runs on demand: **Actions → Build APK → Run workflow**.
@@ -50,6 +52,10 @@ if (window.FCPApp) {
   FCPApp.unsubscribe('tanker');
   JSON.parse(FCPApp.getTopics());  // ["all","tanker"]
   FCPApp.version();                // "1.0.5"
+  FCPApp.hasLocal('ec-viewer');    // built-in screen in this APK?
+  FCPApp.openLocal('ec-viewer?api=' + encodeURIComponent(execUrl));  // open it over the current screen
+  FCPApp.openUrl(execUrl);         // open an Apps Script page as a screen
+  FCPApp.close();                  // close the top screen
 }
 ```
 
@@ -77,31 +83,55 @@ URL into `FCP_NOTIFY_URL`, then call e.g. `notify('admin', 'Payment received', '
 *Google Cloud Platform (GCP) Project* → **Change project** → enter project number **763602141191**
 (the Firebase project), then run `testPush` again.
 
-## Bundled pages (fast, app-like screens)
+## Built-in screens (fast, app-like)
 
-Some tools ship their page **inside the APK** instead of loading it from Apps Script each time.
-They open instantly, show the last data they had straight away, and refresh it in the background.
-Apps Script only sends data (JSON).
+The hub and the tools ship **inside the APK**: they open instantly, show the last data they had
+straight away and refresh it in the background. Apps Script only sends data (JSON).
+
+| Screen | Apps Script project | Folder |
+|---|---|---|
+| Hub (home screen) | FCP App Hub | `assets/hub` |
+| EC Log | EC Reading | `assets/ec-log` |
+| EC Viewer | EC view | `assets/ec-viewer` |
+| Raw material check | Husk Compare | `assets/husk-check` |
+| Stores inventory | Inventory | `assets/inventory` |
+| Fleet manager | Fleet Manager | `assets/fleet` |
+| Water record | Water Load UI | `assets/water-load` |
 
 ```
 app/src/main/assets/
-  lib/fcp.js      data client: saved copy first, fresh data after (see top of file)
-  lib/app.css     app-screen behaviour: no tap flash, no text selection, no zoom
-  <name>/index.html   one folder per tool, e.g. ec-viewer/
+  lib/config.js     app key + the hub's /exec link
+  lib/fcp.js        data client: saved copy first, fresh data after
+  lib/gas-shim.js   google.script.run for the bundled pages (their code runs unchanged)
+  lib/app.css, lib/fonts.css + fonts/   app-screen behaviour, bundled fonts
+  <screen>/index.html
+apps-script/<screen>/Api.gs   the file to add to that Apps Script project
+tools/port_<screen>.py        rebuilds a screen from the page exported from Apps Script
+tools/make_api.py             rebuilds every Api.gs (allowed functions per tool)
+tools/test/                   checks against the real scripts in a mock Apps Script runtime
 ```
 
-- The hub opens one with `FCPApp.openLocal('ec-viewer')` (check `FCPApp.hasLocal('ec-viewer')` first;
-  in a normal browser keep opening the `/exec` link). It slides in over the hub; Back slides it out
-  without reloading the hub. A page can catch Back itself with `window.onAppBack = () => true`.
-- Data requests go through the app (`/proxy`, Apps Script addresses only), so they work regardless
-  of browser CORS rules.
-- On the Apps Script side, add `apps-script/json-api/Api.gs` to the tool's project (steps at the top
-  of that file). The normal `/exec` page keeps working in a browser.
+**How a tool becomes a built-in screen:** add its `apps-script/<screen>/Api.gs` to the Apps Script
+project (Files + > Script > name it `Api`, paste) and deploy a new version of the existing deployment.
+Nothing else in the project changes and the web page keeps working in a browser. The hub asks each
+tile's script whether it has `Api.gs`; when it does, that tile says "Opens in the app" and opens the
+built-in screen. Tiles whose script has no `Api.gs` open the web page as a screen over the hub, and
+Google Forms open outside the app, as before. If the hub's own script has no `Api.gs`, the app shows the
+Apps Script hub page instead.
+
+**Sign-in:** the hub's `Api.gs` adds `app_login` / `app_state` / `app_logout`. App sessions last 60 days
+(renewed while used) instead of 6 hours. Removing a person ends their sessions.
+
+**Data requests** go through the app (`FCPApp.request`, a native POST to Apps Script addresses only), so
+photo and PDF uploads work and browser CORS rules don't apply.
 
 | You change… | What to do |
 |---|---|
-| A bundled page's look or behaviour | Edit it here and push — needs a new APK |
-| What data the script returns | Redeploy the script as usual — no new APK |
+| What a script returns, or its logic | Redeploy the script as usual — no new APK |
+| A screen's look or behaviour | Change the page in Apps Script, export it, run `tools/port_<screen>.py`, push — needs a new APK |
+| A screen calls a new server function | Add it to `tools/make_api.py`, run it, paste the new `Api.gs`, redeploy |
+
+The bundled pages are copies: an edit made only in the Apps Script `Index.html` does not reach the app.
 
 Test builds: push to any branch other than `main`. GitHub builds a **pre-release** (Releases page,
 marked TEST) without changing the "latest" link workers install from.

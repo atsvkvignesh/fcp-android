@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fibro Coir Stores</title>
+<link rel="stylesheet" href="../lib/fonts.css">
+<link rel="stylesheet" href="../lib/app.css">
+<script>window.FCP_PAGE = { app: 'inventory' };</script>
+<script src="../lib/config.js"></script>
+<script src="../lib/fcp.js"></script>
+<script src="../lib/gas-shim.js"></script>
+<style>
+  :root{
+    --paper:#f2f4f6; --card:#fff; --ink:#12202b; --muted:#5a6b78; --line:#d5dce2;
+    --take:#c62021; --ret:#1b7a3d; --rec:#10508c;
+    --ok:#1b7a3d; --low:#e07c00; --out:#c62021;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);
+    font-family:'Noto Sans','Noto Sans Tamil',system-ui,sans-serif;font-size:17px}
+  .tamil{font-family:'Noto Sans Tamil','Noto Sans',sans-serif}
+  .screen{display:none;min-height:100vh;padding-bottom:24px}
+  .screen.on{display:block}
+  .wrap{padding:14px;max-width:680px;margin:0 auto}
+
+  .bar{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff;
+    padding:10px 12px;display:flex;align-items:center;gap:10px}
+  .bar h1{font-size:17px;font-weight:600;margin:0;flex:1;line-height:1.2}
+  .back,.plus{background:rgba(255,255,255,.14);border:0;color:#fff;font-size:20px;
+    width:44px;height:44px;border-radius:10px;flex:0 0 auto}
+
+  .searchwrap{padding:12px;background:var(--ink);display:flex;gap:8px;align-items:center}
+  input[type=search]{flex:1;min-width:0;font:600 20px 'Noto Sans',sans-serif;padding:16px 14px;
+    border:0;border-radius:12px;background:#fff;color:var(--ink)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:12px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;border:2px solid var(--line);background:#fff;border-radius:11px;
+    padding:10px 16px;font:600 16px 'Noto Sans',sans-serif;color:var(--ink)}
+  .chip.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .rchip{flex:0 0 auto;width:48px;height:48px;border-radius:12px;border:0;color:#fff;
+    font:800 22px 'Noto Sans',sans-serif;opacity:.42}
+  .rchip.sel{opacity:1;box-shadow:0 0 0 3px var(--ink)}
+
+  .list{padding:0 12px;max-width:680px;margin:0 auto}
+  .row{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:10px;margin-bottom:10px;width:100%;text-align:left}
+  .thumb{flex:0 0 auto;width:76px;height:76px;border-radius:10px;object-fit:cover;
+    background:#e6eaee;border:1px solid var(--line)}
+  .rowmid{flex:1;min-width:0}
+  .rowmid .nm{font-weight:600;font-size:17px;line-height:1.25}
+  .rowmid .sub{color:var(--muted);font-size:14px;margin-top:2px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stock{flex:0 0 auto;text-align:center;min-width:64px}
+  .stock b{display:block;font-size:26px;line-height:1}
+  .stock span{font-size:12px;color:var(--muted)}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:1px}
+  .ok{background:var(--ok)} .low{background:var(--low)} .out{background:var(--out)}
+  .badge{flex:0 0 auto;width:44px;height:44px;border-radius:10px;color:#fff;
+    font:800 22px 'Noto Sans',sans-serif;display:grid;place-items:center}
+  .empty{padding:44px 24px;text-align:center;color:var(--muted)}
+  .empty b{display:block;color:var(--ink);font-size:19px;margin-bottom:6px}
+  .loading{padding:40px;text-align:center;color:var(--muted)}
+
+  .hero{background:var(--card);border-bottom:1px solid var(--line);padding:16px;text-align:center}
+  .hero img{width:100%;max-width:320px;aspect-ratio:1;object-fit:contain;background:#eef1f4;
+    border-radius:14px;border:1px solid var(--line)}
+  .hero h2{margin:14px 0 2px;font-size:24px;line-height:1.2}
+  .hero .t{margin:0;color:var(--muted);font-size:19px}
+  .facts{display:flex;gap:10px;justify-content:center;align-items:stretch;margin-top:16px;flex-wrap:wrap}
+  .fact{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:104px}
+  .fact b{display:block;font-size:30px;line-height:1.1}
+  .fact span{font-size:13px;color:var(--muted)}
+  .regbig{width:88px;border-radius:12px;color:#fff;display:grid;place-items:center;
+    font:800 44px 'Noto Sans',sans-serif}
+  .acts{padding:16px;display:grid;gap:12px;max-width:680px;margin:0 auto}
+  .act{border:0;border-radius:14px;color:#fff;padding:20px;font:600 22px 'Noto Sans',sans-serif;
+    display:flex;align-items:center;gap:14px;text-align:left}
+  .act i{font-style:normal;font-size:30px;width:36px;text-align:center}
+  .act small{display:block;font-weight:400;font-size:14px;opacity:.85}
+  .b-take{background:var(--take)} .b-ret{background:var(--ret)} .b-rec{background:var(--rec)}
+  .b-edit{background:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;max-width:680px;margin:0 auto}
+  .pick{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 6px;text-align:center}
+  .pick img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#e6eaee}
+  .pick .ph{width:100%;aspect-ratio:1;border-radius:10px;background:#dbe2e8;display:grid;
+    place-items:center;font:800 30px 'Noto Sans',sans-serif;color:#8b9aa6}
+  .pick div{font-size:14px;font-weight:600;margin-top:6px;line-height:1.2}
+
+  .qwrap{padding:20px 12px;text-align:center}
+  .stepper{display:flex;align-items:center;justify-content:center;gap:18px;margin:18px 0}
+  .step{width:76px;height:76px;border-radius:20px;border:0;background:var(--ink);color:#fff;
+    font:400 42px 'Noto Sans',sans-serif;line-height:1}
+  .qnum{font:800 62px 'Noto Sans',sans-serif;min-width:130px}
+  .qunit{color:var(--muted);font-size:17px;margin-top:-8px}
+  .presets{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+  .preset{border:2px solid var(--line);background:#fff;border-radius:12px;padding:12px 20px;
+    font:600 19px 'Noto Sans',sans-serif}
+  .avail{color:var(--muted);font-size:15px;margin-top:14px}
+
+  .pindots{font:800 40px 'Noto Sans',sans-serif;letter-spacing:14px;height:52px;text-align:center}
+  .pinwho{text-align:center;color:var(--muted);font-size:15px;margin:0 0 6px}
+  .keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:320px;margin:16px auto}
+  .key{padding:20px;border:1px solid var(--line);background:#fff;border-radius:14px;
+    font:600 26px 'Noto Sans',sans-serif}
+
+  .cta{position:sticky;bottom:0;padding:12px;background:linear-gradient(transparent,var(--paper) 22%)}
+  .go{display:block;width:100%;max-width:680px;margin:0 auto 10px;border:0;border-radius:14px;
+    padding:20px;color:#fff;background:var(--rec);font:600 21px 'Noto Sans',sans-serif}
+  .go[disabled]{opacity:.42}
+
+  .done{padding:26px 20px;text-align:center}
+  .tick{width:106px;height:106px;border-radius:50%;background:var(--ret);color:#fff;
+    font-size:60px;display:grid;place-items:center;margin:0 auto 16px}
+  .done.fail .tick{background:var(--take)}
+  .pair{display:flex;gap:16px;justify-content:center;align-items:center;margin:18px 0}
+  .pair img{width:88px;height:88px;border-radius:12px;object-fit:cover;background:#e6eaee}
+  .putback{margin:22px auto 0;max-width:280px;border-radius:16px;color:#fff;padding:18px}
+  .putback .l{font:800 76px 'Noto Sans',sans-serif;line-height:1}
+  .putback .s{font-size:15px;opacity:.92}
+  .qrbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;
+    max-width:300px;margin:16px auto}
+  .qrbox img{width:100%}
+
+  fieldset{border:1px solid var(--line);border-radius:14px;background:var(--card);margin:0 0 14px;padding:14px}
+  legend{font-weight:600;font-size:15px;color:var(--muted);padding:0 6px}
+  label{display:block;font-size:14px;color:var(--muted);margin:12px 0 5px}
+  input[type=text],input[type=number]{width:100%;padding:13px;border:1px solid var(--line);
+    border-radius:10px;font:400 17px 'Noto Sans',sans-serif;background:#fff;color:var(--ink)}
+  input:disabled{background:var(--paper);color:var(--muted)}
+  .req{color:var(--take)}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opt{border:2px solid var(--line);background:#fff;border-radius:11px;padding:11px 16px;
+    font:600 16px 'Noto Sans',sans-serif;color:var(--ink)}
+  .opt.sel{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ropt{width:46px;height:46px;border:0;border-radius:11px;color:#fff;
+    font:800 21px 'Noto Sans',sans-serif;opacity:.4}
+  .ropt.sel{opacity:1;box-shadow:0 0 0 3px var(--ink)}
+  .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .shot{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cam{position:relative;border:2px dashed var(--line);border-radius:14px;background:#fff;
+    aspect-ratio:1;display:grid;place-items:center;overflow:hidden;text-align:center;padding:10px}
+  .cam img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cam span{color:var(--muted);font-size:14px;line-height:1.35}
+  .cam .big{display:block;font-size:34px;margin-bottom:4px}
+  .camrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .cambtn{border:2px solid var(--line);background:#fff;border-radius:10px;padding:12px 6px;
+    font:600 15px 'Noto Sans',sans-serif;color:var(--ink)}
+  .cambtn:active{background:var(--ink);color:#fff}
+  .hint{font-size:14px;color:var(--muted);line-height:1.45;margin:10px 0 0}
+  .err{background:#fde8e8;border:1px solid #f3b5b5;color:#8a1c1c;border-radius:11px;
+    padding:12px;margin-bottom:12px;font-size:16px}
+  .warn{background:#fff5e0;border:1px solid #f0d59a;color:#7a5300;border-radius:11px;
+    padding:12px;margin-bottom:12px;font-size:15px;line-height:1.45}
+  .dupes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .dupe{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
+  .dupe img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;background:#e6eaee}
+  .dupe .noimg{width:100%;aspect-ratio:1;border-radius:9px;background:#dbe2e8}
+  .dupe div{font-size:13px;font-weight:600;margin-top:5px;line-height:1.2}
+</style>
+</head>
+<body>
+
+<!-- ================= SEARCH ================= -->
+<div id="s-search" class="screen on">
+  <div class="searchwrap">
+    <input type="search" id="q" placeholder="Search a part…" autocomplete="off">
+    <button class="plus" onclick="openNew()" title="New item">+</button>
+    <button class="plus" onclick="openPeopleAdmin()" title="People">&#128100;</button>
+  </div>
+  <div class="chips" id="catchips"></div>
+  <div class="chips" id="regchips"></div>
+  <div id="results" class="list"></div>
+</div>
+
+<!-- ================= ITEM ================= -->
+<div id="s-item" class="screen">
+  <div class="bar"><button class="back" onclick="go('search')">&larr;</button><h1 id="i-bar"></h1></div>
+  <div class="hero">
+    <img id="i-photo" alt="">
+    <h2 id="i-name"></h2>
+    <p class="t tamil" id="i-tamil"></p>
+    <div class="facts">
+      <div class="fact"><b id="i-qty">0</b><span id="i-unit">PCS</span></div>
+      <div class="regbig" id="i-reg">&ndash;</div>
+    </div>
+    <p class="avail" id="i-where"></p>
+  </div>
+  <div class="acts">
+    <button class="act b-take" onclick="startAction('TAKE')"><i>&darr;</i><span>Take<small id="lbl-take">out of the store</small></span></button>
+    <button class="act b-ret"  onclick="startAction('RETURN')"><i>&uarr;</i><span>Return<small>put it back</small></span></button>
+    <button class="act b-rec"  onclick="startAction('RECEIVE')"><i>+</i><span>Add stock<small>new purchase &mdash; PIN needed</small></span></button>
+    <button class="act b-edit" onclick="openEdit()"><i>&#9998;</i><span>Edit details<small>name, region, minimum, stock count &mdash; PIN needed</small></span></button>
+  </div>
+</div>
+
+<!-- ================= PERSON (shared) ================= -->
+<div id="s-person" class="screen">
+  <div class="bar"><button class="back" onclick="personBack()">&larr;</button><h1 id="p-bar">Who?</h1></div>
+  <div class="grid" id="peoplegrid"></div>
+</div>
+
+<!-- ================= QUANTITY ================= -->
+<div id="s-qty" class="screen">
+  <div class="bar"><button class="back" onclick="go('person')">&larr;</button><h1 id="q-bar">How many?</h1></div>
+  <div class="qwrap">
+    <div class="stepper">
+      <button class="step" onclick="bump(-1)">&minus;</button>
+      <div><div class="qnum" id="qnum">1</div><div class="qunit" id="qunit">PCS</div></div>
+      <button class="step" onclick="bump(1)">+</button>
+    </div>
+    <div class="presets" id="presets"></div>
+    <p class="avail" id="q-avail"></p>
+  </div>
+  <div class="cta"><button class="go" id="q-go" onclick="afterQty()">Continue</button></div>
+</div>
+
+<!-- ================= MACHINE ================= -->
+<div id="s-machine" class="screen">
+  <div class="bar"><button class="back" onclick="go('qty')">&larr;</button><h1>Which machine?</h1></div>
+  <div class="grid" id="machinegrid"></div>
+  <div class="cta"><button class="go" style="background:var(--muted)" onclick="skipMachine()">Not for a machine</button></div>
+</div>
+
+<!-- ================= PIN (shared) ================= -->
+<div id="s-pin" class="screen">
+  <div class="bar"><button class="back" onclick="pinBack()">&larr;</button><h1>Enter PIN</h1></div>
+  <div class="wrap">
+    <p class="pinwho" id="pinwho"></p>
+    <div class="pindots" id="pindots"></div>
+    <div class="keys" id="keys"></div>
+  </div>
+</div>
+
+<!-- ================= CONFIRM ================= -->
+<div id="s-confirm" class="screen">
+  <div class="bar"><button class="back" onclick="go(backTo)">&larr;</button><h1>Check and confirm</h1></div>
+  <div class="done" id="c-body"></div>
+  <div class="cta"><button class="go" id="c-go" onclick="send()">Confirm</button></div>
+</div>
+
+<!-- ================= NEW ITEM ================= -->
+<div id="s-new" class="screen">
+  <div class="bar"><button class="back" onclick="go('search')">&larr;</button><h1>New item</h1>
+    <span id="nextid" style="font-size:14px;opacity:.7"></span></div>
+  <div class="wrap">
+    <div id="err"></div>
+
+    <fieldset>
+      <legend>Photo</legend>
+      <div class="shot">
+        <div>
+          <div class="cam" id="cam1"><span><b class="big">&#128247;</b>The part<br><b class="req">required</b></span></div>
+          <div class="camrow">
+            <button class="cambtn" onclick="pickPhoto(1,true)">Take photo</button>
+            <button class="cambtn" onclick="pickPhoto(1,false)">Choose file</button>
+          </div>
+        </div>
+        <div>
+          <div class="cam" id="cam2"><span><b class="big">&#128269;</b>Close-up of any<br>stamped number</span></div>
+          <div class="camrow">
+            <button class="cambtn" onclick="pickPhoto(2,true)">Take photo</button>
+            <button class="cambtn" onclick="pickPhoto(2,false)">Choose file</button>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Put the part alone on a clean surface and <b>lay a steel rule or a coin beside it</b>.
+        Without something for scale a 6205 and a 6308 look identical in a photo.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>What it is</legend>
+      <label>Name in English <span class="req">*</span></label>
+      <input type="text" id="n-name" placeholder="Bearing 6205-2RS">
+      <label>Name in Tamil</label>
+      <input type="text" id="n-tamil" class="tamil">
+      <label>Standard number, if it has one</label>
+      <input type="text" id="n-std" placeholder="6205-2RS &middot; B-64 &middot; 35x52x7">
+      <p class="hint">Bearings, belts, seals, chains and contactors all carry a standard number.
+        Any brand with that number fits, which is what makes a non-OEM part safe to buy.</p>
+      <label>Type <span class="req">*</span></label>
+      <div class="opts" id="n-cats"></div>
+      <label>Unit <span class="req">*</span></label>
+      <div class="opts" id="n-units"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Where it lives</legend>
+      <label>Region <span class="req">*</span></label>
+      <div class="opts" id="n-regs"></div>
+      <p class="hint" id="n-regdesc"></p>
+      <label>Bin or hook number</label>
+      <input type="text" id="n-bin" placeholder="A-14">
+      <label>Fits which machines</label>
+      <div class="opts" id="n-macs"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Size and material</legend>
+      <div class="three">
+        <div><label>Outer &#8960;</label><input type="text" id="n-dim1"></div>
+        <div><label>Inner &#8960;</label><input type="text" id="n-dim2"></div>
+        <div><label>Length</label><input type="text" id="n-dim3"></div>
+      </div>
+      <label>Material</label><input type="text" id="n-material" placeholder="MS &middot; SS304 &middot; rubber">
+      <label>Can be used in place of</label><input type="text" id="n-swap" placeholder="ITM-0007, ITM-0012">
+    </fieldset>
+
+    <fieldset>
+      <legend>Stock control</legend>
+      <div class="three">
+        <div><label>Opening stock</label><input type="number" id="n-open" inputmode="decimal" value="0"></div>
+        <div><label>Minimum</label><input type="number" id="n-min" inputmode="decimal"></div>
+        <div><label>Reorder qty</label><input type="number" id="n-reorder" inputmode="decimal"></div>
+      </div>
+      <label>Lead time in days</label>
+      <input type="number" id="n-lead" inputmode="numeric" placeholder="1 for local, 45 for imported">
+      <p class="hint">Lead time drives the minimum. A part you can buy in Pollachi the same morning
+        barely needs stock; an imported one needs enough to cover the wait.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Where you bought it</legend>
+      <label>Supplier</label>
+      <div class="opts" id="n-vendors"></div>
+      <div class="two">
+        <div><label>Brand</label><input type="text" id="n-brand" placeholder="SKF &middot; HCH &middot; unbranded"></div>
+        <div><label>Price each</label><input type="number" id="n-price" inputmode="decimal"></div>
+      </div>
+      <label>Their part number on the bill</label>
+      <input type="text" id="n-vpn">
+    </fieldset>
+
+    <button class="go" onclick="checkDupes()">Continue</button>
+  </div>
+</div>
+
+<!-- ================= DUPLICATE CHECK ================= -->
+<div id="s-dupe" class="screen">
+  <div class="bar"><button class="back" onclick="go('new')">&larr;</button><h1>Is it one of these?</h1></div>
+  <div class="wrap">
+    <p class="hint" style="margin-top:0">If the part is already in the store, add stock to it instead
+      of creating it again. Two rows for the same part means both look low.</p>
+    <div class="dupes" id="dupes"></div>
+    <button class="go" style="margin-top:18px" onclick="newPickPerson()">No, this is a new part</button>
+  </div>
+</div>
+
+<!-- ================= EDIT ITEM ================= -->
+<div id="s-edit" class="screen">
+  <div class="bar"><button class="back" onclick="go('item')">&larr;</button><h1>Edit item</h1>
+    <span id="e-id" style="font-size:14px;opacity:.7"></span></div>
+  <div class="wrap">
+    <div id="e-err"></div>
+
+    <fieldset>
+      <legend>Stock count</legend>
+      <p class="hint" style="margin-top:0">Only fill this in after physically counting.
+        The difference is written to the ledger as an adjustment, with your name on it.</p>
+      <div class="two">
+        <div><label>System says</label><input type="text" id="e-sys" disabled></div>
+        <div><label>You counted</label><input type="number" id="e-counted" inputmode="decimal" placeholder="leave blank"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Replace the photo</legend>
+      <div style="max-width:220px">
+        <div class="cam" id="cam3"><span>current photo</span></div>
+        <div class="camrow">
+          <button class="cambtn" onclick="pickPhoto(3,true)">Take photo</button>
+          <button class="cambtn" onclick="pickPhoto(3,false)">Choose file</button>
+        </div>
+      </div>
+      <p class="hint">Leave it alone to keep the existing photo. The old file stays in Drive.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Details</legend>
+      <label>Name in English</label><input type="text" id="e-name">
+      <label>Name in Tamil</label><input type="text" id="e-tamil" class="tamil">
+      <label>Standard number</label><input type="text" id="e-std">
+      <label>Type</label><div class="opts" id="e-cats"></div>
+      <label>Unit</label><div class="opts" id="e-units"></div>
+      <label>Region</label><div class="opts" id="e-regs"></div>
+      <label>Bin or hook number</label><input type="text" id="e-bin">
+      <label>Fits which machines</label><div class="opts" id="e-macs"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Size and material</legend>
+      <div class="three">
+        <div><label>Outer &#8960;</label><input type="text" id="e-dim1"></div>
+        <div><label>Inner &#8960;</label><input type="text" id="e-dim2"></div>
+        <div><label>Length</label><input type="text" id="e-dim3"></div>
+      </div>
+      <label>Material</label><input type="text" id="e-material">
+      <label>Can be used in place of</label><input type="text" id="e-swap">
+    </fieldset>
+
+    <fieldset>
+      <legend>Stock control</legend>
+      <div class="three">
+        <div><label>Minimum</label><input type="number" id="e-min" inputmode="decimal"></div>
+        <div><label>Reorder qty</label><input type="number" id="e-reorder" inputmode="decimal"></div>
+        <div><label>Lead days</label><input type="number" id="e-lead" inputmode="numeric"></div>
+      </div>
+      <label>Status</label><div class="opts" id="e-status"></div>
+      <p class="hint">Set it to inactive to hide it from search without losing its history.</p>
+    </fieldset>
+
+    <button class="go" onclick="editPickPerson()">Save changes</button>
+  </div>
+</div>
+
+<!-- ================= PEOPLE ADMIN ================= -->
+<div id="s-padmin" class="screen">
+  <div class="bar"><button class="back" onclick="go('search')">&larr;</button><h1>People</h1>
+    <span id="pa-id" style="font-size:14px;opacity:.7"></span></div>
+  <div class="wrap">
+    <div id="pa-err"></div>
+
+    <fieldset>
+      <legend>Already listed</legend>
+      <div class="dupes" id="pa-list"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Add someone</legend>
+      <div style="max-width:200px">
+        <div class="cam" id="cam4"><span><b class="big">&#128247;</b>face photo</span></div>
+        <div class="camrow">
+          <button class="cambtn" onclick="pickPhoto(4,true)">Take photo</button>
+          <button class="cambtn" onclick="pickPhoto(4,false)">Choose file</button>
+        </div>
+      </div>
+      <p class="hint">A clear face against a plain wall. This is what people tap to identify
+        themselves, so it matters more than anything else on this screen.</p>
+      <label>Name <span class="req">*</span></label><input type="text" id="pa-name">
+      <label>Name in Tamil</label><input type="text" id="pa-tamil" class="tamil">
+      <label>Section</label><div class="opts" id="pa-sections"></div>
+      <label>Allowed to</label><div class="opts" id="pa-perms"></div>
+      <label>Their own PIN, only if allowed above</label>
+      <input type="number" id="pa-pin" inputmode="numeric" placeholder="4 digits">
+      <p class="hint">Leave both permissions off for ordinary workers. They can still take and
+        return without any PIN &mdash; that is the whole point of the photo grid.</p>
+    </fieldset>
+
+    <button class="go" onclick="askAdminPin()">Add person</button>
+  </div>
+</div>
+
+<!-- ================= DONE (shared) ================= -->
+<div id="s-done" class="screen">
+  <div class="done" id="d-body"></div>
+  <div class="cta"><button class="go" style="background:var(--ink)" onclick="reset()">Done</button></div>
+</div>
+
+<script>
+var START_ID = (function(){ try { return new URLSearchParams(location.search).get('id') || ''; } catch(e){ return ''; } })();
+var B=null, NB=null, ITEM=null, ACT=null, PERSON=null, QTY=1, MACHINE=null, PIN='';
+var MODE='move', CAT='', REG='', tmr=null, backTo='qty', pinFrom='qty';
+var P1=null, P2=null, P3=null, P4=null;
+var nCAT='', nUNIT='', nREG='', nMACS=[], nVEND='';
+var eMACS=[], eCAT='', eUNIT='', eREG='', eSTATUS='';
+var paSECTION='', paRECEIVE=false, paCREATE=false;
+
+var PRESETS={PCS:[1,2,5,10],SET:[1,2,3],BOX:[1,2,5],FT:[5,10,20,50],
+             M:[1,5,10,20],KG:[0.5,1,5,10],L:[0.5,1,5,20]};
+
+function el(i){return document.getElementById(i);}
+window.onAppBack=function(){
+  var cur=document.querySelector('.screen.on');
+  if(!cur||cur.id==='s-search')return false;
+  var b=cur.querySelector('.bar .back');
+  if(b){b.click();return true;}
+  go('search');return true;
+};
+function go(n){var a=document.querySelectorAll('.screen');
+  for(var i=0;i<a.length;i++)a[i].classList.remove('on');
+  el('s-'+n).classList.add('on');window.scrollTo(0,0);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function regColour(r){return (B&&B.regions[r]&&B.regions[r].colour)||'#5a6b78';}
+
+/* ---------------- boot ---------------- */
+var BOOTED=false;
+FCP.cached('getBootstrap',[],function(b){
+  B=b; buildChips(); buildMachines(); buildKeys();
+  if(BOOTED)return; BOOTED=true;
+  if(START_ID) openItem(START_ID); else runSearch('');
+}).catch(function(e){ if(!BOOTED) fatal(e); });
+
+function fatal(e){el('results').innerHTML='<div class="empty"><b>Cannot reach the sheet</b>'+
+  esc(e&&e.message?e.message:e)+'</div>';}
+
+/* ---------------- search ---------------- */
+function buildChips(){
+  var c=[['','Everything'],['SPARE','Spares'],['CONSUMABLE','Consumables'],['TOOL','Tools']];
+  el('catchips').innerHTML=c.map(function(x){return '<button class="chip'+(x[0]===CAT?' sel':'')+
+    '" data-c="'+x[0]+'">'+x[1]+'</button>';}).join('');
+  el('catchips').onclick=function(e){var b=e.target.closest('.chip');if(!b)return;
+    CAT=b.getAttribute('data-c');buildChips();runSearch(el('q').value);};
+  var rs=Object.keys(B.regions).sort();
+  el('regchips').innerHTML=rs.map(function(r){return '<button class="rchip'+(r===REG?' sel':'')+
+    '" data-r="'+r+'" style="background:'+regColour(r)+'">'+r+'</button>';}).join('');
+  el('regchips').onclick=function(e){var b=e.target.closest('.rchip');if(!b)return;
+    var r=b.getAttribute('data-r');REG=(REG===r)?'':r;buildChips();runSearch(el('q').value);};
+}
+el('q').addEventListener('input',function(){clearTimeout(tmr);var v=this.value;
+  tmr=setTimeout(function(){runSearch(v);},250);});
+
+function runSearch(q){
+  var shown=false;
+  el('results').innerHTML='<div class="loading">Looking…</div>';
+  FCP.cached('searchItems',[q,REG,CAT],function(res){ shown=true; showResults(res); },{slot:'search'})
+    .catch(function(e){ if(!shown && !e.stale) fatal(e); });
+}
+function showResults(res){
+  if(!res.items.length){el('results').innerHTML='<div class="empty"><b>Nothing matches</b>'+
+    'Try the part number, or tap a colour above to see one region.</div>';return;}
+  el('results').innerHTML=res.items.map(function(it){
+    var sub=[it.std,it.bin?'Bin '+it.bin:'',it.id].filter(Boolean).join(' · ');
+    return '<button class="row" data-id="'+esc(it.id)+'">'+
+      (it.photo?'<img class="thumb" src="'+esc(it.photo)+'" loading="lazy" alt="">':'<div class="thumb"></div>')+
+      '<div class="rowmid"><div class="nm">'+esc(it.name)+'</div>'+
+      (it.tamil?'<div class="sub tamil">'+esc(it.tamil)+'</div>':'')+
+      '<div class="sub">'+esc(sub)+'</div></div>'+
+      '<div class="stock"><b><span class="dot '+it.status+'"></span>'+it.onHand+'</b><span>'+esc(it.unit)+'</span></div>'+
+      '<div class="badge" style="background:'+regColour(it.region)+'">'+esc(it.region||'?')+'</div></button>';
+  }).join('')+(res.total>res.items.length?
+    '<div class="empty">'+(res.total-res.items.length)+' more — keep typing to narrow it down.</div>':'');
+  el('results').onclick=function(e){var b=e.target.closest('.row');if(!b)return;
+    openItem(b.getAttribute('data-id'));};
+}
+
+/* ---------------- item ---------------- */
+function openItem(id){
+  go('item');
+  el('i-name').textContent='Loading…';el('i-tamil').textContent='';el('i-photo').removeAttribute('src');
+  var shownItem=false;
+  FCP.cached('getItem',[id],function(it){ shownItem=true;
+    if(!it){el('i-name').textContent='Not found: '+id;return;}
+    ITEM=it;
+    el('i-bar').textContent=it.id;
+    el('i-name').textContent=it.name;
+    el('i-tamil').textContent=it.tamil;
+    if(it.photo)el('i-photo').src=it.photo;
+    el('i-qty').textContent=it.onHand;
+    el('i-unit').textContent=it.unit;
+    el('i-reg').textContent=it.region||'?';
+    el('i-reg').style.background=regColour(it.region);
+    var w=[];
+    if(B.regions[it.region]&&B.regions[it.region].board)w.push(B.regions[it.region].board);
+    if(it.bin)w.push('Bin '+it.bin);
+    if(it.std)w.push(it.std);
+    if(it.dims)w.push(it.dims);
+    el('i-where').textContent=w.join('  ·  ');
+    el('lbl-take').textContent=it.cat==='TOOL'?'borrow it — bring it back':'out of the store';
+  },{slot:'item'}).catch(function(e){ if(!shownItem && !e.stale) fatal(e); });
+}
+
+/* ---------------- movement flow ---------------- */
+function startAction(a){
+  MODE='move';ACT=a;PERSON=null;MACHINE=null;PIN='';QTY=1;
+  el('p-bar').textContent = a==='TAKE'?'Who is taking it?':
+    a==='RETURN'?'Who is returning it?':'Who is booking it in?';
+  buildPeople();go('person');
+}
+function personBack(){
+  go(MODE==='new'?'dupe':MODE==='edit'?'edit':MODE==='person'?'padmin':'item');
+}
+
+function buildPeople(){
+  if(!B)return;
+  var list,none;
+  if(MODE==='new'||MODE==='edit'||MODE==='person'){
+    list = NB ? NB.people : [];
+    none = MODE==='person'
+      ? 'No admin listed yet. Back out and use the supervisor PIN instead.'
+      : 'Nobody in People has CanCreateItem set to Y.';
+  }else{
+    list = B.people.filter(function(p){return ACT==='RECEIVE'?p.canReceive:true;});
+    none = 'Add rows to the People tab first.';
+  }
+  if(!list.length){
+    el('peoplegrid').innerHTML='<div class="empty"><b>No one listed</b>'+none+
+      (MODE==='person'?'<br><br><button class="go" style="max-width:260px" onclick="useSupervisorPin()">Use supervisor PIN</button>':'')+
+      '</div>';
+    return;
+  }
+  el('peoplegrid').innerHTML=list.map(function(p){
+    return '<button class="pick" data-p="'+esc(p.id)+'">'+
+      (p.photo?'<img src="'+esc(p.photo)+'" loading="lazy" alt="">':
+               '<div class="ph">'+esc((p.name||'?').charAt(0))+'</div>')+
+      '<div>'+esc(p.name)+'</div>'+
+      (p.tamil?'<div class="tamil" style="font-weight:400;color:var(--muted)">'+esc(p.tamil)+'</div>':'')+
+      '</button>';}).join('')+
+    (MODE==='person'?'<button class="pick" data-p="__SUP__"><div class="ph">&#128273;</div><div>Supervisor PIN</div></button>':'');
+  el('peoplegrid').onclick=function(e){
+    var b=e.target.closest('.pick');if(!b)return;
+    var id=b.getAttribute('data-p');
+    if(id==='__SUP__'){useSupervisorPin();return;}
+    var pool=(MODE==='new'||MODE==='edit'||MODE==='person')?NB.people:B.people;
+    for(var i=0;i<pool.length;i++) if(pool[i].id===id) PERSON=pool[i];
+    if(MODE==='new'||MODE==='edit'||MODE==='person'){
+      PIN='';drawPin();pinFrom='person';
+      el('pinwho').textContent=PERSON?PERSON.name+'’s PIN':'';
+      go('pin');
+    } else openQty();
+  };
+}
+function useSupervisorPin(){
+  PERSON=null;PIN='';drawPin();pinFrom='person';
+  el('pinwho').textContent='Supervisor PIN from the Config tab';
+  go('pin');
+}
+
+function openQty(){
+  QTY=1;var u=ITEM.unit;
+  el('qunit').textContent=u;
+  el('q-bar').textContent=ACT==='TAKE'?'How many taken?':ACT==='RETURN'?'How many returned?':'How many received?';
+  el('q-avail').textContent='In stock now: '+ITEM.onHand+' '+u;
+  el('presets').innerHTML=(PRESETS[u]||[1,2,5,10]).map(function(n){
+    return '<button class="preset" data-n="'+n+'">'+n+'</button>';}).join('');
+  el('presets').onclick=function(e){var b=e.target.closest('.preset');if(!b)return;
+    QTY=Number(b.getAttribute('data-n'));drawQty();};
+  el('q-go').style.background=ACT==='TAKE'?'var(--take)':ACT==='RETURN'?'var(--ret)':'var(--rec)';
+  drawQty();go('qty');
+}
+function bump(d){var u=ITEM.unit,s=(u==='KG'||u==='L')?0.5:1;
+  QTY=Math.round((QTY+d*s)*100)/100;if(QTY<s)QTY=s;drawQty();}
+function drawQty(){el('qnum').textContent=QTY;}
+
+function afterQty(){
+  if(ACT==='RECEIVE'){PIN='';drawPin();pinFrom='qty';
+    el('pinwho').textContent=PERSON?PERSON.name+'’s PIN':'';go('pin');return;}
+  if(ACT==='TAKE'&&ITEM.cat==='SPARE'&&B.machines.length){go('machine');return;}
+  showConfirm();
+}
+function skipMachine(){MACHINE=null;showConfirm();}
+function buildMachines(){
+  if(!B)return;
+  el('machinegrid').innerHTML=B.machines.map(function(m){
+    return '<button class="pick" data-m="'+esc(m.id)+'">'+
+      (m.photo?'<img src="'+esc(m.photo)+'" loading="lazy" alt="">':
+               '<div class="ph">'+esc(m.id.replace(/[^0-9]/g,''))+'</div>')+
+      '<div>'+esc(m.name)+'</div></button>';}).join('');
+  el('machinegrid').onclick=function(e){var b=e.target.closest('.pick');if(!b)return;
+    var id=b.getAttribute('data-m');
+    for(var i=0;i<B.machines.length;i++)if(B.machines[i].id===id)MACHINE=B.machines[i];
+    showConfirm();};
+}
+
+/* ---------------- shared PIN ---------------- */
+function buildKeys(){
+  var k=['1','2','3','4','5','6','7','8','9','back','0','ok'];
+  el('keys').innerHTML=k.map(function(x){
+    var face = x==='back' ? '&larr;' : x==='ok' ? '&check;' : x;
+    return '<button class="key" data-k="'+x+'">'+face+'</button>';}).join('');
+  el('keys').onclick=function(e){var b=e.target.closest('.key');if(!b)return;
+    var v=b.getAttribute('data-k');
+    if(v==='back'){PIN=PIN.slice(0,-1);}
+    else if(v==='ok'){
+      if(PIN.length>=4){
+        if(MODE==='new') saveNew();
+        else if(MODE==='edit') saveEdit();
+        else if(MODE==='person') savePerson();
+        else showConfirm();
+      }
+      return;
+    }
+    else if(PIN.length<6){PIN+=v;}
+    drawPin();};
+}
+function drawPin(){el('pindots').textContent=PIN.replace(/./g,'•');}
+function pinBack(){go(pinFrom);}
+
+/* ---------------- confirm + send ---------------- */
+function showConfirm(){
+  backTo=(ACT==='RECEIVE')?'pin':(MACHINE?'machine':'qty');
+  var verb=ACT==='TAKE'?'Taking':ACT==='RETURN'?'Returning':'Adding';
+  el('c-body').innerHTML='<div class="pair">'+
+    (ITEM.photo?'<img src="'+esc(ITEM.photo)+'" alt="">':'')+
+    (PERSON&&PERSON.photo?'<img src="'+esc(PERSON.photo)+'" alt="">':'')+'</div>'+
+    '<h2 style="margin:6px 0">'+esc(ITEM.name)+'</h2>'+
+    '<div style="font:800 54px \'Noto Sans\',sans-serif">'+QTY+
+    ' <span style="font-size:22px;font-weight:400;color:var(--muted)">'+esc(ITEM.unit)+'</span></div>'+
+    '<p style="color:var(--muted);margin:10px 0 0">'+verb+' · '+esc(PERSON?PERSON.name:'')+
+    (MACHINE?' · '+esc(MACHINE.name):'')+'</p>';
+  el('c-go').style.background=ACT==='TAKE'?'var(--take)':ACT==='RETURN'?'var(--ret)':'var(--rec)';
+  el('c-go').disabled=false;el('c-go').textContent='Confirm';
+  go('confirm');
+}
+function send(){
+  el('c-go').disabled=true;el('c-go').textContent='Saving…';
+  FCP.forget('getItem');FCP.forget('searchItems');
+  google.script.run.withSuccessHandler(showDone).withFailureHandler(showFail).submitMovement({
+    type:ACT,itemId:ITEM.id,qty:QTY,
+    personId:PERSON?PERSON.id:'',machineId:MACHINE?MACHINE.id:'',
+    reason:ACT==='TAKE'?'GENERAL':'',pin:PIN,device:navigator.userAgent});
+}
+function showDone(r){
+  var reg=r.region||'',back=(ACT==='RETURN'||ACT==='RECEIVE');
+  el('s-done').querySelector('.done').className='done';
+  el('d-body').innerHTML='<div class="tick">&check;</div><div class="pair">'+
+    (r.itemPhoto?'<img src="'+esc(r.itemPhoto)+'" alt="">':'')+
+    (r.personPhoto?'<img src="'+esc(r.personPhoto)+'" alt="">':'')+'</div>'+
+    '<h2 style="margin:4px 0">'+esc(r.itemName)+'</h2>'+
+    '<p style="color:var(--muted);margin:0">Now in stock: <b style="color:var(--ink)">'+
+    r.onHand+' '+esc(r.unit)+'</b></p>'+
+    (reg?'<div class="putback" style="background:'+regColour(reg)+'">'+
+      '<div class="s">'+(back?'Put it back here':'You will find it here')+'</div>'+
+      '<div class="l">'+esc(reg)+'</div>'+
+      (B.regions[reg]&&B.regions[reg].board?'<div class="s">'+esc(B.regions[reg].board)+'</div>':'')+
+    '</div>':'');
+  go('done');
+}
+function showFail(e){
+  el('s-done').querySelector('.done').className='done fail';
+  el('d-body').innerHTML='<div class="tick">!</div><h2>Not saved</h2>'+
+    '<p style="color:var(--muted);font-size:18px">'+esc(e&&e.message?e.message:e)+'</p>'+
+    '<p style="color:var(--muted)">Nothing changed. Go back and try again.</p>';
+  go('done');
+}
+function reset(){
+  ACT=null;PERSON=null;MACHINE=null;PIN='';QTY=1;MODE='move';
+  if(ITEM)openItem(ITEM.id);else go('search');
+}
+
+/* ---------------- photos: camera or files ---------------- */
+function pickPhoto(slot,useCamera){
+  var inp=document.createElement('input');
+  inp.type='file'; inp.accept='image/*';
+  if(useCamera) inp.setAttribute('capture','environment');
+  inp.style.display='none';
+  document.body.appendChild(inp);
+  inp.addEventListener('change',function(){
+    var f=inp.files&&inp.files[0];
+    if(inp.parentNode) inp.parentNode.removeChild(inp);
+    if(f) loadPhoto(f,slot);
+  });
+  inp.click();
+}
+function loadPhoto(f,slot){
+  var r=new FileReader();
+  r.onload=function(){
+    var img=new Image();
+    img.onload=function(){
+      var max=1200,w=img.width,h=img.height;
+      if(w>h&&w>max){h=Math.round(h*max/w);w=max;}
+      else if(h>=w&&h>max){w=Math.round(w*max/h);h=max;}
+      var c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      var d=c.toDataURL('image/jpeg',0.82);
+      var b64=d.split(',')[1];
+      if(slot===1){P1=b64;el('cam1').innerHTML='<img src="'+d+'">';}
+      else if(slot===2){P2=b64;el('cam2').innerHTML='<img src="'+d+'">';}
+      else if(slot===3){P3=b64;el('cam3').innerHTML='<img src="'+d+'">';}
+      else{P4=b64;el('cam4').innerHTML='<img src="'+d+'">';}
+    };
+    img.src=r.result;
+  };
+  r.readAsDataURL(f);
+}
+
+function optSetSel(id,list,current,cb){
+  el(id).innerHTML=list.map(function(x){
+    return '<button class="opt'+(x[0]===current?' sel':'')+'" data-v="'+x[0]+'">'+x[1]+'</button>';}).join('');
+  el(id).onclick=function(e){var t=e.target.closest('.opt');if(!t)return;
+    var all=el(id).children;for(var i=0;i<all.length;i++)all[i].classList.remove('sel');
+    t.classList.add('sel');cb(t.getAttribute('data-v'));};
+}
+
+/* ---------------- new item ---------------- */
+function openNew(){
+  MODE='new';P1=null;P2=null;go('new');
+  if(NB){el('nextid').textContent=NB.nextId;return;}
+  el('nextid').textContent='…';
+  google.script.run.withSuccessHandler(function(b){
+    NB=b;el('nextid').textContent=b.nextId;
+    optSetSel('n-cats',[['SPARE','Spare'],['CONSUMABLE','Consumable'],['TOOL','Tool']],'',function(v){nCAT=v;});
+    optSetSel('n-units',[['PCS','pcs'],['FT','feet'],['M','metre'],['KG','kg'],['L','litre'],['SET','set'],['BOX','box']],
+      '',function(v){nUNIT=v;});
+    var rk=Object.keys(b.regions).sort();
+    el('n-regs').innerHTML=rk.map(function(r){return '<button class="ropt" data-v="'+r+
+      '" style="background:'+b.regions[r].colour+'">'+r+'</button>';}).join('');
+    el('n-regs').onclick=function(e){var t=e.target.closest('.ropt');if(!t)return;
+      nREG=t.getAttribute('data-v');
+      var all=el('n-regs').children;for(var i=0;i<all.length;i++)all[i].classList.remove('sel');
+      t.classList.add('sel');el('n-regdesc').textContent=b.regions[nREG].desc||'';};
+    el('n-macs').innerHTML=b.machines.map(function(m){return '<button class="opt" data-v="'+esc(m.id)+
+      '">'+esc(m.name||m.id)+'</button>';}).join('')||'<span class="hint">No machines listed yet.</span>';
+    el('n-macs').onclick=function(e){var t=e.target.closest('.opt');if(!t)return;
+      var v=t.getAttribute('data-v'),i=nMACS.indexOf(v);
+      if(i===-1){nMACS.push(v);t.classList.add('sel');}else{nMACS.splice(i,1);t.classList.remove('sel');}};
+    el('n-vendors').innerHTML=b.vendors.map(function(v){return '<button class="opt" data-v="'+esc(v.id)+
+      '">'+esc(v.name||v.id)+'</button>';}).join('')||'<span class="hint">No suppliers listed yet.</span>';
+    el('n-vendors').onclick=function(e){var t=e.target.closest('.opt');if(!t)return;
+      var all=el('n-vendors').children;for(var i=0;i<all.length;i++)all[i].classList.remove('sel');
+      t.classList.add('sel');nVEND=t.getAttribute('data-v');};
+  }).withFailureHandler(function(e){nerr(e.message||e);}).getNewBootstrap();
+}
+function nerr(m){el('err').innerHTML='<div class="err">'+esc(m)+'</div>';window.scrollTo(0,0);}
+
+function checkDupes(){
+  el('err').innerHTML='';
+  if(!P1)return nerr('Take a photo of the part first.');
+  if(!el('n-name').value.trim())return nerr('Give the item a name in English.');
+  if(!nCAT)return nerr('Pick spare, consumable or tool.');
+  if(!nUNIT)return nerr('Pick a unit.');
+  if(!nREG)return nerr('Pick a region.');
+  el('dupes').innerHTML='<p class="hint">Checking…</p>';go('dupe');
+  google.script.run.withSuccessHandler(function(list){
+    if(!list.length){newPickPerson();return;}
+    el('dupes').innerHTML=list.map(function(it){
+      return '<div class="dupe">'+(it.photo?'<img src="'+esc(it.photo)+'">':'<div class="noimg"></div>')+
+        '<div>'+esc(it.name)+'</div><div style="font-weight:400;color:var(--muted)">'+
+        esc(it.id)+' · '+it.onHand+' '+esc(it.unit)+'</div></div>';}).join('');
+  }).withFailureHandler(function(e){nerr(e.message||e);go('new');})
+    .findSimilar(el('n-name').value,el('n-std').value,nREG);
+}
+
+function newPickPerson(){
+  MODE='new';PERSON=null;
+  el('p-bar').textContent='Who is adding it?';
+  buildPeople();go('person');
+}
+
+function saveNew(){
+  el('pindots').textContent='saving…';
+  google.script.run.withSuccessHandler(newDone).withFailureHandler(function(e){
+    el('s-done').querySelector('.done').className='done fail';
+    el('d-body').innerHTML='<div class="tick">!</div><h2>Not saved</h2>'+
+      '<p style="color:var(--muted)">'+esc(e.message||e)+'</p>'+
+      '<p style="color:var(--muted)">Nothing was written. Go back and fix it.</p>';
+    go('done');
+  }).createItem({
+    name:el('n-name').value,tamil:el('n-tamil').value,std:el('n-std').value,
+    category:nCAT,unit:nUNIT,region:nREG,bin:el('n-bin').value,machines:nMACS,
+    dim1:el('n-dim1').value,dim2:el('n-dim2').value,dim3:el('n-dim3').value,
+    material:el('n-material').value,swap:el('n-swap').value,
+    minLevel:el('n-min').value,reorderQty:el('n-reorder').value,leadTime:el('n-lead').value,
+    openingQty:el('n-open').value,
+    vendorId:nVEND,brand:el('n-brand').value,price:el('n-price').value,vendorPartNo:el('n-vpn').value,
+    photo:P1,photoMime:'image/jpeg',photo2:P2,photo2Mime:'image/jpeg',
+    personId:PERSON?PERSON.id:'',pin:PIN});
+}
+
+function newDone(r){
+  NB=null;
+  el('s-done').querySelector('.done').className='done';
+  el('d-body').innerHTML='<div class="tick">&check;</div>'+
+    '<h2 style="margin:4px 0">'+esc(r.name)+'</h2>'+
+    '<p style="color:var(--muted);margin:0">'+esc(r.itemId)+' · region '+esc(r.region)+'</p>'+
+    (r.qrUrl?'<div class="qrbox"><img src="'+esc(r.qrUrl)+'">'+
+      '<p style="margin:8px 0 0;font-size:14px;color:var(--muted)">Print this on the label</p></div>':'')+
+    (r.warning?'<p class="hint" style="max-width:340px;margin:14px auto">'+esc(r.warning)+'</p>':'');
+  ITEM=null;MODE='move';
+  go('done');
+}
+
+/* ---------------- edit item ---------------- */
+function openEdit(){
+  if(!ITEM)return;
+  MODE='edit';P3=null;
+  go('edit');
+  el('e-err').innerHTML='';
+  el('e-id').textContent=ITEM.id;
+  el('e-sys').value=ITEM.onHand+' '+ITEM.unit;
+  el('e-counted').value='';
+  el('e-name').value=ITEM.name||'';
+  el('e-tamil').value=ITEM.tamil||'';
+  el('e-std').value=ITEM.std||'';
+  el('e-bin').value=ITEM.bin||'';
+  el('e-dim1').value=ITEM.dim1||'';
+  el('e-dim2').value=ITEM.dim2||'';
+  el('e-dim3').value=ITEM.dim3||'';
+  el('e-material').value=ITEM.material||'';
+  el('e-swap').value=ITEM.swap||'';
+  el('e-min').value=(ITEM.min===null?'':ITEM.min);
+  el('e-reorder').value=(ITEM.reorder===''?'':ITEM.reorder);
+  el('e-lead').value=(ITEM.lead===''?'':ITEM.lead);
+  el('cam3').innerHTML=ITEM.photo?'<img src="'+esc(ITEM.photo)+'">':'<span>no photo yet</span>';
+  eCAT=ITEM.cat;eUNIT=ITEM.unit;eREG=ITEM.region;eSTATUS=ITEM.activeStatus||'ACTIVE';
+  eMACS=(ITEM.machines||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+  if(NB){paintEdit();return;}
+  google.script.run.withSuccessHandler(function(b){NB=b;paintEdit();})
+    .withFailureHandler(function(e){eerr(e.message||e);}).getNewBootstrap();
+}
+
+function paintEdit(){
+  optSetSel('e-cats',[['SPARE','Spare'],['CONSUMABLE','Consumable'],['TOOL','Tool']],
+    eCAT,function(v){eCAT=v;});
+  optSetSel('e-units',[['PCS','pcs'],['FT','feet'],['M','metre'],['KG','kg'],['L','litre'],['SET','set'],['BOX','box']],
+    eUNIT,function(v){eUNIT=v;});
+  optSetSel('e-status',[['ACTIVE','Active'],['INACTIVE','Inactive']],eSTATUS,function(v){eSTATUS=v;});
+  var rk=Object.keys(NB.regions).sort();
+  el('e-regs').innerHTML=rk.map(function(r){return '<button class="ropt'+(r===eREG?' sel':'')+
+    '" data-v="'+r+'" style="background:'+NB.regions[r].colour+'">'+r+'</button>';}).join('');
+  el('e-regs').onclick=function(ev){var t=ev.target.closest('.ropt');if(!t)return;
+    eREG=t.getAttribute('data-v');
+    var all=el('e-regs').children;for(var i=0;i<all.length;i++)all[i].classList.remove('sel');
+    t.classList.add('sel');};
+  el('e-macs').innerHTML=NB.machines.map(function(m){
+    return '<button class="opt'+(eMACS.indexOf(m.id)!==-1?' sel':'')+'" data-v="'+esc(m.id)+
+      '">'+esc(m.name||m.id)+'</button>';}).join('')||'<span class="hint">No machines listed yet.</span>';
+  el('e-macs').onclick=function(ev){var t=ev.target.closest('.opt');if(!t)return;
+    var v=t.getAttribute('data-v'),i=eMACS.indexOf(v);
+    if(i===-1){eMACS.push(v);t.classList.add('sel');}else{eMACS.splice(i,1);t.classList.remove('sel');}};
+}
+function eerr(m){el('e-err').innerHTML='<div class="err">'+esc(m)+'</div>';window.scrollTo(0,0);}
+
+function editPickPerson(){
+  if(!el('e-name').value.trim())return eerr('Name cannot be blank.');
+  MODE='edit';PERSON=null;
+  el('p-bar').textContent='Who is making the change?';
+  buildPeople();go('person');
+}
+
+function saveEdit(){
+  el('pindots').textContent='saving…';
+  google.script.run.withSuccessHandler(editDone).withFailureHandler(function(e){
+    el('s-done').querySelector('.done').className='done fail';
+    el('d-body').innerHTML='<div class="tick">!</div><h2>Not saved</h2>'+
+      '<p style="color:var(--muted)">'+esc(e.message||e)+'</p>'+
+      '<p style="color:var(--muted)">Nothing changed. Go back and try again.</p>';
+    go('done');
+  }).updateItem({
+    itemId:ITEM.id,
+    name:el('e-name').value,tamil:el('e-tamil').value,std:el('e-std').value,
+    category:eCAT,unit:eUNIT,region:eREG,bin:el('e-bin').value,machines:eMACS,
+    dim1:el('e-dim1').value,dim2:el('e-dim2').value,dim3:el('e-dim3').value,
+    material:el('e-material').value,swap:el('e-swap').value,
+    minLevel:el('e-min').value,reorderQty:el('e-reorder').value,leadTime:el('e-lead').value,
+    status:eSTATUS,countedQty:el('e-counted').value,
+    photo:P3,photoMime:'image/jpeg',
+    personId:PERSON?PERSON.id:'',pin:PIN});
+}
+
+function editDone(r){
+  el('s-done').querySelector('.done').className='done';
+  var adj=r.adjusted?'<p style="color:var(--muted);margin:6px 0 0">Count corrected from '+
+    r.adjusted.from+' to '+r.adjusted.to+' ('+(r.adjusted.diff>0?'+':'')+r.adjusted.diff+')</p>':'';
+  el('d-body').innerHTML='<div class="tick">'+(r.nothing?'=':'&check;')+'</div>'+
+    '<h2 style="margin:4px 0">'+esc(r.name)+'</h2>'+
+    '<p style="color:var(--muted);margin:0">'+
+      (r.nothing?'Nothing was different, so nothing was written.'
+               :'Updated: '+esc(r.changed.join(', ')))+'</p>'+adj+
+    '<p style="color:var(--muted);margin:14px 0 0">In stock: <b style="color:var(--ink)">'+
+      r.onHand+' '+esc(r.unit)+'</b></p>';
+  MODE='move';
+  go('done');
+}
+
+/* ---------------- people admin ---------------- */
+function openPeopleAdmin(){
+  MODE='person';P4=null;PERSON=null;go('padmin');
+  el('pa-err').innerHTML='';el('pa-name').value='';el('pa-tamil').value='';el('pa-pin').value='';
+  el('cam4').innerHTML='<span><b class="big">&#128247;</b>face photo</span>';
+  paSECTION='';paRECEIVE=false;paCREATE=false;
+  optSetSel('pa-sections',[['MILL','Mill'],['YARD','Yard'],['PRESS','Press'],
+    ['ELECTRICAL','Electrical'],['MAINTENANCE','Maintenance'],['OFFICE','Office']],
+    '',function(v){paSECTION=v;});
+  el('pa-perms').innerHTML=
+    '<button class="opt" data-v="rec">Add stock</button>'+
+    '<button class="opt" data-v="cre">Create &amp; edit items</button>';
+  el('pa-perms').onclick=function(e){var t=e.target.closest('.opt');if(!t)return;
+    var v=t.getAttribute('data-v');t.classList.toggle('sel');
+    if(v==='rec')paRECEIVE=t.classList.contains('sel');
+    else paCREATE=t.classList.contains('sel');};
+  el('pa-list').innerHTML='<p class="hint">Loading…</p>';
+  google.script.run.withSuccessHandler(function(d){
+    NB=NB||{people:d.people.filter(function(p){return p.canCreate&&p.active;})};
+    el('pa-id').textContent=d.nextId;
+    if(!d.hasSupervisorPin)
+      el('pa-err').innerHTML='<div class="warn">Config &rsaquo; SUPERVISOR_PIN is blank. '+
+        'Put a number there in the sheet first, or nothing can be saved from this screen.</div>';
+    el('pa-list').innerHTML=d.people.length?d.people.map(function(p){
+      return '<div class="dupe" style="opacity:'+(p.active?1:.4)+'">'+
+        (p.photo?'<img src="'+esc(p.photo)+'">':'<div class="noimg"></div>')+
+        '<div>'+esc(p.name)+'</div><div style="font-weight:400;color:var(--muted)">'+
+        esc(p.id)+(p.canCreate?' · admin':p.canReceive?' · stock':'')+
+        (p.active?'':' · off')+'</div></div>';
+    }).join(''):'<p class="hint">Nobody yet. The first person has to be added with the supervisor PIN.</p>';
+  }).withFailureHandler(function(e){paerr(e.message||e);}).getPeopleAdmin();
+}
+function paerr(m){el('pa-err').innerHTML='<div class="err">'+esc(m)+'</div>';window.scrollTo(0,0);}
+
+function askAdminPin(){
+  el('pa-err').innerHTML='';
+  if(!el('pa-name').value.trim())return paerr('Name cannot be blank.');
+  if((paRECEIVE||paCREATE)&&!el('pa-pin').value.trim())
+    return paerr('Give them a PIN, or switch off the permissions.');
+  MODE='person';PERSON=null;
+  el('p-bar').textContent='Who is adding them?';
+  buildPeople();go('person');
+}
+
+function savePerson(){
+  el('pindots').textContent='saving…';
+  google.script.run.withSuccessHandler(function(r){
+    google.script.run.withSuccessHandler(function(b){B=b;}).getBootstrap();
+    NB=null;
+    el('s-done').querySelector('.done').className='done';
+    el('d-body').innerHTML='<div class="tick">&check;</div>'+
+      (r.photo?'<div class="pair"><img src="'+esc(r.photo)+'"></div>':'')+
+      '<h2 style="margin:4px 0">'+esc(r.name)+'</h2>'+
+      '<p style="color:var(--muted);margin:0">'+esc(r.id)+' added</p>';
+    MODE='move';go('done');
+  }).withFailureHandler(function(e){
+    el('s-done').querySelector('.done').className='done fail';
+    el('d-body').innerHTML='<div class="tick">!</div><h2>Not saved</h2>'+
+      '<p style="color:var(--muted)">'+esc(e.message||e)+'</p>'+
+      '<p style="color:var(--muted)">Nothing was written. Go back and try again.</p>';
+    go('done');
+  }).addPerson({
+    name:el('pa-name').value,tamil:el('pa-tamil').value,section:paSECTION,
+    canReceive:paRECEIVE,canCreate:paCREATE,newPin:el('pa-pin').value,
+    photo:P4,photoMime:'image/jpeg',
+    byPersonId:PERSON?PERSON.id:'',pin:PIN});
+}
+</script>
+</body>
+</html>

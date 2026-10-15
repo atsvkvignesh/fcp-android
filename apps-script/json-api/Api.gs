@@ -1,44 +1,51 @@
 /**
- * Api.gs — lets a page bundled in the Fibro Coir app get its data from this script as JSON.
+ * Api.gs — lets the Fibro Coir app's built-in screen get its data from this script.
  *
- * The app keeps the page itself (HTML/CSS/JS) on the phone, so it opens instantly; this file
- * only answers data requests. The normal web page keeps working in a browser as before.
+ * The app keeps the screen itself (HTML/CSS/JS) on the phone, so it opens instantly; this file
+ * only answers its data requests. The normal /exec web page keeps working in a browser.
  *
- * Add to an existing web app project:
- *   1. File > New > Script, name it  Api , paste this file.
- *   2. Make the first line of doGet(e):
- *        if (isApiCall_(e)) return apiResponse_(e, API_ROUTES);
- *      and make sure doGet takes the  e  argument:  function doGet(e) { ... }
- *   3. Below, list which functions the app may call (API_ROUTES).
- *   4. Project Settings (gear) > Script properties > Add:  APP_KEY = <same key as in the app>
- *   5. Deploy > Manage deployments > pencil > Version: New version > Deploy.
- *      Access must stay "Anyone" (not "Anyone with Google account").
+ * Install (once per project):
+ *   1. In the Apps Script editor: Files "+" > Script > name it  Api  > paste this file.
+ *   2. Deploy > Manage deployments > pencil > Version: New version > Deploy.
+ *      Access must stay "Anyone". The /exec link does not change.
+ *   Nothing else in the project needs editing. The project must not already have a doPost.
  *
- * Request:  GET <exec URL>?action=summary&args=["week","","",""]&key=...
+ * Each FCP project gets its own copy of this file (apps-script/<tool>/Api.gs in the app repo),
+ * with FCP_API filled in: which screen it serves and which functions that screen may call.
+ *
+ * Request:  POST <exec URL>, body {"action":"api_summary","args":["week","","",""],"key":"..."}
  * Answer:   {"ok":true,"data":...}   or   {"ok":false,"error":"..."}
- * The args array is passed to the function as its arguments, in order, exactly like
- * google.script.run.withSuccessHandler(...).api_summary("week", "", "", "").
+ * args are passed to the function in order, exactly like google.script.run would.
  */
 
-function isApiCall_(e) {
-  return !!(e && e.parameter && e.parameter.action);
-}
+var FCP_API = {
+  app: '__APP__',     // the bundled screen this script serves, e.g. 'ec-viewer'
+  key: '__KEY__',     // same key as in the app (assets/lib/config.js)
+  allow: [__ALLOW__], // functions the screen may call
+  before: null        // optional function(action, args) run before each call
+};
+__EXTRA__
+var FCP_GLOBAL_ = this;
 
-function apiResponse_(e, routes) {
+function doPost(e) {
   var started = Date.now();
   var out;
   try {
-    var p = e.parameter;
-    var want = PropertiesService.getScriptProperties().getProperty('APP_KEY');
-    if (want && p.key !== want) throw new Error('Not allowed. Update the app.');
+    var req = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    if (req.key !== FCP_API.key) throw new Error('Not allowed. Update the app.');
 
-    var fn = Object.prototype.hasOwnProperty.call(routes, p.action) ? routes[p.action] : null;
-    if (typeof fn !== 'function') throw new Error('Unknown request: ' + p.action);
-
-    var args = p.args ? JSON.parse(p.args) : [];
-    if (!Array.isArray(args)) args = [args];
-
-    out = { ok: true, data: fn.apply(null, args) };
+    if (req.action === '__app') {
+      // The hub asks this once to learn that this tool has a built-in screen in the app
+      out = { ok: true, data: { app: FCP_API.app, api: 1 } };
+    } else {
+      if (FCP_API.allow.indexOf(req.action) < 0) throw new Error('Unknown request: ' + req.action);
+      var g = (typeof globalThis !== 'undefined') ? globalThis : FCP_GLOBAL_;
+      var fn = g[req.action];
+      if (typeof fn !== 'function') throw new Error('Missing function: ' + req.action);
+      var args = Array.isArray(req.args) ? req.args : [];
+      if (typeof FCP_API.before === 'function') FCP_API.before(req.action, args);
+      out = { ok: true, data: fn.apply(null, args) };
+    }
   } catch (err) {
     out = { ok: false, error: String((err && err.message) || err) };
   }

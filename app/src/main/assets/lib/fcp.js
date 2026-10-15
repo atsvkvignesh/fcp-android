@@ -2,7 +2,7 @@
  * fcp.js — shared helpers for pages bundled in the Fibro Coir app.
  *
  * The page's HTML/CSS/JS ships inside the APK, so it opens instantly. Data comes from the
- * Apps Script web app as JSON (see apps-script/json-api/Api.gs). The last answer for every
+ * Apps Script web app as JSON: a POST to its /exec URL handled by Api.gs (apps-script/json-api). The last answer for every
  * request is kept on the phone, so a screen shows its previous data straight away and then
  * refreshes in the background — the "native app" feel.
  *
@@ -107,16 +107,30 @@
     return this.app + ':' + action + ':' + JSON.stringify(args || []);
   };
 
-  /**
-   * Inside the app, requests go through the app's own proxy (same origin as the page), so the
-   * phone fetches from Apps Script natively and browser CORS rules never come into it.
-   * In a normal browser (testing on a PC) the page fetches the script directly.
+  /*
+   * Inside the app, requests go through the app itself (FCPApp.request): the phone talks to
+   * Apps Script natively, so browser CORS rules never come into it and big uploads work.
+   * In a normal browser (testing on a PC) the page posts to the script directly.
    */
-  function requestUrl(full) {
-    if (w.location && w.location.host === 'appassets.androidplatform.net') {
-      return w.location.origin + '/proxy?url=' + encodeURIComponent(full);
-    }
-    return full;
+  var pending = {};
+  var nextId = 1;
+
+  function viaApp(url, body) {
+    return new Promise(function (resolve) {
+      var id = 'r' + (nextId++) + '_' + Date.now();
+      pending[id] = resolve;
+      w.FCPApp.request(id, url, body);
+    });
+  }
+
+  function viaFetch(url, body, signal) {
+    return fetch(url, {
+      method: 'POST', redirect: 'follow', cache: 'no-store', signal: signal,
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // a "simple" request: no CORS preflight
+      body: body
+    }).then(function (res) {
+      return res.text().then(function (text) { return { status: res.status, text: text }; });
+    });
   }
 
   function fail(msg, offline) {
@@ -128,22 +142,21 @@
   /** One request to Apps Script. Resolves with `data`, rejects with an Error (err.offline if no connection). */
   Client.prototype.call = function (action, args) {
     var self = this;
-    var q = 'action=' + encodeURIComponent(action) +
-      '&args=' + encodeURIComponent(JSON.stringify(args || [])) +
-      (self.key ? '&key=' + encodeURIComponent(self.key) : '') +
-      '&_=' + Date.now();
-    var full = self.url + (self.url.indexOf('?') >= 0 ? '&' : '?') + q;
-
+    var body = JSON.stringify({ action: action, args: args || [], key: self.key });
+    var timer;
     var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
-    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, self.timeout);
+    var timeout = new Promise(function (_, reject) {
+      timer = setTimeout(function () {
+        if (ctrl) ctrl.abort();
+        reject(fail('Timed out. Check the internet connection.', true));
+      }, self.timeout);
+    });
+    var request = (w.FCPApp && w.FCPApp.request)
+      ? viaApp(self.url, body)
+      : viaFetch(self.url, body, ctrl ? ctrl.signal : undefined)
+          .catch(function () { throw fail('No connection to the server.', true); });
 
-    return fetch(requestUrl(full), { method: 'GET', redirect: 'follow', cache: 'no-store', signal: ctrl ? ctrl.signal : undefined })
-      .then(function (res) {
-        return res.text().then(function (text) { return { status: res.status, ok: res.ok, text: text }; });
-      }, function (err) {
-        if (err && err.name === 'AbortError') throw fail('Timed out. Check the internet connection.', true);
-        throw fail('No connection to the server.', true);
-      })
+    return Promise.race([request, timeout])
       .then(function (r) {
         var j = null;
         try { j = JSON.parse(r.text); } catch (e) { /* not JSON */ }
@@ -151,11 +164,12 @@
           if (j.ok === true) return j.data;
           throw fail(j.error || 'The script reported an error', j.offline);
         }
-        if (/<html/i.test(r.text)) {
-          // Apps Script sends a web page when the deployment or its access setting is wrong
-          throw fail('The script sent a web page, not data. Check it is deployed with access "Anyone" and has the new version.');
+        if (/<html/i.test(r.text || '')) {
+          // Apps Script sends a web page when the script has no Api.gs yet, or isn't redeployed
+          throw fail('The script sent a web page, not data. Add Api.gs to it and deploy a new version.');
         }
-        throw fail(r.ok ? 'Bad answer from the script' : 'Server answered ' + r.status);
+        if (r.status === 0) throw fail('No connection to the server.', true);
+        throw fail(r.status >= 200 && r.status < 300 ? 'Bad answer from the script' : 'Server answered ' + r.status);
       })
       .then(function (data) { clearTimeout(timer); return data; },
             function (err) { clearTimeout(timer); throw err; });
@@ -257,6 +271,12 @@
     inApp: inApp,
     close: close,
     online: function () { return navigator.onLine !== false; },
-    _cache: { get: cacheGet, put: cachePut, forget: cacheForget } // for tests
+    _cache: { get: cacheGet, put: cachePut, forget: cacheForget }, // for tests
+    /** Called by the app with the answer to FCPApp.request. */
+    _done: function (id, status, text) {
+      var cb = pending[id];
+      delete pending[id];
+      if (cb) cb({ status: status, text: text });
+    }
   };
 })(window);

@@ -55,6 +55,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.webkit.WebViewAssetLoader
 import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.net.URISyntaxException
 
@@ -83,6 +84,9 @@ class MainActivity : AppCompatActivity() {
 
     /** Bundled pages open as screens stacked over the hub, so going back never reloads the hub. */
     private val screens = ArrayList<WebView>()
+
+    /** Background threads for data requests made by bundled pages (FCPApp.request). */
+    private val io = java.util.concurrent.Executors.newCachedThreadPool()
     private lateinit var progress: ProgressBar
     private lateinit var offlineView: View
     private var mainFrameFailed = false
@@ -134,10 +138,10 @@ class MainActivity : AppCompatActivity() {
         cleanOldCameraFiles()
         askNotificationPermission()
 
+        webView.loadUrl(homeUrl())
+        // Opened by tapping a notification that carries a link: show it over the hub
         val link = intent?.getStringExtra(Notifications.EXTRA_URL)?.let { Uri.parse(it) }
-        val start = link?.takeIf { isInternal(it) && !isLocal(it) }?.toString() ?: HOME_URL
-        webView.loadUrl(start)
-        if (link != null && isLocal(link)) openScreen(link.toString(), animate = false)
+        if (link != null && isInternal(link)) openScreen(link.toString(), animate = false)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -146,11 +150,7 @@ class MainActivity : AppCompatActivity() {
         // Tapped a notification that carries a link
         val url = intent.getStringExtra(Notifications.EXTRA_URL) ?: return
         val uri = Uri.parse(url)
-        when {
-            isLocal(uri) -> openScreen(url)
-            isInternal(uri) -> { closeAllScreens(); webView.loadUrl(url) }
-            else -> openExternal(uri)
-        }
+        if (isInternal(uri)) openScreen(url) else openExternal(uri)
     }
 
     override fun onResume() {
@@ -172,6 +172,7 @@ class MainActivity : AppCompatActivity() {
         screens.forEach { it.destroy() }
         screens.clear()
         webView.destroy()
+        io.shutdown()
         super.onDestroy()
     }
 
@@ -187,10 +188,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buildLayout() {
-        val brand = ContextCompat.getColor(this, R.color.brand)
-        root = FrameLayout(this).apply { setBackgroundColor(brand) }
+        // Same dark colour as the hub, so nothing flashes white while it opens
+        val husk = ContextCompat.getColor(this, R.color.husk)
+        root = FrameLayout(this).apply { setBackgroundColor(husk) }
 
-        webView = WebView(this).apply { setBackgroundColor(Color.WHITE) }
+        webView = WebView(this).apply { setBackgroundColor(husk) }
         root.addView(webView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
 
         progress = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
@@ -282,7 +284,7 @@ class MainActivity : AppCompatActivity() {
             setSupportMultipleWindows(true)
             loadWithOverviewMode = true
             useWideViewPort = true
-            builtInZoomControls = main // bundled screens behave like app screens: no pinch zoom
+            builtInZoomControls = false // app screens: no pinch zoom
             displayZoomControls = false
             allowFileAccess = false
             allowContentAccess = true
@@ -293,7 +295,7 @@ class MainActivity : AppCompatActivity() {
         // so third-party cookies must be allowed for logins to stick.
         CookieManager.getInstance().setAcceptThirdPartyCookies(view, true)
 
-        view.addJavascriptInterface(AppBridge(), "FCPApp")
+        view.addJavascriptInterface(AppBridge(view), "FCPApp")
 
         view.webViewClient = object : WebViewClient() {
             // Serves https://appassets.androidplatform.net/assets/... from the APK, and /proxy for data.
@@ -338,7 +340,8 @@ class MainActivity : AppCompatActivity() {
 
         view.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(v: WebView, newProgress: Int) {
-                if (!main) return
+                if (!main && v != screens.lastOrNull()) return
+                if (!main) progress.bringToFront()
                 progress.progress = newProgress
                 progress.visibility = if (newProgress < 100) View.VISIBLE else View.GONE
             }
@@ -421,6 +424,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ---------------------------------------------------------------- bundled screens
+
+    /** The hub bundled in the APK; the Apps Script hub only if this APK has no bundled one. */
+    private fun homeUrl(): String = localUrl("hub") ?: HOME_URL
 
     /** "ec-viewer" or "ec-viewer?range=week" -> its bundled URL, or null if the APK has no such page. */
     private fun localUrl(target: String): String? {
@@ -513,28 +519,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Links in a bundled screen: other bundled pages stay in it, Apps Script pages go back to the hub. */
+    /** Links inside a screen: our own pages stay in that screen, anything else opens outside. */
     private fun handleScreenUrl(uri: Uri): Boolean {
         val scheme = uri.scheme?.lowercase()
-        if (scheme == "http" || scheme == "https") {
-            if (isLocal(uri)) return false
-            if (isInternal(uri)) {
-                closeAllScreens()
-                webView.loadUrl(uri.toString())
-                return true
-            }
-        }
+        if ((scheme == "http" || scheme == "https") && isInternal(uri)) return false
         return handleUrl(uri)
     }
 
     private fun openFromPopup(uri: Uri) {
         val scheme = uri.scheme?.lowercase()
         if (scheme == "http" || scheme == "https") {
-            when {
-                isLocal(uri) -> openScreen(uri.toString())
-                isInternal(uri) -> { closeAllScreens(); webView.loadUrl(uri.toString()) }
-                else -> openExternal(uri)
-            }
+            if (isInternal(uri)) openScreen(uri.toString()) else openExternal(uri)
         } else {
             handleUrl(uri)
         }
@@ -735,14 +730,20 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
                 if (offlineView.visibility == View.VISIBLE) { showMenu(); return }
-                val list = webView.copyBackForwardList()
-                val i = list.currentIndex
-                val prev = if (i > 0) list.getItemAtIndex(i - 1)?.url else null
-                // Go back only to a genuinely different page; otherwise show the app menu
-                if (prev != null && prev != list.currentItem?.url && prev != "about:blank") webView.goBack()
-                else showMenu()
+                webView.evaluateJavascript(
+                    "(function(){try{return !!(window.onAppBack&&window.onAppBack())}catch(e){return false}})()"
+                ) { handled -> if (handled != "true") hubBack() }
             }
         })
+    }
+
+    private fun hubBack() {
+        val list = webView.copyBackForwardList()
+        val i = list.currentIndex
+        val prev = if (i > 0) list.getItemAtIndex(i - 1)?.url else null
+        // Go back only to a genuinely different page; otherwise show the app menu
+        if (prev != null && prev != list.currentItem?.url && prev != "about:blank") webView.goBack()
+        else showMenu()
     }
 
     private fun showMenu() {
@@ -751,7 +752,7 @@ class MainActivity : AppCompatActivity() {
             .setItems(arrayOf("Reload page", "Go to home page", "Notification groups", "Exit app")) { _, which ->
                 when (which) {
                     0 -> retry()
-                    1 -> { closeAllScreens(); offlineView.visibility = View.GONE; webView.loadUrl(HOME_URL) }
+                    1 -> { closeAllScreens(); offlineView.visibility = View.GONE; webView.loadUrl(homeUrl()) }
                     2 -> showTopicsDialog()
                     3 -> finish()
                 }
@@ -811,8 +812,36 @@ class MainActivity : AppCompatActivity() {
      *   FCPApp.hasLocal("ec-viewer")  -> true if this APK has that page bundled
      *   FCPApp.openLocal("ec-viewer") -> opens it as a screen over the current one (true/false)
      *   FCPApp.close()                -> closes the top bundled screen
+     *   FCPApp.openUrl(url)           -> opens an Apps Script page as a screen (other links outside)
+     *   FCPApp.request(id, url, body) -> fetches an Apps Script URL natively (POST if body is given);
+     *                                    the answer arrives as FCP._done(id, status, text)
      */
-    inner class AppBridge {
+    inner class AppBridge(private val view: WebView) {
+        @JavascriptInterface
+        fun request(id: String, url: String, body: String?) {
+            io.execute {
+                var code: Int
+                var text: String
+                try {
+                    if (!Http.allowed(Uri.parse(url))) {
+                        code = 400
+                        text = String(Http.err("This address can't be fetched from the app."), Charsets.UTF_8)
+                    } else {
+                        val r = Http.fetch(if (body == null) "GET" else "POST", url, body)
+                        code = r.code
+                        text = String(r.body, Charsets.UTF_8)
+                    }
+                } catch (_: Exception) {
+                    code = 0
+                    text = String(Http.err("No connection to the server.", offline = true), Charsets.UTF_8)
+                }
+                val js = "window.FCP&&FCP._done(" + JSONObject.quote(id) + "," + code + "," + JSONObject.quote(text) + ")"
+                view.post {
+                    try { view.evaluateJavascript(js, null) } catch (_: Exception) { /* screen already closed */ }
+                }
+            }
+        }
+
         @JavascriptInterface
         fun hasLocal(name: String): Boolean = localUrl(name) != null
 
@@ -826,6 +855,13 @@ class MainActivity : AppCompatActivity() {
         @JavascriptInterface
         fun close() {
             runOnUiThread { closeTopScreen() }
+        }
+
+        /** Opens one of our web pages (an Apps Script /exec link) as a screen; anything else outside the app. */
+        @JavascriptInterface
+        fun openUrl(url: String) {
+            val uri = Uri.parse(url)
+            runOnUiThread { if (isInternal(uri)) openScreen(url) else openExternal(uri) }
         }
 
         @JavascriptInterface
