@@ -134,10 +134,10 @@ class Sheets(private val auth: GoogleAuth, private val http: OkHttpClient) {
     }
 
     /** Add rows after the last row of the table that starts in `range`. Returns the A1 range written. */
-    suspend fun append(id: String, range: String, values: List<List<Any?>>, userEntered: Boolean = false): String {
+    suspend fun append(id: String, range: String, values: List<List<Any?>>, userEntered: Boolean = false, insertRows: Boolean = true): String {
         val url = "$base/$id/values/${enc(range)}:append".toHttpUrl().newBuilder()
             .addQueryParameter("valueInputOption", if (userEntered) "USER_ENTERED" else "RAW")
-            .addQueryParameter("insertDataOption", "INSERT_ROWS")
+            .addQueryParameter("insertDataOption", if (insertRows) "INSERT_ROWS" else "OVERWRITE")
             .build().toString()
         val o = call("POST", url, buildJsonObject { put("values", toJson(values)) }).jsonObject
         return o["updates"]?.jsonObject?.get("updatedRange")?.jsonPrimitive?.contentOrNull.orEmpty()
