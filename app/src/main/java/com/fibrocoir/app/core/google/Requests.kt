@@ -134,6 +134,10 @@ object Req {
         }
     }
 
+    fun appendRows(sheetId: Int, n: Int) = buildJsonObject {
+        putJsonObject("appendDimension") { put("sheetId", sheetId); put("dimension", "ROWS"); put("length", n) }
+    }
+
     fun deleteChart(chartId: Int) = buildJsonObject { putJsonObject("deleteEmbeddedObject") { put("objectId", chartId) } }
 
     fun setFilter(range: JsonObject) = buildJsonObject { putJsonObject("setBasicFilter") { putJsonObject("filter") { put("range", range) } } }

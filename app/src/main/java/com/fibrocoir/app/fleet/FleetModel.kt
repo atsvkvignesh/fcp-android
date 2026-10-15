@@ -140,7 +140,7 @@ class FleetBook(
         if (row == 0) throw FleetException("Could not find record ${Js.str(id)} in $name.")
         val head = HEADERS[name]!!
         val sh = rows(name)
-        val current = head.indices.map { sh[row - 1].getOrNull(it) ?: "" }.toMutableList()
+        val current: MutableList<Any?> = head.indices.map { sh[row - 1].getOrNull(it) ?: "" }.toMutableList()
         head.forEachIndexed { c, h -> if (obj.containsKey(h)) current[c] = obj[h] }
         ops += Op.Set(name, row, 1, current)
         while (sh[row - 1].size < current.size) sh[row - 1].add("")
