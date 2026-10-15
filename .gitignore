@@ -8,3 +8,6 @@ captures/
 .externalNativeBuild/
 .cxx/
 __pycache__/
+
+# Google service account key, injected at build time (never commit)
+app/src/main/assets/service-account.json
