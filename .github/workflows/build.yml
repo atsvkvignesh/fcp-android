@@ -51,6 +51,17 @@ jobs:
           git commit -qm "build log ${{ github.run_number }} (${{ github.ref_name }})"
           git push -qf origin HEAD:refs/heads/ci-log
 
+      - name: Count unit tests
+        if: always()
+        run: |
+          python3 - <<'PY' || true
+          import glob, xml.etree.ElementTree as ET
+          t = f = 0
+          for x in glob.glob('app/build/test-results/**/*.xml', recursive=True):
+              r = ET.parse(x).getroot(); t += int(r.get('tests', 0)); f += int(r.get('failures', 0)) + int(r.get('errors', 0))
+          print(f"::notice::Unit tests: {t - f} passed, {f} failed")
+          PY
+
       - name: Name the APK
         run: cp app/build/outputs/apk/release/app-release.apk FibroCoir.apk
 
