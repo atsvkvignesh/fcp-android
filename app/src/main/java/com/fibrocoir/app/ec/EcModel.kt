@@ -11,7 +11,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import kotlin.math.round
+import kotlin.math.floor
 
 /**
  * EC readings, as kept in the EC sheet: one tab per day per person ("2026-09-14 Selvarani"),
@@ -112,7 +112,8 @@ object Ec {
 /** count, over-limit count, average (3 decimals), lowest, highest — like the viewer script. */
 @Serializable
 data class Stats(val n: Int = 0, val over: Int = 0, val sum: Double = 0.0, val min: Double? = null, val max: Double? = null) {
-    val avg: Double? get() = if (n == 0) null else round(sum / n * 1000) / 1000
+    /** Math.round(sum / n * 1000) / 1000, rounding halves up like JavaScript */
+    val avg: Double? get() = if (n == 0) null else floor(sum / n * 1000 + 0.5) / 1000
     fun add(ec: Double, isOver: Boolean) = Stats(
         n + 1, over + if (isOver) 1 else 0, sum + ec,
         if (min == null || ec < min) ec else min, if (max == null || ec > max) ec else max,
@@ -172,7 +173,8 @@ class EcView(tabs: List<EcTab>, private val viewerLimits: ViewerLimits?) {
         return out
     }
 
-    fun last(list: List<Reading>): Reading? = list.maxWithOrNull(compareBy({ it.key }, { it.tsMs }))
+    /** The newest reading; with the same minute, the one further down the sheet (as the script did). */
+    fun last(list: List<Reading>): Reading? = list.fold(null as Reading?) { acc, r -> if (acc == null || r.key >= acc.key) r else acc }
 }
 
 /** The readings list filters. point: all, Hall (Belt + Block), Belt, Block or Yard. */
