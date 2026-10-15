@@ -2,7 +2,7 @@ name: Build APK
 
 on:
   push:
-    branches: ['**']   # main publishes a release; other branches only build a test APK
+    branches: ['**', '!ci-log']   # main publishes a release; other branches only build a test APK
   workflow_dispatch:
 
 permissions:
@@ -23,23 +23,48 @@ jobs:
         with:
           gradle-version: "8.11.1"
 
-      - name: Build signed APK
-        run: gradle :app:assembleRelease --no-daemon --stacktrace
+      # The Google service-account key lives only in the repository secret FCP_SA_JSON
+      - name: Add the Google key
+        env:
+          SA: ${{ secrets.FCP_SA_JSON }}
+        run: |
+          mkdir -p app/src/main/assets
+          if [ -n "$SA" ]; then printf '%s' "$SA" > app/src/main/assets/service-account.json; echo "key added"; else echo "::warning::FCP_SA_JSON secret not set: the app will not reach the sheets"; fi
+
+      - name: Test and build signed APK
+        run: |
+          set -o pipefail
+          gradle :app:testReleaseUnitTest :app:assembleRelease --no-daemon --stacktrace 2>&1 | tee build.log
+
+      # Build logs can't be downloaded everywhere, so failures are also written as annotations
+      # and the full log is pushed to the ci-log branch.
+      - name: Report problems
+        if: failure()
+        run: |
+          grep -E "^e: |^w: .*(error|unresolved)|error:|What went wrong|FAILED|AssertionError|Expected|expected:" build.log | head -45 | while IFS= read -r line; do echo "::error::$line"; done
+          for f in app/build/test-results/testReleaseUnitTest/*.xml; do [ -f "$f" ] && cat "$f" >> build.log; done
+          git config user.name ci; git config user.email ci@users.noreply.github.com
+          git checkout -q --orphan ci-log-tmp
+          git rm -rqf --cached . > /dev/null
+          mkdir -p ci-log && cp build.log ci-log/build.log
+          git add -f ci-log/build.log
+          git commit -qm "build log ${{ github.run_number }} (${{ github.ref_name }})"
+          git push -qf origin HEAD:refs/heads/ci-log
 
       - name: Name the APK
         run: cp app/build/outputs/apk/release/app-release.apk FibroCoir.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: FibroCoir-v1.0.${{ github.run_number }}
+          name: FibroCoir-${{ github.run_number }}
           path: FibroCoir.apk
 
       - name: Publish release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: Fibro Coir v1.0.${{ github.run_number }}
+          tag_name: v2.0.${{ github.run_number }}
+          name: Fibro Coir v2.0.${{ github.run_number }}
           body: |
             Install: download **FibroCoir.apk** below on your phone and open it.
             Built from ${{ github.sha }}.
@@ -51,8 +76,8 @@ jobs:
         if: github.ref != 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: test-v1.0.${{ github.run_number }}
-          name: TEST ${{ github.ref_name }} v1.0.${{ github.run_number }}
+          tag_name: test-${{ github.ref_name }}-${{ github.run_number }}
+          name: TEST ${{ github.ref_name }} ${{ github.run_number }}
           body: |
             Test build from branch `${{ github.ref_name }}` (${{ github.sha }}). Not for workers.
             Install: download **FibroCoir.apk** below on your phone and open it.
