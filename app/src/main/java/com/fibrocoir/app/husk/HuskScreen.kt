@@ -345,8 +345,9 @@ private fun Scale(cs: List<OurLoad>, vs: List<VendorSlip>, busy: Boolean, onClea
 
     Surface(color = Fcp.husk, shadowElevation = 12.dp, border = BorderStroke(1.dp, Fcp.edge)) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(horizontal = 16.dp, vertical = 10.dp)) {
-            Canvas(Modifier.fillMaxWidth().height(18.dp)) {
-                val cx = size.width / 2; val y = 6.dp.toPx(); val half = size.width * 0.42f
+            // tall enough that the tilted beam never pokes out over the list above
+            Canvas(Modifier.fillMaxWidth().height(34.dp)) {
+                val cx = size.width / 2; val y = 16.dp.toPx(); val half = size.width * 0.40f
                 rotate(tilt, Offset(cx, y)) {
                     drawLine(Fcp.fibre, Offset(cx - half, y), Offset(cx + half, y), 3.dp.toPx(), StrokeCap.Round)
                     drawCircle(Fcp.fibre, 5.dp.toPx(), Offset(cx - half, y))
@@ -357,7 +358,7 @@ private fun Scale(cs: List<OurLoad>, vs: List<VendorSlip>, busy: Boolean, onClea
             }
             Row(verticalAlignment = Alignment.Top) {
                 Pan("Ours", if (cs.isNotEmpty()) plural(cs.size, "load", "loads") else "None picked",
-                    if (cs.isNotEmpty()) "${n0(driver)} husk · CFT ${if (cft > 0) n0(cft) else "—"} · ${rs(our)}" else "", Modifier.weight(1f))
+                    if (cs.isNotEmpty()) "${n0(driver)} husk\nCFT ${if (cft > 0) n0(cft) else "—"}\n${rs(our)}" else "", Modifier.weight(1f))
                 Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                     if (both) {
                         Diff("Driver − Vendor", sgn(driver - vc), tone(driver - vc))
@@ -368,7 +369,7 @@ private fun Scale(cs: List<OurLoad>, vs: List<VendorSlip>, busy: Boolean, onClea
                     }
                 }
                 Pan("Vendor", if (vs.isNotEmpty()) plural(vs.size, "entry", "entries") else "None picked",
-                    if (vs.isNotEmpty()) "${n0(vc)} husk · ${rs(ven)}" else "", Modifier.weight(1f), end = true)
+                    if (vs.isNotEmpty()) "${n0(vc)} husk\n${rs(ven)}" else "", Modifier.weight(1f), end = true)
             }
             Spacer(Modifier.height(8.dp))
             fcpField(note, { note = it }, "Note (optional)")
@@ -379,7 +380,7 @@ private fun Scale(cs: List<OurLoad>, vs: List<VendorSlip>, busy: Boolean, onClea
                     cs.isNotEmpty() -> Rm.MISS_V to "Missing at vendor"
                     else -> Rm.MISS_F to "Missing at our end"
                 }
-                PrimaryButton(primary.second, Modifier.weight(1.4f), busy = busy) { onAct(primary.first, note); note = "" }
+                PrimaryButton(primary.second, Modifier.weight(1.7f), busy = busy) { onAct(primary.first, note); note = "" }
                 GhostButton("Ignore", Modifier.weight(1f), enabled = !busy) { onAct(Rm.IGN, note); note = "" }
                 GhostButton("Clear", Modifier.weight(0.9f), enabled = !busy, color = Fcp.muted) { onClear() }
             }
@@ -392,7 +393,8 @@ private fun Pan(who: String, big: String, small: String, modifier: Modifier, end
     Column(modifier, horizontalAlignment = if (end) Alignment.End else Alignment.Start) {
         Text(who, style = MaterialTheme.typography.labelSmall, color = Fcp.faint)
         Text(big, style = MaterialTheme.typography.titleSmall, color = Fcp.cream)
-        if (small.isNotEmpty()) Text(small, style = MaterialTheme.typography.labelSmall, color = Fcp.muted)
+        if (small.isNotEmpty()) Text(small, style = MaterialTheme.typography.labelSmall, color = Fcp.muted,
+            textAlign = if (end) androidx.compose.ui.text.style.TextAlign.End else androidx.compose.ui.text.style.TextAlign.Start)
     }
 }
 

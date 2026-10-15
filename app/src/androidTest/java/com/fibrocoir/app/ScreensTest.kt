@@ -143,8 +143,12 @@ class ScreensTest {
 
     private fun back() { Espresso.pressBack(); compose.waitForIdle() }
 
+    /** Scrolls whichever list holds the text until it is on screen. */
     private fun scrollTo(text: String) {
-        try { compose.onAllNodes(hasScrollAction())[0].performScrollToNode(hasText(text, substring = true)) } catch (_: Throwable) { }
+        val n = compose.onAllNodes(hasScrollAction()).fetchSemanticsNodes().size
+        for (i in 0 until n) {
+            try { compose.onAllNodes(hasScrollAction())[i].performScrollToNode(hasText(text, substring = true)); return } catch (_: Throwable) { }
+        }
     }
 
     @Test fun everyScreen() {
@@ -156,7 +160,7 @@ class ScreensTest {
             tap("Water record"); shot("05-water"); back()
             tap("Raw material check"); shot("06-husk-match")
             try { scrollTo("Velingiri"); tap("Velingiri"); shot("07-husk-picked"); tap("Clear") } catch (_: Throwable) { shot("07-husk-nopick") }
-            tap("Summary"); shot("08-husk-summary"); tap("History"); shot("09-husk-history"); back()
+            scrollTo("Summary"); tap("Summary"); shot("08-husk-summary"); tap("History"); shot("09-husk-history"); back()
             tap("Stores"); shot("10-stores")
             tap("Bearing 6308"); shot("11-stores-item"); tap("Take"); shot("12-stores-who"); back(); back(); back()
             tap("Fleet"); shot("13-fleet-board")
