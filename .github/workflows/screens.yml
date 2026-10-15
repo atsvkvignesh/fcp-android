@@ -8,6 +8,9 @@ on:
     branches: [native]
     paths: ['app/src/**', '.github/workflows/screens.yml']
 
+permissions:
+  contents: write
+
 jobs:
   screens:
     runs-on: ubuntu-latest
