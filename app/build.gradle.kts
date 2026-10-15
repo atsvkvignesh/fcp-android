@@ -22,6 +22,9 @@ android {
         // the small Apps Script that stores photos and bills in Drive (apps-script/uploads)
         buildConfigField("String", "UPLOAD_URL", "\"${System.getenv("FCP_UPLOAD_URL") ?: ""}\"")
         buildConfigField("String", "UPLOAD_TOKEN", "\"${System.getenv("FCP_UPLOAD_TOKEN") ?: ""}\"")
+        // sheet ids that aren't fixed in the code (they can also be pasted in the app)
+        buildConfigField("String", "HUB_SHEET_ID", "\"${System.getenv("FCP_HUB_SHEET_ID") ?: ""}\"")
+        buildConfigField("String", "INVENTORY_SHEET_ID", "\"${System.getenv("FCP_INVENTORY_SHEET_ID") ?: ""}\"")
     }
 
     // Fixed signing key: keep app/release.keystore safe. Every future APK must be signed

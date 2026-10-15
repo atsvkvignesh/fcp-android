@@ -34,7 +34,7 @@ class InvRepo(private val sheets: Sheets, private val uploads: Uploads) {
     private val TABS = listOf("Items", "People", "Machines", "Regions", "Config", "Vendors")
 
     suspend fun load(): InvData {
-        if (id.contains("_SHEET_ID")) throw IllegalStateException("The Stores sheet isn't set in this build yet.")
+        if (!FcpSheets.isSet(id)) throw IllegalStateException("Paste the Stores sheet link first (tap Set the sheet).")
         val got = sheets.read(id, TABS.map { a1(it) })
         return Inv.parse(TABS.indices.associate { TABS[it] to got[it].map(Cells::plain) })
     }

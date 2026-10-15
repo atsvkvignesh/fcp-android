@@ -51,7 +51,7 @@ enum class Screen(val key: String, val title: String) {
 }
 
 class HubRepo(private val sheets: Sheets) {
-    private val id = FcpSheets.HUB
+    private val id get() = FcpSheets.HUB
 
     suspend fun load(): HubData {
         val (u, a) = sheets.read(id, listOf("Users!A2:G", "Apps!A2:E"))

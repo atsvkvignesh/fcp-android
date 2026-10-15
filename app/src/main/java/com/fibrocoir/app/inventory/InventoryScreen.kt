@@ -42,6 +42,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -113,6 +115,15 @@ fun InventoryScreen(onBack: () -> Unit, vm: InventoryViewModel = viewModel()) {
             }
         },
     ) {
+        var sheetSet by remember { mutableStateOf(com.fibrocoir.app.core.FcpSheets.isSet(com.fibrocoir.app.core.FcpSheets.INVENTORY)) }
+        if (!sheetSet) {
+            Column(Modifier.padding(16.dp)) {
+                com.fibrocoir.app.hub.SheetLinkSetup("Which sheet is the store?", "Paste the link of the Stores inventory sheet (the one with Items, Movements and People).") { link ->
+                    if (com.fibrocoir.app.core.FcpSheets.remember("inventory", link)) { sheetSet = true; vm.refresh(); null } else "That isn't a Google Sheets link."
+                }
+            }
+            return@FcpScreen
+        }
         LoadBox(load, onRetry = vm::refresh) { data ->
             AnimatedContent(page, transitionSpec = { fadeIn() togetherWith fadeOut() }, label = "page") { p ->
                 when (p) {

@@ -119,6 +119,13 @@ fun LoginScreen(vm: HubViewModel) {
         Text("Fibro Coir Products", style = MaterialTheme.typography.displaySmall, color = Fcp.cream)
         Text("Works hub", style = MaterialTheme.typography.titleMedium, color = Fcp.fibre)
         Spacer(Modifier.height(36.dp))
+        var hubSet by remember { mutableStateOf(com.fibrocoir.app.core.FcpSheets.isSet(com.fibrocoir.app.core.FcpSheets.HUB)) }
+        if (!hubSet) {
+            SheetLinkSetup("First, the hub sheet", "Paste the link of the \"FCP App Hub\" sheet. It holds who can sign in.") { link ->
+                if (com.fibrocoir.app.core.FcpSheets.remember("hub", link)) { hubSet = true; vm.refresh(); null } else "That isn't a Google Sheets link."
+            }
+            return@Column
+        }
         fcpField(user, { user = it; err = null }, "User name")
         Spacer(Modifier.height(12.dp))
         fcpField(pw, { pw = it; err = null }, "Password", password = true, ime = ImeAction.Go, onDone = ::go)
@@ -128,10 +135,30 @@ fun LoginScreen(vm: HubViewModel) {
         }
         Spacer(Modifier.height(20.dp))
         PrimaryButton("Sign in", Modifier.fillMaxWidth(), busy = busy, onClick = ::go)
+        TextButton(onClick = { hubSet = false }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            Text("Use a different hub sheet", color = Fcp.faint, style = MaterialTheme.typography.labelMedium)
+        }
         if (!FcpApplication.instance.auth.configured) {
             Spacer(Modifier.height(16.dp))
             Text("This copy of the app has no Google key, so it can't reach the sheets.", color = Fcp.bad, style = MaterialTheme.typography.bodySmall)
         }
+    }
+}
+
+/** Asks once for a Google Sheets link the build doesn't know yet. onSave returns an error or null. */
+@Composable
+fun SheetLinkSetup(title: String, body: String, onSave: (String) -> String?) {
+    var link by remember { mutableStateOf("") }
+    var err by remember { mutableStateOf<String?>(null) }
+    Column(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Text(title, style = MaterialTheme.typography.titleLarge, color = Fcp.cream)
+        Text(body, style = MaterialTheme.typography.bodyMedium, color = Fcp.muted)
+        fcpField(link, { link = it; err = null }, "Sheet link", placeholder = "https://docs.google.com/spreadsheets/d/…")
+        err?.let { Text(it, color = Fcp.bad, style = MaterialTheme.typography.bodyMedium) }
+        FcpApplication.instance.auth.accountEmail?.let {
+            Text("Share that sheet with $it as Editor.", style = MaterialTheme.typography.bodySmall, color = Fcp.faint)
+        }
+        PrimaryButton("Use this sheet", Modifier.fillMaxWidth()) { err = onSave(link) }
     }
 }
 
