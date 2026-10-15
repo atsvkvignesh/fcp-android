@@ -1,0 +1,18 @@
+--------- beginning of main
+10-15 16:09:09.090  1147  4815 E WorkSourceUtil: Could not find package: com.google.android.gms.westworld
+10-15 16:09:10.849   410   417 E HWComposer: getSupportedContentTypes: getSupportedContentTypes failed for display 4619827259835644672: Unsupported (8)
+10-15 16:09:11.320  1062  1250 E bque    : Phenotype API error. Event # dtvv@e07d63b9, EventCode: 5 [CONTEXT service_id=51 ]
+10-15 16:09:11.320  1062  1250 E bque    : bqtg: 29501: Stale snapshot for com.google.android.libraries.performance.primes#com.google.android.gm(change count changed - expected 1  but was 0)
+10-15 16:09:11.320  1062  1250 E bque    : 	at bquj.b(:com.google.android.gms@225014047@22.50.14 (190800-499278674):14)
+10-15 16:09:11.320  1062  1250 E bque    : 	at bquh.g(:com.google.android.gms@225014047@22.50.14 (190800-499278674):0)
+10-15 16:09:11.320  1062  1250 E bque    : 	at bque.e(:com.google.android.gms@225014047@22.50.14 (190800-499278674):4)
+10-15 16:09:11.320  1062  1250 E bque    : 	at bque.f(:com.google.android.gms@225014047@22.50.14 (190800-499278674):2)
+10-15 16:09:11.320  1062  1250 E bque    : 	at ason.er(:com.google.android.gms@225014047@22.50.14 (190800-499278674):1)
+10-15 16:09:11.320  1062  1250 E bque    : 	at asou.run(:com.google.android.gms@225014047@22.50.14 (190800-499278674):12)
+10-15 16:09:11.320  1062  1250 E bque    : 	at cxit.run(:com.google.android.gms@225014047@22.50.14 (190800-499278674):2)
+10-15 16:09:11.320  1062  1250 E bque    : 	at aalr.c(:com.google.android.gms@225014047@22.50.14 (190800-499278674):6)
+10-15 16:09:11.320  1062  1250 E bque    : 	at aalr.run(:com.google.android.gms@225014047@22.50.14 (190800-499278674):7)
+10-15 16:09:11.320  1062  1250 E bque    : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+10-15 16:09:11.320  1062  1250 E bque    : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+10-15 16:09:11.320  1062  1250 E bque    : 	at aaqv.run(:com.google.android.gms@225014047@22.50.14 (190800-499278674):0)
+10-15 16:09:11.320  1062  1250 E bque    : 	at java.lang.Thread.run(Thread.java:920)
