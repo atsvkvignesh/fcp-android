@@ -31,7 +31,7 @@ class FcpApplication : Application() {
         auth = GoogleAuth(this, http)
         sheets = Sheets(auth, http)
         store = Store(File(filesDir, "saved"))
-        uploads = Uploads(http)
+        uploads = Uploads(http, auth)
         Notifications.ensureChannel(this)
     }
 

@@ -8,14 +8,14 @@
  * How to run:
  *   1. Open the "FCP App Hub" Apps Script project.
  *   2. File > New > Script file, name it ExportHub, paste this file.
- *   3. Put the app's service account address in SERVICE_ACCOUNT below.
+ *   3. SERVICE_ACCOUNT below is already the app's account.
  *   4. Pick exportHubToSheet in the function list and press Run (allow access when asked).
  *   5. View > Logs shows the new sheet's ID. Send it over; it goes into the app.
  *
  * Running it again makes a fresh sheet; the old one is left alone.
  */
 
-var SERVICE_ACCOUNT = '';   // e.g. fcp-app@your-project.iam.gserviceaccount.com
+var SERVICE_ACCOUNT = 'fcp-app@fcp-app-fibrocoir.iam.gserviceaccount.com';   // the app's own Google account
 
 function exportHubToSheet() {
   var raw = PropertiesService.getScriptProperties().getProperty('FCP_HUB_V1');
@@ -48,7 +48,13 @@ function exportHubToSheet() {
   users.hideColumns(5, 2);   // salt and hash: nobody needs to look at them
 
   if (SERVICE_ACCOUNT) {
-    DriveApp.getFileById(ss.getId()).addEditor(SERVICE_ACCOUNT);
+    // share as Editor without sending an invitation email
+    var r = UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files/' + ss.getId() + '/permissions?sendNotificationEmail=false', {
+      method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+      headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() },
+      payload: JSON.stringify({ role: 'writer', type: 'user', emailAddress: SERVICE_ACCOUNT })
+    });
+    if (r.getResponseCode() !== 200) DriveApp.getFileById(ss.getId()).addEditor(SERVICE_ACCOUNT);
   }
   Logger.log('Hub sheet ID: ' + ss.getId());
   Logger.log('Open it: ' + ss.getUrl());

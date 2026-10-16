@@ -21,68 +21,51 @@ tests compare).
 
 ## 1. The app's Google key (service account)
 
-In a terminal, signed in to Google Cloud with the account that should own it:
+The app signs in to Google as its own account,
+`fcp-app@fcp-app-fibrocoir.iam.gserviceaccount.com` (Cloud project **FCP App**,
+`fcp-app-fibrocoir`, owned by admin.fibrocoirproducts@gmail.com, Sheets API on).
 
-```
-gcloud projects create fcp-app-2026
-gcloud services enable sheets.googleapis.com --project fcp-app-2026
-gcloud iam service-accounts create fcp-app --project fcp-app-2026
-gcloud iam service-accounts keys create key.json --iam-account fcp-app@fcp-app-2026.iam.gserviceaccount.com
-gh secret set FCP_SA_JSON -R atsvkvignesh/fcp-android < key.json
-```
-
-Delete `key.json` from the computer afterwards. Anyone who unpacks the APK can find this key
-and use it to read and change every sheet shared with it, so keep the APK inside the company.
+Its JSON key is kept only in the GitHub secret `FCP_SA_JSON` (repo Settings → Secrets and
+variables → Actions). The build copies it into the APK. Anyone who unpacks the APK can find this
+key and use it to read and change every sheet shared with it, so keep the APK inside the
+company. To replace the key: Cloud console → IAM → Service accounts → FCP App → Keys → Add key
+(JSON), paste the file into the secret, delete the old key and the downloaded file.
 
 ## 2. Share the sheets
 
-Share each sheet with `fcp-app@fcp-app-2026.iam.gserviceaccount.com` as **Editor**. The
-account that owns a sheet (several are owned by admin.fibrocoirproducts@gmail.com) has to do
-the sharing.
-
-- EC sheet, Water Load sheet, both Husk sheets, Fleet DB
-- Stores inventory sheet
-- FCP App Hub sheet (step 3 can share it for you)
+Every sheet the app uses is shared with the app's account as **Editor**. The "FCP Uploads"
+script does this in one go: run `shareWithApp` there. It also finds the Stores sheet by its tabs
+and logs its ID. A new sheet the app should use has to be shared the same way.
 
 ## 3. The hub sheet (sign-ins and tiles)
 
-1. Open the "FCP App Hub" Apps Script project.
+1. Open the hub Apps Script project.
 2. Add a script file named `ExportHub` and paste in `apps-script/hub/ExportHub.gs`.
-3. Put the service account address in `SERVICE_ACCOUNT`.
-4. Run `exportHubToSheet`.
+3. Run `exportHubToSheet`. It makes the "FCP App Hub" sheet and shares it with the app.
 
-The log shows the new sheet's link. The first time the app opens, it asks for that link. To
-build the link into the app instead, run
-`gh variable set FCP_HUB_SHEET_ID -R atsvkvignesh/fcp-android -b <sheet id>`.
+The log shows the new sheet's ID. It goes into `fcp.properties` (`hubSheetId`).
 
 Only salted password hashes are copied, so everyone keeps their password. After the switch,
 manage users and tiles in the app (Hub → Manage). The old web hub keeps its own copy.
 
 ## 4. Photo and bill uploads
 
-A service account has no Drive space, so files go through one small Apps Script running as
-you:
+A service account has no Drive space, so files go through one small Apps Script, "FCP Uploads"
+(`apps-script/uploads/Uploads.gs`), running as admin.fibrocoirproducts@gmail.com and deployed
+as a web app (Execute as **Me**, access **Anyone**). Its /exec link is `uploadUrl` in
+`fcp.properties`.
 
-1. Create a new Apps Script project named "FCP Uploads" and paste in `apps-script/uploads/Uploads.gs`.
-2. Run `setup`. The log shows the upload key.
-3. Deploy it as a web app: Execute as **Me**, access **Anyone**.
-4. Save the address and key as secrets:
+Every upload carries a fresh Google token of the app's own account. The script asks Google
+whose token it is and refuses anything else, so there is no separate upload key.
 
-```
-gh secret set FCP_UPLOAD_URL -R atsvkvignesh/fcp-android -b "https://script.google.com/macros/s/…/exec"
-gh secret set FCP_UPLOAD_TOKEN -R atsvkvignesh/fcp-android -b "<upload key>"
-```
-
-Use the Google account that owns the Stores and Fleet photo folders.
+Sheet IDs and the upload link aren't secret, so they live in `fcp.properties` at the top of
+the repo.
 
 ## 5. Build and install
 
 Any push to `native` builds a test APK, published as a GitHub pre-release named
-`test-native-<n>`. To rebuild after setting secrets:
-
-```
-gh workflow run "Build APK" -R atsvkvignesh/fcp-android --ref native
-```
+`test-native-<n>`. To rebuild without a code change, open the repo's Actions tab → Build APK →
+Run workflow.
 
 Install the test APK, sign in, and open each tile. The **Screens** workflow also opens every
 screen in an emulator with test data and saves screenshots to the `ci-shots` branch.

@@ -34,7 +34,6 @@ jobs:
       - name: Test and build signed APK
         env:
           FCP_UPLOAD_URL: ${{ secrets.FCP_UPLOAD_URL }}
-          FCP_UPLOAD_TOKEN: ${{ secrets.FCP_UPLOAD_TOKEN }}
           FCP_HUB_SHEET_ID: ${{ vars.FCP_HUB_SHEET_ID }}
           FCP_INVENTORY_SHEET_ID: ${{ vars.FCP_INVENTORY_SHEET_ID }}
         run: |

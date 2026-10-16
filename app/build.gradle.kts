@@ -9,6 +9,13 @@ plugins {
 // GitHub Actions run number becomes the version, so every build installs as an update.
 val buildNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
 
+// Addresses that aren't secret (sheet ids, the upload script) live in fcp.properties at the
+// top of the repo. An environment variable with the FCP_ name wins when set.
+val fcpProps = java.util.Properties().apply {
+    rootProject.file("fcp.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+}
+fun fcp(env: String, key: String): String = System.getenv(env)?.takeIf { it.isNotBlank() } ?: fcpProps.getProperty(key, "").trim()
+
 android {
     namespace = "com.fibrocoir.app"
     compileSdk = 35
@@ -21,11 +28,10 @@ android {
         versionCode = buildNumber
         versionName = "2.0.$buildNumber"
         // the small Apps Script that stores photos and bills in Drive (apps-script/uploads)
-        buildConfigField("String", "UPLOAD_URL", "\"${System.getenv("FCP_UPLOAD_URL") ?: ""}\"")
-        buildConfigField("String", "UPLOAD_TOKEN", "\"${System.getenv("FCP_UPLOAD_TOKEN") ?: ""}\"")
+        buildConfigField("String", "UPLOAD_URL", "\"${fcp("FCP_UPLOAD_URL", "uploadUrl")}\"")
         // sheet ids that aren't fixed in the code (they can also be pasted in the app)
-        buildConfigField("String", "HUB_SHEET_ID", "\"${System.getenv("FCP_HUB_SHEET_ID") ?: ""}\"")
-        buildConfigField("String", "INVENTORY_SHEET_ID", "\"${System.getenv("FCP_INVENTORY_SHEET_ID") ?: ""}\"")
+        buildConfigField("String", "HUB_SHEET_ID", "\"${fcp("FCP_HUB_SHEET_ID", "hubSheetId")}\"")
+        buildConfigField("String", "INVENTORY_SHEET_ID", "\"${fcp("FCP_INVENTORY_SHEET_ID", "inventorySheetId")}\"")
     }
 
     // Fixed signing key: keep app/release.keystore safe. Every future APK must be signed

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.util.Base64
 import androidx.exifinterface.media.ExifInterface
 import com.fibrocoir.app.BuildConfig
+import com.fibrocoir.app.core.google.GoogleAuth
 import com.fibrocoir.app.core.google.OfflineException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,19 +31,21 @@ class PickedFile(val bytes: ByteArray, val mime: String, val name: String)
 
 /**
  * Sends photos and bills to the "FCP Uploads" Apps Script (apps-script/uploads), which saves
- * them in Drive and returns a link. Address and key are set at build time from GitHub secrets.
+ * them in Drive and returns a link. Each upload carries the app account's own Google token,
+ * which the script checks, so no extra key is needed. The address comes from fcp.properties.
  */
-class Uploads(private val http: OkHttpClient) {
+class Uploads(private val http: OkHttpClient, private val auth: GoogleAuth) {
     data class Result(val id: String, val url: String, val createdFolderId: String)
 
-    val configured: Boolean get() = BuildConfig.UPLOAD_URL.isNotBlank() && BuildConfig.UPLOAD_TOKEN.isNotBlank()
+    val configured: Boolean get() = BuildConfig.UPLOAD_URL.isNotBlank() && auth.configured
 
     suspend fun upload(
         file: PickedFile, folderId: String?, subfolder: String? = null, newFolderName: String? = null, name: String = file.name,
     ): Result = withContext(Dispatchers.IO) {
-        if (!configured) throw IllegalStateException("Photo upload isn't set up in this build yet (FCP_UPLOAD_URL).")
+        if (!configured) throw IllegalStateException("Photo upload isn't set up in this build yet (uploadUrl).")
+        val token = auth.accessToken()
         val body = buildJsonObject {
-            put("token", BuildConfig.UPLOAD_TOKEN)
+            put("accessToken", token)
             put("data", Base64.encodeToString(file.bytes, Base64.NO_WRAP))
             put("mime", file.mime)
             put("name", name)
